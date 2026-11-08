@@ -1,0 +1,12 @@
+---
+import T from './T.astro';
+interface Props { items: { q: string; a: string }[] }
+---
+<div class="faq" data-stagger>
+  {Astro.props.items.map((f) => (
+    <details>
+      <summary>{f.q}<span class="pm" aria-hidden="true"></span></summary>
+      <p class="ans"><T text={f.a} /></p>
+    </details>
+  ))}
+</div>

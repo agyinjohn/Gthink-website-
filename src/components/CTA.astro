@@ -1,0 +1,38 @@
+---
+import { site, whatsappHref } from '../data/site';
+import Arrow from './Arrow.astro';
+import Ph from './Ph.astro';
+interface Props { title?: string; body?: string }
+const { title } = Astro.props;
+---
+<section class="cta">
+  <div class="cta__strips" aria-hidden="true"><i></i><i></i><i></i></div>
+  <div class="wrap cta__in">
+    <p class="eyebrow">Free IT assessment</p>
+    <h2 class="cta__title" data-split>{title ? <Fragment set:html={title} /> : <>Not sure where to start? <span class="serif">Get a free IT assessment.</span></>}</h2>
+    <div class="cta__row">
+      <p class="lede" data-reveal>We review your systems, security and costs, then send a clear plan within <Ph value={site.assessmentDays} label="X" /> business days.</p>
+      <div class="cta__btns" data-reveal>
+        <a href="/contact#enquiry" class="btn" data-magnetic>Book Assessment <Arrow /></a>
+        <a href={whatsappHref('Hello GTHINK, I would like a free IT assessment.')} class="btn btn--ghost btn--wa" data-magnetic>Chat on WhatsApp</a>
+      </div>
+    </div>
+  </div>
+</section>
+<style>
+  .cta { position: relative; padding-block: clamp(100px, 14vw, 200px); overflow: hidden; border-top: 1px solid var(--line); }
+  .cta__strips { position: absolute; right: 0; top: 0; bottom: 0; width: min(28vw, 360px); display: grid; grid-template-columns: repeat(3, 1fr); opacity: 0.95; }
+  .cta__strips i { background: var(--tech); clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); }
+  .cta__strips i:nth-child(2) { background: var(--brand); transform: translateY(18%); }
+  .cta__strips i:nth-child(3) { background: var(--print); transform: translateY(36%); }
+  .cta__in { position: relative; }
+  .cta__title { font-size: var(--step-4); max-width: 13ch; margin: 28px 0 48px; }
+  .cta__title .serif { color: var(--brand); }
+  .cta__row { display: flex; justify-content: space-between; align-items: flex-end; gap: 32px; flex-wrap: wrap; max-width: calc(100% - min(28vw, 360px)); }
+  .cta__btns { display: flex; gap: 10px; flex-wrap: wrap; }
+  @media (max-width: 760px) {
+    .cta__strips { width: 100%; height: 14px; top: auto; grid-template-columns: repeat(3, 1fr); }
+    .cta__strips i { transform: none !important; }
+    .cta__row { max-width: none; }
+  }
+</style>

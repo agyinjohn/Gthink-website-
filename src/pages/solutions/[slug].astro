@@ -1,0 +1,198 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PageHead from '../../components/PageHead.astro';
+import Arrow from '../../components/Arrow.astro';
+import T from '../../components/T.astro';
+import Faq from '../../components/Faq.astro';
+import EnquiryForm from '../../components/EnquiryForm.astro';
+import { solutions, type Solution } from '../../data/solutions';
+
+export function getStaticPaths() {
+  return solutions.map((s, i) => ({ params: { slug: s.slug }, props: { s, i } }));
+}
+const { s, i } = Astro.props as { s: Solution; i: number };
+const next = solutions[(i + 1) % solutions.length];
+const colors = ['tech', 'brand', 'print'];
+const c = colors[i % 3];
+const presetMap: Record<string, string> = {
+  software: 'Software', 'managed-it': 'Managed IT', cybersecurity: 'Cybersecurity', networks: 'Networks', cloud: 'Cloud', 'brand-print': 'Brand and Print',
+};
+const words = s.headline.split(' ');
+const titleHtml = `${words.slice(0, -2).join(' ')} <span class="serif">${words.slice(-2).join(' ')}</span>`;
+---
+<Layout title={s.seoTitle} description={s.intro}>
+  <div style={`--c: var(--${c}); --ct: var(--${c === 'print' ? 'print-deep' : c})`}>
+    <PageHead index={`Solution 0${i + 1} / 06`} label={s.name} title={titleHtml} lede={s.intro}>
+      <a href="#quote" class="btn" data-magnetic data-reveal="hero">Get a Quote <Arrow /></a>
+    </PageHead>
+
+    <!-- outcome band -->
+    <section class="band" aria-label="Outcome">
+      <div class="band__weave" aria-hidden="true">
+        {Array.from({ length: 24 }).map((_, k) => <i style={`--k:${k}`}></i>)}
+      </div>
+      <div class="wrap band__in">
+        <span class="mono">The outcome</span>
+        <p class="band__text" data-split>{s.outcome}</p>
+      </div>
+    </section>
+
+    <!-- problem -->
+    <section class="section">
+      <div class="wrap">
+        <div class="sec-head">
+          <p class="eyebrow" data-reveal>The problem</p>
+          <h2 class="h2" data-split>Sound <span class="serif">familiar?</span></h2>
+        </div>
+        <div class="grid-3" data-stagger>
+          {s.pains.map((p, k) => (
+            <article class="pain">
+              <span class="pain__n">0{k + 1}</span>
+              <h3 class="h3">{p.title}</h3>
+              <p class="muted">{p.body}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+
+    <!-- deliver -->
+    <section class="section dark">
+      <div class="wrap split">
+        <div class="sticky">
+          <p class="eyebrow" data-reveal>What we deliver</p>
+          <h2 class="h2 deliver__h" data-split>Everything in <span class="serif">scope,</span> written down.</h2>
+          {s.extra && <a href={s.extra.href} class="btn btn--ghost" data-magnetic data-reveal>{s.extra.label} <Arrow /></a>}
+        </div>
+        <ul class="tick-list" data-stagger>
+          {s.deliver.map((d, k) => <li><span class="mono">{String(k + 1).padStart(2, '0')}</span><span><T text={d} /></span></li>)}
+        </ul>
+      </div>
+    </section>
+
+    {s.slug === 'software' && (
+      <section class="section gems-mini" id="gems">
+        <div class="wrap gems-mini__in">
+          <div>
+            <p class="eyebrow" data-reveal>Ready-made product</p>
+            <h2 class="h2" data-split>GEMS ERP</h2>
+          </div>
+          <div class="gems-mini__copy">
+            <p class="lede" data-reveal>Run your hotel or business from one system. Bookings, billing, ledger, wallet and budgeting in one platform built for Ghanaian businesses. <span class="ph">[Confirm public product name, features and screenshots]</span></p>
+            <a href="#quote" class="btn" data-magnetic data-reveal>Request a Demo <Arrow /></a>
+          </div>
+        </div>
+      </section>
+    )}
+
+    <!-- how it works -->
+    <section class="section sand">
+      <div class="wrap">
+        <div class="sec-head">
+          <p class="eyebrow" data-reveal>How it works</p>
+          <h2 class="h2" data-split>Four steps, <span class="serif">one team.</span></h2>
+        </div>
+        <div class="steps-wrap">
+        <hr class="steps__line" data-draw />
+        <ol class="steps" data-stagger>
+          {s.steps.map((st, k) => (
+            <li class="step">
+              <span class="step__dot" aria-hidden="true"></span>
+              <span class="mono muted">Step 0{k + 1}</span>
+              <h3 class="h3">{st.title}</h3>
+              <p class="muted">{st.body}</p>
+            </li>
+          ))}
+        </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- proof -->
+    <section class="section">
+      <div class="wrap proof2">
+        <div class="proof2__case">
+          <p class="eyebrow" data-reveal>Proof</p>
+          <p class="proof2__res" data-reveal><span class="ph">[Related case study: one result in numbers]</span></p>
+          <a href="/case-studies" class="link" data-reveal>Read case studies <Arrow /></a>
+        </div>
+        <blockquote class="proof2__quote" data-reveal>
+          <p class="serif">“<span class="ph">[Client quote focused on a result]</span>”</p>
+          <footer class="mono muted"><span class="ph">[Name, Title, Company]</span></footer>
+        </blockquote>
+      </div>
+    </section>
+
+    <!-- faq + form -->
+    <section class="section dark" id="quote">
+      <div class="wrap split">
+        <div>
+          <p class="eyebrow" data-reveal>Questions</p>
+          <h2 class="h2 faq__h" data-split>Before you <span class="serif">ask.</span></h2>
+          <Faq items={s.faqs} />
+        </div>
+        <div>
+          <p class="eyebrow" data-reveal>Get a quote</p>
+          <h2 class="h3 form__h" data-split>Tell us what you need. We reply within one business day.</h2>
+          <EnquiryForm preset={presetMap[s.slug]} id="quote-form" />
+        </div>
+      </div>
+    </section>
+
+    <!-- next -->
+    <a href={`/solutions/${next.slug}`} class="next" data-cursor-text="Next">
+      <div class="wrap next__in">
+        <span class="mono">Next solution</span>
+        <span class="next__name">{next.name}</span>
+        <span class="next__go" aria-hidden="true"><Arrow /></span>
+      </div>
+    </a>
+  </div>
+</Layout>
+
+<style>
+  :global(.phead__title .serif) { color: var(--ct) !important; }
+  .band { position: relative; overflow: hidden; background: var(--c); color: var(--ink); }
+  .band__weave { position: absolute; inset: 0; display: grid; grid-template-columns: repeat(24, 1fr); opacity: 0.2; }
+  .band__weave i { background: repeating-linear-gradient(0deg, var(--ink) 0 6px, transparent 6px 14px); transform: translateY(calc(var(--k) % 2 * 7px)); }
+  .band__in { position: relative; padding-block: clamp(56px, 8vw, 110px); display: grid; gap: 22px; }
+  .band__text { font-family: var(--f-serif); font-size: var(--step-4); line-height: 1; letter-spacing: -0.02em; max-width: 18ch; }
+
+  .pain { padding: 28px; border-radius: 6px; background: var(--paper-2); min-height: 320px; display: flex; flex-direction: column; gap: 14px; justify-content: flex-end; position: relative; overflow: hidden; }
+  .pain__n { position: absolute; top: 4px; right: 18px; font-size: 7rem; font-weight: 700; letter-spacing: -0.06em; line-height: 1; color: transparent; -webkit-text-stroke: 1.5px var(--ct); font-variation-settings: 'opsz' 96, 'wdth' 75; }
+
+  .deliver__h { margin: 22px 0 32px; }
+  .deliver__h .serif, .faq__h .serif { color: var(--c); }
+  .faq__h { margin: 22px 0 36px; }
+  .form__h { margin: 22px 0 36px; max-width: 22ch; }
+
+  .gems-mini__in { display: grid; grid-template-columns: 1fr 1.3fr; gap: 48px; align-items: end; padding: clamp(32px, 5vw, 72px); background: var(--ink); color: var(--paper); border-radius: 8px; }
+  .gems-mini__in .h2 { font-size: var(--step-5); margin-top: 18px; }
+  .gems-mini__copy { display: grid; gap: 28px; justify-items: start; }
+  .gems-mini .ph { white-space: normal; }
+
+  .steps { list-style: none; padding: 0; margin: 0; display: grid; grid-template-columns: repeat(4, 1fr); gap: 28px; position: relative; z-index: 1; }
+  .step { display: grid; gap: 12px; align-content: start; padding-top: 40px; position: relative; }
+  .step__dot { position: absolute; top: 0; left: 0; width: 18px; height: 18px; border-radius: 50%; background: var(--c); box-shadow: 0 0 0 6px var(--paper-2); }
+  .steps-wrap { position: relative; }
+  .steps__line { position: absolute; left: 0; right: 0; top: 9px; border: 0; height: 1px; background: var(--ink); margin: 0; }
+  @media (max-width: 900px) { .steps { grid-template-columns: 1fr 1fr; } .steps__line { display: none; } }
+  @media (max-width: 560px) { .steps { grid-template-columns: 1fr; } }
+
+  .proof2 { display: grid; grid-template-columns: 1fr 1.3fr; gap: clamp(32px, 6vw, 96px); align-items: end; }
+  .proof2__case { display: grid; gap: 24px; justify-items: start; }
+  .proof2__res { font-size: var(--step-3); letter-spacing: -0.04em; line-height: 1; }
+  .proof2__res .ph, .proof2__quote .ph { white-space: normal; }
+  .proof2__quote { margin: 0; padding-left: 32px; border-left: 3px solid var(--c); }
+  .proof2__quote p { font-size: var(--step-3); line-height: 1.05; margin-bottom: 24px; }
+  @media (max-width: 900px) { .proof2, .gems-mini__in { grid-template-columns: 1fr; } }
+
+  .next { display: block; background: var(--c); color: var(--ink); overflow: hidden; }
+  .next__in { display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 12px 24px; padding-block: clamp(48px, 7vw, 100px); }
+  .next .mono { grid-column: 1 / -1; }
+  .next__name { font-size: var(--step-5); font-weight: 600; letter-spacing: -0.055em; line-height: 0.9; font-variation-settings: 'opsz' 96, 'wdth' 80; transition: transform 0.8s var(--ease); }
+  .next:hover .next__name { transform: translateX(2%); }
+  .next__go { width: clamp(56px, 7vw, 96px); aspect-ratio: 1; border-radius: 50%; background: var(--ink); color: var(--paper); display: grid; place-items: center; transition: transform 0.8s var(--ease); }
+  .next__go :global(.arrow) { width: 40%; height: 40%; }
+  .next:hover .next__go { transform: rotate(-45deg); }
+</style>

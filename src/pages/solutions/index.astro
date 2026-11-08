@@ -1,0 +1,42 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PageHead from '../../components/PageHead.astro';
+import SolutionIndex from '../../components/SolutionIndex.astro';
+import CTA from '../../components/CTA.astro';
+import Arrow from '../../components/Arrow.astro';
+---
+<Layout title="IT, Software, Security and Branding Solutions in Ghana | GTHINK" description="Technology solutions for growing businesses: software, managed IT, cybersecurity, networks, cloud, and brand and print, from one local team.">
+  <PageHead index="02 / Solutions" label="Solutions" title='Technology solutions for <span class="serif">growing businesses.</span>' lede="Pick what you need today and add more as you grow. Every solution is delivered and supported by the same local team.">
+    <a href="/solutions/managed-it/plans" class="btn btn--ghost" data-magnetic data-reveal="hero">Compare Managed IT Plans <Arrow /></a>
+  </PageHead>
+
+  <section class="section">
+    <div class="wrap"><SolutionIndex /></div>
+  </section>
+
+  <section class="section dark threads">
+    <div class="wrap threads__grid">
+      <div>
+        <p class="eyebrow" data-reveal>Three threads, one weave</p>
+        <h2 class="h2" data-split>Technology, brand and print, <span class="serif">woven together.</span></h2>
+      </div>
+      <div class="threads__cols" data-stagger>
+        <div class="thr" style="--c: var(--tech)"><i></i><h3 class="h3">Technology</h3><p class="muted">Software, managed IT, cybersecurity, networks and cloud.</p></div>
+        <div class="thr" style="--c: var(--brand)"><i></i><h3 class="h3">Brand</h3><p class="muted">Identity, website design, social media and online ads.</p></div>
+        <div class="thr" style="--c: var(--print)"><i></i><h3 class="h3">Print</h3><p class="muted">Stationery, brochures, banners, signage and merchandise.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <CTA />
+</Layout>
+<style>
+  .threads__grid { display: grid; gap: clamp(48px, 6vw, 96px); }
+  .threads__grid .serif { color: var(--print); }
+  .threads__grid .h2 { max-width: 16ch; margin-top: 22px; }
+  .threads__cols { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+  .thr { display: grid; gap: 14px; }
+  .thr i { display: block; height: 120px; background: repeating-linear-gradient(90deg, var(--c) 0 14px, transparent 14px 22px); border-radius: 3px; transition: background-size 0.6s; }
+  .thr:nth-child(2) i { background: var(--c); }
+  @media (max-width: 760px) { .threads__cols { grid-template-columns: 1fr; } }
+</style>

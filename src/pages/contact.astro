@@ -1,0 +1,56 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHead from '../components/PageHead.astro';
+import EnquiryForm from '../components/EnquiryForm.astro';
+import Arrow from '../components/Arrow.astro';
+import { site, whatsappHref } from '../data/site';
+const info = [
+  { k: 'Office', v: site.address, ph: '[Address], Accra' },
+  { k: 'GPS', v: site.gps, ph: '[GA-XXX-XXXX]' },
+  { k: 'Phone', v: site.phone, ph: '[+233]' },
+  { k: 'Email', v: site.email, ph: '[email]' },
+  { k: 'Hours', v: site.hours, ph: '[Mon to Fri, 8am to 5pm]' },
+];
+---
+<Layout title="Contact GTHINK | Accra, Ghana" description="Talk to GTHINK about software, managed IT, cybersecurity, networks, cloud, brand and print.">
+  <PageHead index="09 / Contact" label="New enquiries" title='Let’s talk about <span class="serif">your business.</span>' lede="Tell us what you need. We reply within one business day.">
+    <a href="/support" class="btn btn--ghost" data-magnetic data-reveal="hero">Existing client? Get support <Arrow /></a>
+  </PageHead>
+
+  <section class="section--tight">
+    <div class="wrap split">
+      <aside class="info">
+        <dl data-stagger>
+          {info.map((i) => <div><dt class="mono muted">{i.k}</dt><dd>{i.v ?? <span class="ph">{i.ph}</span>}</dd></div>)}
+        </dl>
+        <a href={whatsappHref()} class="btn btn--wa" data-magnetic data-reveal>Chat on WhatsApp <Arrow /></a>
+        <div class="map" aria-hidden="true" data-reveal>
+          <svg viewBox="0 0 400 260">
+            <rect width="400" height="260" fill="#141210" />
+            {Array.from({ length: 14 }).map((_, i) => <path d={`M0 ${i * 20 + 6} Q 200 ${i * 20 + (i % 2 ? 30 : -20)} 400 ${i * 20 + 10}`} stroke="#efebe3" stroke-opacity="0.12" fill="none" />)}
+            <path d="M40 220 L130 120 L220 150 L330 50" stroke="#2a3cf5" stroke-width="10" fill="none" />
+            <path d="M20 80 L160 160 L380 200" stroke="#ff5627" stroke-width="10" fill="none" />
+            <path d="M210 0 L190 260" stroke="#f0b318" stroke-width="10" fill="none" />
+            <circle cx="196" cy="150" r="16" fill="#efebe3" />
+            <circle cx="196" cy="150" r="6" fill="#141210" />
+          </svg>
+          <span class="mono">Accra · <span class="ph">[map embed]</span></span>
+        </div>
+      </aside>
+      <div>
+        <EnquiryForm />
+      </div>
+    </div>
+  </section>
+</Layout>
+<style>
+  .info { display: grid; gap: 28px; align-content: start; }
+  .info dl { margin: 0; border-top: 1px solid var(--line); }
+  .info dl div { display: grid; grid-template-columns: 90px 1fr; gap: 16px; padding: 16px 0; border-bottom: 1px solid var(--line); }
+  .info dt { font-size: 0.68rem; padding-top: 4px; }
+  .info dd { margin: 0; font-size: var(--step-1); }
+  .info .btn { justify-self: start; }
+  .map { position: relative; border-radius: 6px; overflow: hidden; }
+  .map svg { width: 100%; height: auto; }
+  .map .mono { position: absolute; left: 12px; bottom: 12px; background: var(--paper); padding: 5px 8px; font-size: 0.66rem; }
+</style>

@@ -1,0 +1,6 @@
+---
+/** Renders text, turning [bracketed] segments into visible placeholders. */
+interface Props { text: string }
+const parts = Astro.props.text.split(/(\[[^\]]+\])/g).filter(Boolean);
+---
+{parts.map((p) => (p.startsWith('[') ? <span class="ph">{p}</span> : p))}

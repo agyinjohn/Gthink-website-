@@ -1,0 +1,49 @@
+---
+import Layout from '../layouts/Layout.astro';
+import PageHead from '../components/PageHead.astro';
+import Arrow from '../components/Arrow.astro';
+import CTA from '../components/CTA.astro';
+import { insights } from '../data/content';
+---
+<Layout title="Insights: Plain-Language IT Advice for Ghanaian Businesses | GTHINK" description="Helpful, plain-language articles on IT support costs, networks, cybersecurity, the Data Protection Act and business software in Ghana.">
+  <PageHead index="08 / Insights" label="Insights" title='Answers to the questions <span class="serif">business owners ask.</span>' lede="Plain-language articles on technology, security and running a growing business in Ghana." />
+
+  <section class="section--tight">
+    <div class="wrap">
+      <ol class="ilist" data-stagger>
+        {insights.map((a, i) => (
+          <li id={a.slug}>
+            <a href="/contact#enquiry" class="irow" data-cursor-text="Soon">
+              <span class="mono muted">{String(i + 1).padStart(2, '0')}</span>
+              <span class="mono irow__cat">{a.cat}</span>
+              <span class="irow__t">{a.title}</span>
+              <span class="irow__x muted">{a.excerpt}</span>
+              <span class="irow__go" aria-hidden="true"><Arrow /></span>
+            </a>
+          </li>
+        ))}
+      </ol>
+      <p class="mono muted note">Articles are being written. Each will answer the question a business owner would type into Google.</p>
+    </div>
+  </section>
+  <CTA />
+</Layout>
+<style>
+  .ilist { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
+  .ilist li { border-bottom: 1px solid var(--line); }
+  .irow { display: grid; grid-template-columns: 50px 140px minmax(0, 1.4fr) minmax(0, 1fr) 48px; gap: 20px; align-items: center; padding: 30px 0; transition: padding 0.6s var(--ease); }
+  .irow__cat { font-size: 0.66rem; }
+  .irow__t { font-size: var(--step-2); line-height: 1.05; letter-spacing: -0.03em; font-weight: 520; transition: color 0.4s; }
+  .irow:hover .irow__t { color: var(--brand); }
+  .irow:hover { padding-left: 12px; }
+  .irow__go { width: 48px; height: 48px; border-radius: 50%; box-shadow: inset 0 0 0 1px var(--line-strong); display: grid; place-items: center; transition: transform 0.6s var(--ease), background 0.3s, color 0.3s; }
+  .irow:hover .irow__go { background: var(--ink); color: var(--paper); transform: rotate(-45deg); }
+  .irow__go :global(.arrow) { width: 18px; }
+  .note { margin-top: 24px; font-size: 0.68rem; }
+  @media (max-width: 900px) {
+    .irow { grid-template-columns: 1fr 44px; gap: 10px; }
+    .irow > .mono:first-child { display: none; }
+    .irow__cat, .irow__t, .irow__x { grid-column: 1; }
+    .irow__go { grid-column: 2; grid-row: 1 / span 3; }
+  }
+</style>

@@ -1,0 +1,6 @@
+---
+/** Shows a verified value, or a [placeholder] if it has not been confirmed yet. */
+interface Props { value: unknown; label: string }
+const { value, label } = Astro.props;
+---
+{value !== null && value !== undefined && value !== '' ? <>{value}</> : <span class="ph">[{label}]</span>}
