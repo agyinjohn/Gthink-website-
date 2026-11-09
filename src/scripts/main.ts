@@ -86,8 +86,8 @@ if (burger && mm) {
 /* ------------------------------------------------------------------ */
 const curtain = $('[data-curtain]');
 const strips = curtain ? $$('i', curtain) : [];
-const leaving = sessionStorage.getItem('gt-trans') === '1';
-sessionStorage.removeItem('gt-trans');
+let leaving = false;
+try { leaving = sessionStorage.getItem('gt-trans') === '1'; sessionStorage.removeItem('gt-trans'); } catch {}
 
 if (curtain && leaving && !reduce) {
   gsap.set(strips, { scaleY: 1, transformOrigin: 'top' });
@@ -103,7 +103,7 @@ document.addEventListener('click', (e) => {
   if (url.origin !== location.origin) return;
   if (url.pathname === location.pathname) return; // hash links handled above
   e.preventDefault();
-  sessionStorage.setItem('gt-trans', '1');
+  try { sessionStorage.setItem('gt-trans', '1'); } catch {}
   gsap.set(strips, { transformOrigin: 'bottom' });
   gsap.to(strips, {
     scaleY: 1, duration: 0.75, ease: 'expo.inOut', stagger: 0.06,

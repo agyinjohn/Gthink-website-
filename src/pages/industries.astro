@@ -12,7 +12,7 @@ import { industries } from '../data/content';
   <section class="hs" data-hscroll>
     <div class="hs__track" data-htrack>
       {industries.map((ind, i) => (
-        <a href={`/case-studies?sector=${encodeURIComponent(ind.name)}`} class="ind" data-cursor-text="Cases" style={`--c: var(--${['tech', 'brand', 'print'][i % 3]})`}>
+        <a href="/case-studies" class="ind" data-cursor-text="Cases" style={`--c: var(--${['tech', 'brand', 'print'][i % 3]})`}>
           <Pattern seed={i + 3} class="ind__art" />
           <span class="mono ind__n">0{i + 1} / 06</span>
           <h2 class="ind__name">{ind.name}</h2>
