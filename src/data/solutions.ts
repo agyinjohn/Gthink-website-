@@ -7,7 +7,7 @@ export type Solution = {
   intro: string;
   thread: 'tech' | 'brand' | 'print';
   bandImg: string;
-  pains: { title: string; body: string }[];
+  pains: { title: string; body: string; img: string }[];
   deliver: string[];
   steps: { title: string; body: string }[];
   faqs: { q: string; a: string }[];
@@ -34,9 +34,9 @@ export const solutions: Solution[] = [
       'Off-the-shelf tools rarely fit. We build web and mobile applications and business systems that match your processes, integrate with Mobile Money and grow with you.',
     thread: 'tech',
     pains: [
-      { title: 'Spreadsheets everywhere', body: 'Orders, stock and payments live in different files, and nobody trusts the totals.' },
-      { title: 'Tools that do not fit', body: 'Imported software forces your team to work around it instead of with it.' },
-      { title: 'Payments that do not connect', body: 'Mobile Money collections are reconciled by hand at the end of every day.' },
+      { title: 'Spreadsheets everywhere', body: 'Orders, stock and payments live in different files, and nobody trusts the totals.', img: 'https://images.unsplash.com/photo-1543286386-713bdd548da4?w=600&q=80&fit=crop' },
+      { title: 'Tools that do not fit', body: 'Imported software forces your team to work around it instead of with it.', img: 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=600&q=80&fit=crop' },
+      { title: 'Payments that do not connect', body: 'Mobile Money collections are reconciled by hand at the end of every day.', img: 'https://images.unsplash.com/photo-1556742049-0cfed4f6a45d?w=600&q=80&fit=crop' },
     ],
     deliver: [
       'Custom web applications and portals',
@@ -67,9 +67,9 @@ export const solutions: Solution[] = [
       'No in-house IT team, or one that is stretched thin? We monitor, maintain and support your systems so problems are fixed fast, or never happen.',
     thread: 'tech',
     pains: [
-      { title: 'Nobody owns IT', body: 'Problems wait until someone knows someone who can come and look at it.' },
-      { title: 'Unpredictable bills', body: 'Every call-out is a new invoice, so IT spending is impossible to plan.' },
-      { title: 'No backups you can trust', body: 'One failed laptop or server could lose months of work.' },
+      { title: 'Nobody owns IT', body: 'Problems wait until someone knows someone who can come and look at it.', img: 'https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=600&q=80&fit=crop' },
+      { title: 'Unpredictable bills', body: 'Every call-out is a new invoice, so IT spending is impossible to plan.', img: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=600&q=80&fit=crop' },
+      { title: 'No backups you can trust', body: 'One failed laptop or server could lose months of work.', img: 'https://images.unsplash.com/photo-1597872200969-2b65d56bd16b?w=600&q=80&fit=crop' },
     ],
     deliver: [
       'Helpdesk support by phone, WhatsApp, remote and on-site',
@@ -100,9 +100,9 @@ export const solutions: Solution[] = [
       'Phishing, ransomware and Mobile Money fraud target businesses of every size. We find weaknesses and put practical controls in place.',
     thread: 'tech',
     pains: [
-      { title: 'Staff are the easiest way in', body: 'One convincing email is enough to hand over passwords or approve a fake payment.' },
-      { title: 'No idea where the gaps are', body: 'You cannot fix weaknesses you have never tested for.' },
-      { title: 'Compliance questions', body: 'The Data Protection Act applies to you, but it is not clear what it requires.' },
+      { title: 'Staff are the easiest way in', body: 'One convincing email is enough to hand over passwords or approve a fake payment.', img: 'https://images.unsplash.com/photo-1614064641938-3bbee52942c7?w=600&q=80&fit=crop' },
+      { title: 'No idea where the gaps are', body: 'You cannot fix weaknesses you have never tested for.', img: 'https://images.unsplash.com/photo-1563986768609-322da13575f3?w=600&q=80&fit=crop' },
+      { title: 'Compliance questions', body: 'The Data Protection Act applies to you, but it is not clear what it requires.', img: 'https://images.unsplash.com/photo-1450101499163-c8848c66ca85?w=600&q=80&fit=crop' },
     ],
     deliver: [
       'Security assessment and vulnerability testing',
@@ -131,9 +131,9 @@ export const solutions: Solution[] = [
       'Slow Wi-Fi and dropped connections cost hours every week. We design, install and maintain networks that just work.',
     thread: 'tech',
     pains: [
-      { title: 'Dead zones and drop-outs', body: 'Wi-Fi works at reception and nowhere else.' },
-      { title: 'Cabling nobody understands', body: 'Years of quick fixes mean nobody knows which cable goes where.' },
-      { title: 'Everything slows at peak time', body: 'The network was never designed for the number of people now using it.' },
+      { title: 'Dead zones and drop-outs', body: 'Wi-Fi works at reception and nowhere else.', img: 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80&fit=crop' },
+      { title: 'Cabling nobody understands', body: 'Years of quick fixes mean nobody knows which cable goes where.', img: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600&q=80&fit=crop' },
+      { title: 'Everything slows at peak time', body: 'The network was never designed for the number of people now using it.', img: 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=600&q=80&fit=crop' },
     ],
     deliver: [
       'Structured cabling',
@@ -161,9 +161,9 @@ export const solutions: Solution[] = [
       'Move email, files and applications to the cloud without disruption, with backups you can rely on.',
     thread: 'tech',
     pains: [
-      { title: 'Personal email for business', body: 'Staff use free accounts, and the business loses access when they leave.' },
-      { title: 'Files on one machine', body: 'Important documents live on a single laptop with no copy anywhere else.' },
-      { title: 'A website that keeps going down', body: 'Cheap hosting with no one watching it.' },
+      { title: 'Personal email for business', body: 'Staff use free accounts, and the business loses access when they leave.', img: 'https://images.unsplash.com/photo-1596526131083-e8c633c948d2?w=600&q=80&fit=crop' },
+      { title: 'Files on one machine', body: 'Important documents live on a single laptop with no copy anywhere else.', img: 'https://images.unsplash.com/photo-1531492746076-161ca9bcad58?w=600&q=80&fit=crop' },
+      { title: 'A website that keeps going down', body: 'Cheap hosting with no one watching it.', img: 'https://images.unsplash.com/photo-1467232004584-a241de8bcf5d?w=600&q=80&fit=crop' },
     ],
     deliver: [
       'Business email (Google Workspace, Microsoft 365)',
@@ -191,9 +191,9 @@ export const solutions: Solution[] = [
       'From your logo to your next campaign and the materials you hand to customers, we keep your brand consistent everywhere.',
     thread: 'brand',
     pains: [
-      { title: 'Five suppliers, five styles', body: 'Your website, flyers and social posts all look like different companies.' },
-      { title: 'Social media goes quiet', body: 'Posting stops whenever the person who handled it gets busy.' },
-      { title: 'Print that disappoints', body: 'Colours never match the screen and deadlines slip.' },
+      { title: 'Five suppliers, five styles', body: 'Your website, flyers and social posts all look like different companies.', img: 'https://images.unsplash.com/photo-1561070791-2526d30994b5?w=600&q=80&fit=crop' },
+      { title: 'Social media goes quiet', body: 'Posting stops whenever the person who handled it gets busy.', img: 'https://images.unsplash.com/photo-1611162617213-7d7a39e9b1d7?w=600&q=80&fit=crop' },
+      { title: 'Print that disappoints', body: 'Colours never match the screen and deadlines slip.', img: 'https://images.unsplash.com/photo-1586075010923-2dd4570fb338?w=600&q=80&fit=crop' },
     ],
     deliver: [
       'Logo and brand identity',

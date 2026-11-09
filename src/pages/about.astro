@@ -7,10 +7,10 @@ import Ph from '../components/Ph.astro';
 import Pattern from '../components/Pattern.astro';
 import { site } from '../data/site';
 const values = [
-  { t: 'Reliability', b: 'We do what we promise.', c: 'print' },
-  { t: 'Security', b: 'Protection is built in, not added later.', c: 'brand' },
-  { t: 'Clarity', b: 'Plain advice and honest pricing.', c: 'print' },
-  { t: 'Ownership', b: 'We treat your systems like our own.', c: 'leaf' },
+  { t: 'Reliability', b: 'We do what we promise.', c: 'print', img: 'https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=600&q=80&fit=crop' },
+  { t: 'Security', b: 'Protection is built in, not added later.', c: 'brand', img: 'https://images.unsplash.com/photo-1563986768609-322da13575f3?w=600&q=80&fit=crop' },
+  { t: 'Clarity', b: 'Plain advice and honest pricing.', c: 'print', img: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=600&q=80&fit=crop' },
+  { t: 'Ownership', b: 'We treat your systems like our own.', c: 'leaf', img: 'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=600&q=80&fit=crop' },
 ];
 const sinceTitle = site.foundedYear
   ? `Helping Ghanaian businesses work smarter since ${site.foundedYear}.`
@@ -45,7 +45,8 @@ const sinceTitle = site.foundedYear
       <div class="vals" data-stagger>
         {values.map((v, i) => (
           <div class="val" style={`--c: var(--${v.c})`}>
-            <span class="val__l" aria-hidden="true">{v.t[0]}</span>
+            <img class="val__img" src={v.img} alt="" loading="lazy" aria-hidden="true" />
+            <div class="val__overlay" aria-hidden="true"></div>
             <span class="mono muted">0{i + 1}</span>
             <h3 class="h3">{v.t}</h3>
             <p class="muted">{v.b}</p>
@@ -144,9 +145,11 @@ const sinceTitle = site.foundedYear
   .mission .serif { color: var(--print); }
   .vals { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
   .val { position: relative; overflow: hidden; min-height: 300px; padding: 24px; border-radius: 6px; background: #0b3a52; display: flex; flex-direction: column; justify-content: flex-end; gap: 10px; }
-  .val .mono { position: absolute; top: 20px; left: 24px; }
-  .val__l { position: absolute; right: -8px; top: -30px; font-size: 13rem; font-weight: 700; line-height: 1; color: var(--c); letter-spacing: -0.06em; font-variation-settings: 'opsz' 96, 'wdth' 75; transition: transform 0.9s var(--ease); }
-  .val:hover .val__l { transform: translateY(14px) rotate(-6deg); }
+  .val .mono { position: absolute; top: 20px; left: 24px; z-index: 2; }
+  .val__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.9s var(--ease); filter: brightness(0.45); }
+  .val:hover .val__img { transform: scale(1.06); filter: brightness(0.35); }
+  .val__overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(7,47,67,0.85) 40%, transparent); }
+  .val h3, .val p { position: relative; z-index: 2; }
   .ceo { display: grid; grid-template-columns: 1fr 1.5fr; gap: clamp(28px, 5vw, 80px); align-items: end; margin-bottom: 72px; }
   .ceo :global(.ceo__img) { aspect-ratio: 4 / 5; }
   .ceo__q { margin: 0; }

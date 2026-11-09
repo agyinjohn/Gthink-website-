@@ -47,6 +47,8 @@ const titleHtml = s.headline;
         <div class="grid-3" data-stagger>
           {s.pains.map((p, k) => (
             <article class="pain">
+              <img class="pain__img" src={p.img} alt="" loading="lazy" aria-hidden="true" />
+              <div class="pain__overlay"></div>
               <span class="pain__n">0{k + 1}</span>
               <h3 class="h3">{p.title}</h3>
               <p class="muted">{p.body}</p>
@@ -159,7 +161,11 @@ const titleHtml = s.headline;
   .band__text { font-family: var(--f-serif); font-size: var(--step-4); line-height: 1; letter-spacing: -0.02em; max-width: 18ch; }
 
   .pain { padding: 28px; border-radius: 6px; background: var(--paper-2); min-height: 320px; display: flex; flex-direction: column; gap: 14px; justify-content: flex-end; position: relative; overflow: hidden; }
-  .pain__n { position: absolute; top: 4px; right: 18px; font-size: 7rem; font-weight: 700; letter-spacing: -0.06em; line-height: 1; color: transparent; -webkit-text-stroke: 1.5px var(--ct); font-variation-settings: 'opsz' 96, 'wdth' 75; }
+  .pain__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; filter: brightness(0.35); transition: transform 0.9s var(--ease), filter 0.9s; }
+  .pain:hover .pain__img { transform: scale(1.06); filter: brightness(0.25); }
+  .pain__overlay { position: absolute; inset: 0; background: linear-gradient(to top, rgba(7,47,67,0.9) 40%, transparent); }
+  .pain__n { position: relative; z-index: 1; font-size: 7rem; font-weight: 700; letter-spacing: -0.06em; line-height: 1; color: transparent; -webkit-text-stroke: 1.5px var(--ct); font-variation-settings: 'opsz' 96, 'wdth' 75; align-self: flex-start; }
+  .pain h3, .pain p { position: relative; z-index: 1; }
 
   .deliver__h { margin: 22px 0 32px; }
   .deliver__h .serif, .faq__h .serif { color: var(--c); }
