@@ -5,7 +5,15 @@ import Arrow from '../components/Arrow.astro';
 import Pattern from '../components/Pattern.astro';
 import { whatsappHref } from '../data/site';
 const cats = ['Laptops', 'Desktops', 'Printers and Ink', 'Networking', 'Storage', 'Accessories'];
-const products = cats.flatMap((c, i) => [0, 1].map((k) => ({ cat: c, seed: i * 2 + k + 30 })));
+const catImgs: Record<string, string[]> = {
+  'Laptops':          ['https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=600&q=80&fit=crop', 'https://images.unsplash.com/photo-1525547719571-a2d4ac8945e2?w=600&q=80&fit=crop'],
+  'Desktops':         ['https://images.unsplash.com/photo-1593640408182-31c228b2b7e8?w=600&q=80&fit=crop', 'https://images.unsplash.com/photo-1587831990711-23ca6441447b?w=600&q=80&fit=crop'],
+  'Printers and Ink': ['https://images.unsplash.com/photo-1612815154858-60aa4c59eaa6?w=600&q=80&fit=crop', 'https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&q=80&fit=crop'],
+  'Networking':       ['https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=600&q=80&fit=crop', 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=600&q=80&fit=crop'],
+  'Storage':          ['https://images.unsplash.com/photo-1531492746076-161ca9bcad58?w=600&q=80&fit=crop', 'https://images.unsplash.com/photo-1597872200969-2b65d56bd16b?w=600&q=80&fit=crop'],
+  'Accessories':      ['https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?w=600&q=80&fit=crop', 'https://images.unsplash.com/photo-1625723044792-44de16ccb4e9?w=600&q=80&fit=crop'],
+};
+const products = cats.flatMap((c, i) => [0, 1].map((k) => ({ cat: c, seed: i * 2 + k + 30, img: catImgs[c][k] })));
 ---
 <Layout title="Shop: Genuine Laptops, Printers and Accessories in Accra | GTHINK" description="Genuine computers, printers, networking and accessories, delivered and set up by the GTHINK team.">
   <PageHead index="07 / Shop" label="Shop" title='Genuine computers and accessories, <span class="serif">set up by experts.</span>' lede="Buy from a team that can install, configure and support what you buy.">
@@ -31,7 +39,7 @@ const products = cats.flatMap((c, i) => [0, 1].map((k) => ({ cat: c, seed: i * 2
       <div class="prods" data-stagger>
         {products.map((p) => (
           <article class="prod" data-pcat={p.cat}>
-            <div class="prod__img"><Pattern seed={p.seed} dense label={p.cat} /></div>
+            <div class="prod__img"><Pattern seed={p.seed} dense label={p.cat} img={p.img} /></div>
             <h2 class="prod__n"><span class="ph">[Product name]</span></h2>
             <p class="mono muted"><span class="ph">[Key specs]</span></p>
             <p class="prod__price">GHS <span class="ph">[Price]</span></p>

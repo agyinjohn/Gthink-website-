@@ -2,9 +2,10 @@
 /**
  * Seeded, woven-strip artwork. Used wherever a photo will eventually go,
  * so the site looks finished before real photography arrives.
+ * Pass `img` to show a real photo instead of the generated pattern.
  */
-interface Props { seed?: number; label?: string; class?: string; dense?: boolean }
-const { seed = 1, label, class: cls = '', dense = false } = Astro.props;
+interface Props { seed?: number; label?: string; class?: string; dense?: boolean; img?: string }
+const { seed = 1, label, class: cls = '', dense = false, img } = Astro.props;
 let s = seed * 9301 + 49297;
 const rnd = () => ((s = (s * 9301 + 49297) % 233280) / 233280);
 const palette = ['#0a4561', '#0a7fae', '#7cc6e6', '#136a92'];
@@ -39,14 +40,18 @@ while (y < H) {
 }
 ---
 <figure class={`pattern ${cls}`} data-pattern>
-  <svg viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-    {shapes.map((r) => <rect x={r.x} y={r.y} width={r.w} height={r.h} fill={r.c} opacity={r.o} />)}
-  </svg>
-  {label && <figcaption class="mono">{label}</figcaption>}
+  {img
+    ? <img src={img} alt={label ?? ''} loading="lazy" />
+    : <svg viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+        {shapes.map((r) => <rect x={r.x} y={r.y} width={r.w} height={r.h} fill={r.c} opacity={r.o} />)}
+      </svg>
+  }
+  {label && !img && <figcaption class="mono">{label}</figcaption>}
 </figure>
 <style>
   .pattern { position: relative; margin: 0; overflow: hidden; background: var(--ink); border-radius: var(--radius); }
   .pattern svg { width: 100%; height: 100%; object-fit: cover; transform: scale(1.04); }
+  .pattern img { width: 100%; height: 100%; object-fit: cover; display: block; }
   figcaption {
     position: absolute; left: 12px; bottom: 12px;
     background: var(--paper); color: var(--ink); padding: 6px 9px; font-size: 0.66rem;

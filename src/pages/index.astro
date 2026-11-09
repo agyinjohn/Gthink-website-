@@ -230,14 +230,18 @@ const suppliers = [
         <h2 class="h2" data-split>Outcomes first, <span class="serif">technology second.</span></h2>
       </div>
       <div class="grid-3" data-stagger>
-        {cases.map((c, i) => (
-          <a href="/case-studies" class="case" style={`--c: var(--${c.thread})`} data-cursor-text="Read">
-            <div class="case__img" aria-hidden="true"><div class="case__art"><i></i><i></i><i></i><i></i><i></i></div></div>
+        {[
+          { img: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=700&q=80&fit=crop', alt: 'Hotel lobby' },
+          { img: 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=700&q=80&fit=crop', alt: 'IT infrastructure' },
+          { img: 'https://images.unsplash.com/photo-1561070791-2526d30994b5?w=700&q=80&fit=crop', alt: 'Brand design' },
+        ].map(({ img, alt }, i) => (
+          <a href="/case-studies" class="case" style={`--c: var(--${cases[i].thread})`} data-cursor-text="Read">
+            <div class="case__img" aria-hidden="true"><img src={img} alt={alt} loading="lazy" /></div>
             <span class="mono case__n">Case 0{i + 1}</span>
-            <p class="case__res"><T text={c.result} /></p>
+            <p class="case__res"><T text={cases[i].result} /></p>
             <div class="case__meta">
-              <span><T text={c.client} /> · <T text={c.sector} /></span>
-              <span class="mono">{c.solution}</span>
+              <span><T text={cases[i].client} /> · <T text={cases[i].sector} /></span>
+              <span class="mono">{cases[i].solution}</span>
             </div>
             <span class="link case__more">Read the story <Arrow /></span>
           </a>
@@ -458,10 +462,8 @@ const suppliers = [
   }
   .case:hover { transform: translateY(-8px); }
   .case__img { position: absolute; left: 10px; right: 10px; top: 10px; height: 230px; overflow: hidden; border-radius: 4px; background: var(--paper-3); }
-  .case__art { position: absolute; left: -20%; top: -40%; width: 140%; height: 180%; display: grid; grid-template-rows: repeat(5, 1fr); rotate: -18deg; transition: rotate 1s var(--ease), scale 1s var(--ease); }
-  .case:hover .case__art { rotate: -6deg; scale: 1.1; }
-  .case__art i { background: var(--c); margin: 4px 0; }
-  .case__art i:nth-child(even) { background: repeating-linear-gradient(90deg, var(--c) 0 8px, transparent 8px 14px); }
+  .case__img img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.9s var(--ease); }
+  .case:hover .case__img img { transform: scale(1.06); }
   .case__n { position: absolute; left: 22px; top: 22px; z-index: 1; color: var(--ink); background: var(--paper); padding: 4px 8px; }
   .case__res { position: relative; margin-top: 8px; font-size: var(--step-2); line-height: 1.05; letter-spacing: -0.03em; }
   .case__res :global(.ph) { white-space: normal; }

@@ -62,16 +62,21 @@ const sinceTitle = site.foundedYear
         <h2 class="h2" data-split>The people <span class="serif">accountable.</span></h2>
       </div>
       <div class="ceo">
-        <Pattern seed={11} label="CEO photo" class="ceo__img" />
+        <Pattern seed={11} label="CEO photo" class="ceo__img" img="https://images.unsplash.com/photo-1560250097-0b93528c311a?w=600&q=80&fit=crop" />
         <blockquote class="ceo__q">
           <p class="serif" data-reveal>“<span class="ph">[CEO message, 3 to 4 sentences]</span>”</p>
           <footer data-reveal><b>{site.ceo.name}</b><span class="mono muted">{site.ceo.role}</span></footer>
         </blockquote>
       </div>
       <div class="team" data-stagger>
-        {[1, 2, 3, 4].map((n) => (
+        {[
+          'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=400&q=80&fit=crop',
+          'https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?w=400&q=80&fit=crop',
+          'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80&fit=crop',
+          'https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&q=80&fit=crop',
+        ].map((imgUrl, n) => (
           <article class="person">
-            <Pattern seed={n * 5} label="Photo" class="person__img" />
+            <Pattern seed={(n+1) * 5} label="Photo" class="person__img" img={imgUrl} />
             <h3 class="person__n"><span class="ph">[Name]</span></h3>
             <p class="mono muted"><span class="ph">[Role]</span></p>
             <p class="muted"><span class="ph">[Short bio]</span></p>
@@ -114,8 +119,15 @@ const sinceTitle = site.foundedYear
         <h2 class="h2" data-split>Team, office, <span class="serif">events and projects.</span></h2>
       </div>
       <div class="gal">
-        {[0, 1, 2, 3, 4, 5].map((n) => (
-          <div class={`gal__i gal__i--${n}`}><div class="gal__p" data-parallax="0.08"><Pattern seed={n * 3 + 20} dense label={['Team', 'Office', 'Event', 'Project', 'Team', 'Office'][n] + ' photo'} /></div></div>
+        {[
+          { label: 'Team photo',    img: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=900&q=80&fit=crop' },
+          { label: 'Office photo',  img: 'https://images.unsplash.com/photo-1497366216548-37526070297c?w=700&q=80&fit=crop' },
+          { label: 'Event photo',   img: 'https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=600&q=80&fit=crop' },
+          { label: 'Project photo', img: 'https://images.unsplash.com/photo-1531403009284-440f080d1e12?w=700&q=80&fit=crop' },
+          { label: 'Team photo',    img: 'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=900&q=80&fit=crop' },
+          { label: 'Office photo',  img: 'https://images.unsplash.com/photo-1497366811353-6870744d04b2?w=600&q=80&fit=crop' },
+        ].map(({ label, img }, n) => (
+          <div class={`gal__i gal__i--${n}`}><div class="gal__p" data-parallax="0.08"><Pattern seed={n * 3 + 20} dense label={label} img={img} /></div></div>
         ))}
       </div>
     </div>

@@ -6,8 +6,12 @@ import T from '../components/T.astro';
 import Pattern from '../components/Pattern.astro';
 import { cases } from '../data/content';
 const filters = ['All', 'Software', 'Managed IT', 'Cybersecurity', 'Network', 'Brand and Print'];
----
-<Layout title="Case Studies: Results We Have Delivered | GTHINK" description="Results-first case studies from GTHINK clients across Ghana.">
+const caseImgs = [
+  'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&q=80&fit=crop', // hotel
+  'https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&q=80&fit=crop', // IT
+  'https://images.unsplash.com/photo-1561070791-2526d30994b5?w=800&q=80&fit=crop', // brand/print
+];
+--- title="Case Studies: Results We Have Delivered | GTHINK" description="Results-first case studies from GTHINK clients across Ghana.">
   <PageHead index="05 / Case Studies" label="Case Studies" title='Results we have <span class="serif">delivered.</span>' lede="Every story leads with a number the client can check." />
 
   <section class="section--tight">
@@ -19,7 +23,7 @@ const filters = ['All', 'Software', 'Managed IT', 'Cybersecurity', 'Network', 'B
       <div class="cs" data-stagger>
         {cases.map((c, i) => (
           <article class="csr" data-sol={c.solution} style={`--c: var(--${c.thread})`}>
-            <Pattern seed={i * 7 + 2} class="csr__art" />
+            <Pattern seed={i * 7 + 2} class="csr__art" img={caseImgs[i % caseImgs.length]} />
             <div class="csr__body">
               <span class="mono muted">Case 0{i + 1} · {c.solution}</span>
               <h2 class="csr__res"><T text={c.result} /></h2>
