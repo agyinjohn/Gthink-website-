@@ -26,14 +26,16 @@ const suppliers = [
   { t: 'Ad agency', x: 86, y: 70, r: -6 },
   { t: 'Print shop', x: 50, y: 88, r: 3 },
 ];
+import { imgAttrs, heroWidths } from '../lib/img';
+const heroImg = imgAttrs(site.heroImage, { widths: heroWidths, sizes: '100vw', quality: 70 });
 ---
-<Layout title="GTHINK | IT Support, Software and Branding for Businesses in Accra">
+<Layout title="GTHINK | IT Support, Software and Branding for Businesses in Accra" preloadImage={site.heroVideo ? undefined : heroImg}>
   <!-- ============ HERO ============ -->
   <section class="hero" data-hero>
     <div class="hero__media">
       {site.heroVideo
         ? <video class="hero__bg" data-hero-bg src={site.heroVideo} poster={site.heroImage} autoplay muted loop playsinline preload="metadata" aria-label={site.heroImageAlt}></video>
-        : <img class="hero__bg" data-hero-bg src={site.heroImage} alt={site.heroImageAlt} fetchpriority="high" />}
+        : <img class="hero__bg" data-hero-bg {...heroImg} alt={site.heroImageAlt} fetchpriority="high" decoding="async" />}
       <div class="hero__shade" aria-hidden="true"></div>
     </div>
 
@@ -100,7 +102,7 @@ const suppliers = [
           <p class="eyebrow" data-reveal>Solutions</p>
         </div>
         <div>
-          <h2 class="h2" data-split>Everything your business runs on, <span class="serif">handled by one team.</span></h2>
+          <h2 class="h2" data-split>Everything your business runs on, handled by one team.</h2>
         </div>
       </div>
       <SolutionIndex />
@@ -134,7 +136,7 @@ const suppliers = [
     <div class="wrap split">
       <div class="sticky">
         <p class="eyebrow" data-reveal>Four reasons</p>
-        <h2 class="h2 why__h" data-split>Plain promises, <span class="serif">kept.</span></h2>
+        <h2 class="h2 why__h" data-split>Plain promises, kept.</h2>
         <p class="lede muted" data-reveal>Specific claims instead of superlatives. If we cannot prove it, we do not say it.</p>
       </div>
       <div class="why__stack" data-stack>
@@ -151,11 +153,11 @@ const suppliers = [
   </section>
 
   <!-- ============ GEMS ERP ============ -->
-  <section class="section gems dark" id="gems">
+  <section class="section gems dark watermark" id="gems">
     <div class="wrap gems__grid">
       <div class="gems__copy">
         <p class="eyebrow" data-reveal>Featured product</p>
-        <h2 class="h2" data-split>GEMS ERP: run your hotel or business from <span class="serif">one system.</span></h2>
+        <h2 class="h2" data-split>GEMS ERP: run your hotel or business from one system.</h2>
         <p class="lede" data-reveal>Bookings, billing, ledger, wallet and budgeting in one platform built for Ghanaian businesses. <span class="ph">[Confirm public product name and features]</span></p>
         <ul class="gems__feats" data-stagger>
           {['Bookings', 'Billing', 'Ledger', 'Wallet', 'Budgeting', 'Mobile Money'].map((f) => <li class="mono">{f}</li>)}
@@ -202,7 +204,7 @@ const suppliers = [
       <div class="sec-head">
         <p class="eyebrow" data-reveal>Managed IT plans (TBP)</p>
         <div>
-          <h2 class="h2 plans-t__h" data-split>IT support from GHS <Ph value={site.starterPriceGHS} label="XXX" /> <span class="serif">per month.</span></h2>
+          <h2 class="h2 plans-t__h" data-split>IT support from GHS <Ph value={site.starterPriceGHS} label="XXX" /> per month.</h2>
           <p class="lede muted" data-reveal>Choose a plan, and we take care of your systems, security, website and print needs.</p>
         </div>
       </div>
@@ -233,7 +235,7 @@ const suppliers = [
     <div class="wrap">
       <div class="sec-head">
         <p class="eyebrow" data-reveal>Results</p>
-        <h2 class="h2" data-split>Outcomes first, <span class="serif">technology second.</span></h2>
+        <h2 class="h2" data-split>Outcomes first, technology second.</h2>
       </div>
       <div class="grid-3" data-stagger>
         {[
@@ -242,7 +244,7 @@ const suppliers = [
           { img: 'https://images.unsplash.com/photo-1561070791-2526d30994b5?w=700&q=80&fit=crop', alt: 'Brand design' },
         ].map(({ img, alt }, i) => (
           <a href={`/case-studies/${cases[i].slug}`} class="case" style={`--c: var(--${cases[i].thread})`} data-cursor-text="Read">
-            <div class="case__img" aria-hidden="true"><img src={img} alt={alt} loading="lazy" /></div>
+            <div class="case__img" aria-hidden="true"><img {...imgAttrs(img, { widths: [400, 700, 1000], sizes: '(max-width: 900px) 100vw, 33vw' })} alt={alt} loading="lazy" decoding="async" /></div>
             <span class="mono case__n">Case 0{i + 1}</span>
             <p class="case__res"><T text={cases[i].result} /></p>
             <div class="case__meta">
@@ -280,7 +282,7 @@ const suppliers = [
       </div>
     </a>
     <div class="wrap shopstrip__row">
-      <p class="lede">Genuine laptops, printers and accessories, <span class="serif">delivered and set up by our team.</span></p>
+      <p class="lede">Genuine laptops, printers and accessories, delivered and set up by our team.</p>
       <a href="/shop" class="btn" data-magnetic>Visit the Shop <Arrow /></a>
     </div>
   </section>
@@ -291,7 +293,7 @@ const suppliers = [
       <div class="sec-head">
         <p class="eyebrow" data-reveal>Latest insights</p>
         <div class="ins-head">
-          <h2 class="h2" data-split>Plain-language advice for <span class="serif">growing businesses.</span></h2>
+          <h2 class="h2" data-split>Plain-language advice for growing businesses.</h2>
           <a href="/insights" class="link" data-reveal>All articles <Arrow /></a>
         </div>
       </div>

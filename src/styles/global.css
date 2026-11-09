@@ -70,8 +70,7 @@ body::after {
   position: fixed; inset: 0;
   pointer-events: none;
   z-index: 200;
-  opacity: 0.07;
-  mix-blend-mode: multiply;
+  opacity: 0.045;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
@@ -122,7 +121,7 @@ ul { margin: 0; padding: 0; list-style: none; }
   background-position: 0 92%;
   white-space: nowrap;
 }
-h1 .ph, h2 .ph, h3 .ph { white-space: normal; }
+h1 .ph, h2 .ph, h3 .ph, .prose .ph, p > .ph:only-child { white-space: normal; }
 
 /* ------------------------------------------------------------------
    Type helpers
@@ -132,8 +131,21 @@ h1 .ph, h2 .ph, h3 .ph { white-space: normal; }
   font-family: var(--f-mono); font-size: 0.74rem; letter-spacing: 0.06em; text-transform: uppercase;
 }
 .eyebrow::before {
-  content: ''; width: 22px; height: 6px;
-  background: linear-gradient(90deg, var(--tech) 0 33.3%, var(--brand) 0 66.6%, var(--print) 0);
+  content: ''; width: 15px; height: 13px; flex: none;
+  background: var(--brand);
+  -webkit-mask: url('/g-mark.svg') center / contain no-repeat;
+  mask: url('/g-mark.svg') center / contain no-repeat;
+}
+.dark .eyebrow::before { background: var(--print); }
+
+/* Faint G watermark, used in a couple of dark sections only */
+.watermark { position: relative; isolation: isolate; overflow: hidden; }
+.watermark::before {
+  content: ''; position: absolute; z-index: -1; pointer-events: none;
+  right: -6%; bottom: -14%; width: min(46vw, 620px); aspect-ratio: 98 / 83;
+  background: currentColor; opacity: 0.045;
+  -webkit-mask: url('/g-mark.svg') center / contain no-repeat;
+  mask: url('/g-mark.svg') center / contain no-repeat;
 }
 .display { font-size: var(--step-5); }
 .h1 { font-size: var(--step-4); }

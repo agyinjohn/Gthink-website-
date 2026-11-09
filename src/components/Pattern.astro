@@ -4,8 +4,10 @@
  * so the site looks finished before real photography arrives.
  * Pass `img` to show a real photo instead of the generated pattern.
  */
-interface Props { seed?: number; label?: string; class?: string; dense?: boolean; img?: string }
-const { seed = 1, label, class: cls = '', dense = false, img } = Astro.props;
+import { imgAttrs } from '../lib/img';
+interface Props { seed?: number; label?: string; class?: string; dense?: boolean; img?: string; sizes?: string }
+const { seed = 1, label, class: cls = '', dense = false, img, sizes } = Astro.props;
+const photo = img ? imgAttrs(img, sizes ? { sizes } : {}) : null;
 let s = seed * 9301 + 49297;
 const rnd = () => ((s = (s * 9301 + 49297) % 233280) / 233280);
 const palette = ['#0a4561', '#0a7fae', '#7cc6e6', '#136a92'];
@@ -41,7 +43,7 @@ while (y < H) {
 ---
 <figure class={`pattern ${cls}`} data-pattern>
   {img
-    ? <img src={img} alt={label ?? ''} loading="lazy" />
+    ? <img {...photo} alt={label ?? ''} loading="lazy" decoding="async" />
     : <svg viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="xMidYMid slice" aria-hidden="true">
         {shapes.map((r) => <rect x={r.x} y={r.y} width={r.w} height={r.h} fill={r.c} opacity={r.o} />)}
       </svg>

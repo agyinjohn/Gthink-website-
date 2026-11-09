@@ -18,10 +18,10 @@ const presetMap: Record<string, string> = {
   software: 'Software', 'managed-it': 'Managed IT', cybersecurity: 'Cybersecurity', networks: 'Networks', cloud: 'Cloud', 'brand-print': 'Brand and Print',
 };
 const words = s.headline.split(' ');
-const titleHtml = `${words.slice(0, -2).join(' ')} <span class="serif">${words.slice(-2).join(' ')}</span>`;
+const titleHtml = s.headline;
 ---
 <Layout title={s.seoTitle} description={s.intro}>
-  <div style={`--c: var(--${c}); --ct: var(--${c === 'print' ? 'print-deep' : c})`}>
+  <div style={`--c: var(--${c}); --ct: var(--${c === 'print' ? 'print-deep' : c}); --on: var(--${c === 'print' ? 'ink' : 'paper'})`}>
     <PageHead index={`Solution 0${i + 1} / 06`} label={s.name} title={titleHtml} lede={s.intro}>
       <a href="#quote" class="btn" data-magnetic data-reveal="hero">Get a Quote <Arrow /></a>
     </PageHead>
@@ -42,7 +42,7 @@ const titleHtml = `${words.slice(0, -2).join(' ')} <span class="serif">${words.s
       <div class="wrap">
         <div class="sec-head">
           <p class="eyebrow" data-reveal>The problem</p>
-          <h2 class="h2" data-split>Sound <span class="serif">familiar?</span></h2>
+          <h2 class="h2" data-split>Sound familiar?</h2>
         </div>
         <div class="grid-3" data-stagger>
           {s.pains.map((p, k) => (
@@ -61,7 +61,7 @@ const titleHtml = `${words.slice(0, -2).join(' ')} <span class="serif">${words.s
       <div class="wrap split">
         <div class="sticky">
           <p class="eyebrow" data-reveal>What we deliver</p>
-          <h2 class="h2 deliver__h" data-split>Everything in <span class="serif">scope,</span> written down.</h2>
+          <h2 class="h2 deliver__h" data-split>Everything in scope, written down.</h2>
           {s.extra && <a href={s.extra.href} class="btn btn--ghost" data-magnetic data-reveal>{s.extra.label} <Arrow /></a>}
         </div>
         <ul class="tick-list" data-stagger>
@@ -90,7 +90,7 @@ const titleHtml = `${words.slice(0, -2).join(' ')} <span class="serif">${words.s
       <div class="wrap">
         <div class="sec-head">
           <p class="eyebrow" data-reveal>How it works</p>
-          <h2 class="h2" data-split>Four steps, <span class="serif">one team.</span></h2>
+          <h2 class="h2" data-split>Four steps, one team.</h2>
         </div>
         <div class="steps-wrap">
         <hr class="steps__line" data-draw />
@@ -124,11 +124,11 @@ const titleHtml = `${words.slice(0, -2).join(' ')} <span class="serif">${words.s
     </section>
 
     <!-- faq + form -->
-    <section class="section dark" id="quote">
+    <section class="section sand" id="quote">
       <div class="wrap split">
         <div>
           <p class="eyebrow" data-reveal>Questions</p>
-          <h2 class="h2 faq__h" data-split>Before you <span class="serif">ask.</span></h2>
+          <h2 class="h2 faq__h" data-split>Before you ask.</h2>
           <Faq items={s.faqs} />
         </div>
         <div>
@@ -152,9 +152,9 @@ const titleHtml = `${words.slice(0, -2).join(' ')} <span class="serif">${words.s
 
 <style>
   :global(.phead__title .serif) { color: var(--ct) !important; }
-  .band { position: relative; overflow: hidden; background: var(--c); color: var(--ink); }
+  .band { position: relative; overflow: hidden; background: var(--c); color: var(--on); }
   .band__weave { position: absolute; inset: 0; display: grid; grid-template-columns: repeat(24, 1fr); opacity: 0.2; }
-  .band__weave i { background: repeating-linear-gradient(0deg, var(--ink) 0 6px, transparent 6px 14px); transform: translateY(calc(var(--k) % 2 * 7px)); }
+  .band__weave i { background: repeating-linear-gradient(0deg, currentColor 0 6px, transparent 6px 14px); transform: translateY(calc(var(--k) % 2 * 7px)); }
   .band__in { position: relative; padding-block: clamp(56px, 8vw, 110px); display: grid; gap: 22px; }
   .band__text { font-family: var(--f-serif); font-size: var(--step-4); line-height: 1; letter-spacing: -0.02em; max-width: 18ch; }
 
@@ -187,7 +187,8 @@ const titleHtml = `${words.slice(0, -2).join(' ')} <span class="serif">${words.s
   .proof2__quote p { font-size: var(--step-3); line-height: 1.05; margin-bottom: 24px; }
   @media (max-width: 900px) { .proof2, .gems-mini__in { grid-template-columns: 1fr; } }
 
-  .next { display: block; background: var(--c); color: var(--ink); overflow: hidden; }
+  .next { display: block; background: var(--paper-2); color: var(--ink); overflow: hidden; box-shadow: inset 0 6px 0 var(--c); }
+  .next .mono { color: var(--muted); }
   .next__in { display: grid; grid-template-columns: 1fr auto; align-items: end; gap: 12px 24px; padding-block: clamp(48px, 7vw, 100px); }
   .next .mono { grid-column: 1 / -1; }
   .next__name { font-size: var(--step-5); font-weight: 600; letter-spacing: -0.055em; line-height: 0.9; font-variation-settings: 'opsz' 96, 'wdth' 80; transition: transform 0.8s var(--ease); }

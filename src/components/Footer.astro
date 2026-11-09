@@ -4,7 +4,7 @@ import { solutions } from '../data/solutions';
 import Arrow from './Arrow.astro';
 const year = 2026;
 ---
-<footer class="ftr dark">
+<footer class="ftr dark watermark">
   <div class="wrap">
     <div class="ftr__top">
       <div class="ftr__brand">
@@ -86,6 +86,7 @@ const year = 2026;
 
 <style>
   .ftr { padding-top: clamp(80px, 10vw, 140px); overflow: hidden; }
+  .ftr.watermark::before { top: -12%; bottom: auto; right: -8%; }
   .ftr__top { display: grid; grid-template-columns: 1.4fr 1fr; gap: 48px; align-items: end; padding-bottom: clamp(56px, 7vw, 96px); border-bottom: 1px solid var(--line); }
   .ftr__brand { display: grid; gap: 28px; }
   .ftr__logo { width: 200px; height: auto; }

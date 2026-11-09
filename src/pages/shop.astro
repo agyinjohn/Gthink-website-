@@ -16,7 +16,7 @@ const catImgs: Record<string, string[]> = {
 const products = cats.flatMap((c, i) => [0, 1].map((k) => ({ cat: c, seed: i * 2 + k + 30, img: catImgs[c][k] })));
 ---
 <Layout title="Shop: Genuine Laptops, Printers and Accessories in Accra | GTHINK" description="Genuine computers, printers, networking and accessories, delivered and set up by the GTHINK team.">
-  <PageHead index="07 / Shop" label="Shop" title='Genuine computers and accessories, <span class="serif">set up by experts.</span>' lede="Buy from a team that can install, configure and support what you buy.">
+  <PageHead index="07 / Shop" label="Shop" title='Genuine computers and accessories, set up by experts.' lede="Buy from a team that can install, configure and support what you buy.">
     <a href="#corporate" class="btn btn--ghost" data-magnetic data-reveal="hero">Corporate orders <Arrow /></a>
   </PageHead>
 
@@ -57,7 +57,7 @@ const products = cats.flatMap((c, i) => [0, 1].map((k) => ({ cat: c, seed: i * 2
     <div class="wrap corp">
       <div>
         <p class="eyebrow" data-reveal>Corporate orders</p>
-        <h2 class="h2 corp__h" data-split>Equipping a whole office? <span class="serif">Ask for bulk pricing.</span></h2>
+        <h2 class="h2 corp__h" data-split>Equipping a whole office? Ask for bulk pricing.</h2>
       </div>
       <div class="corp__copy">
         <p class="lede" data-reveal>Bulk pricing and delivery for businesses, with setup, configuration and support by the same team.</p>

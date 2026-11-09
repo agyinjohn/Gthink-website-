@@ -52,7 +52,7 @@ const plain = (s: string) => s.replace(/[\[\]]/g, '');
       <div class="wrap split">
         <div class="sticky">
           <p class="eyebrow" data-reveal>The challenge</p>
-          <h2 class="h2" data-split>In the client’s <span class="serif">own words.</span></h2>
+          <h2 class="h2" data-split>In the client’s own words.</h2>
         </div>
         <blockquote class="challenge" data-reveal><T text={c.challenge} /></blockquote>
       </div>
@@ -63,7 +63,7 @@ const plain = (s: string) => s.replace(/[\[\]]/g, '');
       <div class="wrap split">
         <div class="sticky">
           <p class="eyebrow" data-reveal>What we did</p>
-          <h2 class="h2" data-split>The main <span class="serif">steps.</span></h2>
+          <h2 class="h2" data-split>The main steps.</h2>
           {solSlug && <a href={`/solutions/${solSlug}`} class="link sol-link" data-reveal>About {c.solution.split(' · ')[0]} <Arrow /></a>}
         </div>
         <ol class="steps" data-stagger>
@@ -77,7 +77,7 @@ const plain = (s: string) => s.replace(/[\[\]]/g, '');
       <div class="wrap">
         <div class="sec-head">
           <p class="eyebrow" data-reveal>The results</p>
-          <h2 class="h2" data-split>Numbers the client <span class="serif">can check.</span></h2>
+          <h2 class="h2" data-split>Numbers the client can check.</h2>
         </div>
         <ul class="res" data-stagger>
           {c.results.map((r) => <li><b><T text={r.n} /></b><span>{r.l}</span></li>)}
@@ -106,7 +106,7 @@ const plain = (s: string) => s.replace(/[\[\]]/g, '');
     </a>
   </article>
 
-  <CTA title='Want results like these? <span class="serif">Get similar results.</span>' />
+  <CTA title='Want results like these? Get similar results.' />
 </Layout>
 
 <style>

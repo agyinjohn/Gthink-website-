@@ -367,7 +367,7 @@ const stack = () => {
     cards.forEach((card, i) => {
       if (i === cards.length - 1) return;
       gsap.to(card, {
-        scale: 0.92 + i * 0.02, filter: 'brightness(0.86)', ease: 'none',
+        scale: 0.94 + i * 0.015, ease: 'none',
         scrollTrigger: { trigger: cards[i + 1], start: 'top bottom', end: 'top 25%', scrub: true },
       });
     });

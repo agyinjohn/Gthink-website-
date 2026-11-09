@@ -23,7 +23,7 @@ const basics = [
 ];
 ---
 <Layout title="Industries We Serve | GTHINK, Accra" description="IT, software and brand solutions for hospitality, retail, education, healthcare, finance and SMEs in Ghana.">
-  <PageHead index="04 / Industries" label="Industries" title='Built for the way <span class="serif">your industry works.</span>' lede="Six sectors we know well, the problems we see most often in each, and what we set up to fix them.">
+  <PageHead index="04 / Industries" label="Industries" title='Built for the way your industry works.' lede="Six sectors we know well, the problems we see most often in each, and what we set up to fix them.">
     <nav class="jump" aria-label="Jump to an industry" data-reveal="hero">
       {industries.map((ind) => <a href={`#${ind.slug}`}>{ind.name}</a>)}
     </nav>
@@ -80,7 +80,7 @@ const basics = [
     <div class="wrap">
       <div class="sec-head">
         <p class="eyebrow" data-reveal>Every sector</p>
-        <h2 class="h2" data-split>Whatever you do, <span class="serif">the basics come included.</span></h2>
+        <h2 class="h2" data-split>Whatever you do, the basics come included.</h2>
       </div>
       <ul class="basics__grid" data-stagger>
         {basics.map((b, i) => (
@@ -97,7 +97,7 @@ const basics = [
     </div>
   </section>
 
-  <CTA title='Don’t see your sector? <span class="serif">Talk to us anyway.</span>' />
+  <CTA title='Don’t see your sector? Talk to us anyway.' />
 </Layout>
 
 <style>
