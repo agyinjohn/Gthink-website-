@@ -469,17 +469,17 @@ const cookies = () => {
 /* Hero background: opens from a framed card to full bleed on scroll    */
 /* ------------------------------------------------------------------ */
 const heroMedia = (delay = 0) => {
-  const wrap = $('[data-hero-media]');
-  const frame = $('[data-hero-frame]');
+  const hero = $('[data-hero]');
   const bg = $<HTMLImageElement | HTMLVideoElement>('[data-hero-bg]');
-  if (!wrap || !frame || !bg) return;
+  const content = $('[data-hero-content]');
+  if (!hero || !bg) return;
   if (reduce) { if (bg instanceof HTMLVideoElement) { bg.removeAttribute('autoplay'); bg.pause(); } return; }
-  const gutter = () => Math.max(16, Math.min(56, window.innerWidth * 0.04));
-  gsap.fromTo(frame, { clipPath: () => `inset(18% ${gutter()}px 18% ${gutter()}px round 6px)` }, { clipPath: () => `inset(0% ${gutter()}px 0% ${gutter()}px round 6px)`, duration: 1.6, ease: 'expo.inOut', delay });
-  gsap.fromTo(bg, { scale: 1.25 }, { scale: 1.08, duration: 2.2, ease: 'expo.out', delay });
-  gsap.timeline({ scrollTrigger: { trigger: wrap, start: 'top 60%', end: 'bottom 30%', scrub: 0.6, invalidateOnRefresh: true } })
-    .to(frame, { clipPath: 'inset(0% 0px 0% 0px round 0px)', ease: 'none' }, 0)
-    .to(bg, { scale: 1, yPercent: 6, ease: 'none' }, 0);
+  // settle in on load
+  gsap.fromTo(bg, { scale: 1.18 }, { scale: 1.06, duration: 2.4, ease: 'expo.out', delay });
+  // drift and fade as the hero scrolls away
+  gsap.timeline({ scrollTrigger: { trigger: hero, start: 'top top', end: 'bottom top', scrub: true } })
+    .to(bg, { yPercent: 14, scale: 1.12, ease: 'none' }, 0)
+    .to(content, { yPercent: -12, opacity: 0.2, ease: 'none' }, 0);
 };
 
 /* ------------------------------------------------------------------ */

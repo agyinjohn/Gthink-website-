@@ -3,9 +3,10 @@ import { site, nav } from '../data/site';
 import { solutions } from '../data/solutions';
 import Arrow from './Arrow.astro';
 const path = Astro.url.pathname;
+const overHero = path === '/' || path === '/index.html';
 const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWith(href));
 ---
-<header class="hdr" data-header>
+<header class:list={['hdr', { 'hdr--over': overHero }]} data-header>
   <div class="util">
     <div class="wrap util__in">
       <span class="mono util__loc">Accra, Ghana · <span data-clock>--:--</span> GMT</span>
@@ -19,7 +20,8 @@ const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWit
 
   <div class="wrap bar">
     <a href="/" class="logo" aria-label="GTHINK Company Limited, home">
-      <img src="/logo.png" alt="GTHINK Company Limited" width="176" height="40" />
+      <img class="logo__dark" src="/logo.png" alt="GTHINK Company Limited" width="176" height="40" />
+      <img class="logo__light" src="/logo-white.png" alt="" width="176" height="40" aria-hidden="true" />
     </a>
 
     <nav class="menu" aria-label="Main">
@@ -174,6 +176,21 @@ const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWit
     .util__in { justify-content: flex-end; }
   }
   .menu-open .hdr::before { opacity: 0; }
+
+  /* Over the homepage hero photo: light header until the page scrolls */
+  .logo { position: relative; }
+  .logo__light { position: absolute; left: 0; top: 50%; translate: 0 -50%; opacity: 0; }
+  .hdr--over:not(.is-scrolled) .logo__dark { opacity: 0; }
+  .hdr--over:not(.is-scrolled) .logo__light { opacity: 1; }
+  .hdr--over:not(.is-scrolled) { color: var(--paper); }
+  .hdr--over:not(.is-scrolled) .util { border-bottom-color: rgba(243, 246, 248, 0.2); }
+  .hdr--over:not(.is-scrolled) .menu__a.active::before { background: var(--paper); }
+  .hdr--over:not(.is-scrolled) .bar__cta { --bg: var(--paper); --fg: var(--ink); }
+  .hdr--over:not(.is-scrolled) .bar__cta:hover { color: var(--paper); }
+  .hdr--over:not(.is-scrolled) .burger { background: var(--paper); }
+  .hdr--over:not(.is-scrolled) .burger span { background: var(--ink); }
+  .hdr { transition: transform 0.7s var(--ease), color 0.4s; }
+  .logo img { transition: opacity 0.4s; }
   .menu-open .util { opacity: 0; pointer-events: none; }
   .menu-open .hdr { box-shadow: none; }
   .menu-open .logo { position: relative; z-index: 101; }
