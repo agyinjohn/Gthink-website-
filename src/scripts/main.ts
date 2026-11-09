@@ -2,7 +2,6 @@ import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { SplitText } from 'gsap/SplitText';
 import Lenis from 'lenis';
-import { initWeave } from './weave';
 
 gsap.registerPlugin(ScrollTrigger, SplitText);
 
@@ -467,6 +466,23 @@ const cookies = () => {
 };
 
 /* ------------------------------------------------------------------ */
+/* Hero background: opens from a framed card to full bleed on scroll    */
+/* ------------------------------------------------------------------ */
+const heroMedia = (delay = 0) => {
+  const wrap = $('[data-hero-media]');
+  const frame = $('[data-hero-frame]');
+  const bg = $<HTMLImageElement | HTMLVideoElement>('[data-hero-bg]');
+  if (!wrap || !frame || !bg) return;
+  if (reduce) { if (bg instanceof HTMLVideoElement) { bg.removeAttribute('autoplay'); bg.pause(); } return; }
+  const gutter = () => Math.max(16, Math.min(56, window.innerWidth * 0.04));
+  gsap.fromTo(frame, { clipPath: () => `inset(18% ${gutter()}px 18% ${gutter()}px round 6px)` }, { clipPath: () => `inset(0% ${gutter()}px 0% ${gutter()}px round 6px)`, duration: 1.6, ease: 'expo.inOut', delay });
+  gsap.fromTo(bg, { scale: 1.25 }, { scale: 1.08, duration: 2.2, ease: 'expo.out', delay });
+  gsap.timeline({ scrollTrigger: { trigger: wrap, start: 'top 60%', end: 'bottom 30%', scrub: 0.6, invalidateOnRefresh: true } })
+    .to(frame, { clipPath: 'inset(0% 0px 0% 0px round 0px)', ease: 'none' }, 0)
+    .to(bg, { scale: 1, yPercent: 6, ease: 'none' }, 0);
+};
+
+/* ------------------------------------------------------------------ */
 /* Boot                                                                 */
 /* ------------------------------------------------------------------ */
 $$('[data-totop]').forEach((b) => b.addEventListener('click', () => scrollTo(0)));
@@ -478,11 +494,9 @@ const boot = async () => {
   forms();
   tabs();
   const firstLoad = html.classList.contains('first-load');
-  const weaveEl = $<HTMLCanvasElement>('[data-weave]');
-  const weave = weaveEl ? initWeave(weaveEl, reduce) : null;
   await intro();
   reveals(firstLoad ? 0.1 : leaving ? 0.45 : 0.15);
-  weave?.enter(firstLoad ? 0 : 0.3);
+  heroMedia(firstLoad ? 0 : 0.3);
   converge();
   solList();
   stack();

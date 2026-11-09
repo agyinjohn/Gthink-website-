@@ -31,6 +31,14 @@ export const site = {
   remoteToolUrl: null as string | null,
   ticketUrl: null as string | null,
 
+  // ---- Homepage hero background ----
+  // Image is always used (and is the video's poster frame). To use your own,
+  // put the file in /public (e.g. /hero.jpg) and set the path here.
+  heroImage: 'https://images.unsplash.com/photo-1551434678-e076c223a692?w=2000&q=80&fit=crop',
+  heroImageAlt: 'A team working together at computers in an office',
+  // Optional looping video, e.g. '/hero.mp4' (muted, about 10 to 20 seconds, under 8 MB).
+  heroVideo: null as string | null,
+
   // Form endpoint (e.g. Formspree / your own API). Leave null until ready.
   formEndpoint: null as string | null,
 

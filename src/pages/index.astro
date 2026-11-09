@@ -49,8 +49,17 @@ const suppliers = [
       </div>
     </div>
 
-    <div class="hero__loom" data-cursor-text="Pull">
-      <canvas data-weave aria-label="Animated artwork: three threads labelled technology, brand and print weaving together" role="img"></canvas>
+    <div class="hero__media" data-hero-media>
+      <div class="hero__frame" data-hero-frame>
+        {site.heroVideo
+          ? <video class="hero__bg" data-hero-bg src={site.heroVideo} poster={site.heroImage} autoplay muted loop playsinline preload="metadata" aria-label={site.heroImageAlt}></video>
+          : <img class="hero__bg" data-hero-bg src={site.heroImage} alt={site.heroImageAlt} fetchpriority="high" />}
+        <div class="hero__shade" aria-hidden="true"></div>
+        <div class="wrap hero__cap">
+          <span class="mono">Accra, Ghana</span>
+          <span class="hero__threads mono" aria-hidden="true"><i></i>Technology<i></i>Brand<i></i>Print</span>
+        </div>
+      </div>
     </div>
 
     <div class="wrap">
@@ -315,8 +324,25 @@ const suppliers = [
   .hero__row { display: flex; justify-content: space-between; align-items: flex-end; gap: 32px 48px; margin-top: clamp(32px, 4vw, 56px); flex-wrap: wrap; }
   .hero__row .lede { max-width: 44ch; }
   .hero__btns { display: flex; gap: 10px; flex-wrap: wrap; }
-  .hero__loom { position: relative; height: clamp(260px, 42vh, 460px); margin-top: clamp(48px, 6vw, 80px); }
-  .hero__loom canvas { width: 100%; height: 100%; }
+  .hero__media { position: relative; height: clamp(300px, 58vh, 640px); margin-top: clamp(48px, 6vw, 80px); }
+  .hero__frame { position: absolute; inset: 0; overflow: hidden; background: var(--ink); }
+  .hero__bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transform-origin: center; }
+  .hero__shade {
+    position: absolute; inset: 0;
+    background:
+      linear-gradient(180deg, rgba(7, 47, 67, 0.15) 0%, rgba(7, 47, 67, 0) 35%, rgba(7, 47, 67, 0.75) 100%),
+      linear-gradient(90deg, rgba(10, 69, 97, 0.35), rgba(10, 127, 174, 0.1));
+  }
+  .hero__cap {
+    position: absolute; left: 0; right: 0; bottom: 22px;
+    display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap;
+    color: var(--paper); font-size: 0.72rem;
+  }
+  .hero__threads { display: inline-flex; align-items: center; gap: 10px; }
+  .hero__threads i { width: 14px; height: 4px; background: var(--brand); }
+  .hero__threads i:nth-of-type(2) { background: var(--print); }
+  .hero__threads i:nth-of-type(3) { background: var(--paper); }
+  @media (max-width: 520px) { .hero__threads { display: none; } }
   @media (max-width: 640px) { .hero__coords { display: none; } }
 
   .proof { display: grid; grid-template-columns: repeat(4, 1fr); border-bottom: 1px solid var(--line); }
