@@ -14,12 +14,42 @@ export const cases = [
 ];
 
 export const industries = [
-  { name: 'Hospitality', body: 'Hotel management with GEMS ERP, POS and guest Wi-Fi.', tags: ['GEMS ERP', 'POS', 'Guest Wi-Fi'] },
-  { name: 'Retail and E-commerce', body: 'Online stores, inventory and Mobile Money payments.', tags: ['Online stores', 'Inventory', 'Mobile Money'] },
-  { name: 'Education', body: 'School management systems and campus networks.', tags: ['School systems', 'Campus networks'] },
-  { name: 'Healthcare', body: 'Clinic systems and secure patient data.', tags: ['Clinic systems', 'Data protection'] },
-  { name: 'Finance and Microfinance', body: 'Secure systems and compliance support.', tags: ['Security', 'Compliance'] },
-  { name: 'SMEs and Professional Services', body: 'Affordable all-in-one IT through TBP plans.', tags: ['Managed IT', 'Brand and Print'] },
+  {
+    slug: 'hospitality', name: 'Hospitality', body: 'Hotel management with GEMS ERP, POS and guest Wi-Fi.',
+    tags: ['GEMS ERP', 'POS', 'Guest Wi-Fi'],
+    challenges: ['Bookings, billing and the restaurant run on separate systems', 'Guest Wi-Fi that drops or is open to anyone', 'Night audit and reconciliation done by hand'],
+    solutions: ['software', 'networks', 'managed-it'],
+  },
+  {
+    slug: 'retail', name: 'Retail and E-commerce', body: 'Online stores, inventory and Mobile Money payments.',
+    tags: ['Online stores', 'Inventory', 'Mobile Money'],
+    challenges: ['Stock counts that never match the till', 'Mobile Money payments reconciled at the end of the day', 'No online store, or one that is hard to update'],
+    solutions: ['software', 'cloud', 'brand-print'],
+  },
+  {
+    slug: 'education', name: 'Education', body: 'School management systems and campus networks.',
+    tags: ['School systems', 'Campus networks'],
+    challenges: ['Fees, results and records kept in spreadsheets', 'Computer labs and staff rooms with unreliable Wi-Fi', 'Student and parent data that needs protecting'],
+    solutions: ['software', 'networks', 'cybersecurity'],
+  },
+  {
+    slug: 'healthcare', name: 'Healthcare', body: 'Clinic systems and secure patient data.',
+    tags: ['Clinic systems', 'Data protection'],
+    challenges: ['Patient records on paper or on a single computer', 'Sensitive data with no backup and no access control', 'Questions about the Data Protection Act'],
+    solutions: ['software', 'cybersecurity', 'cloud'],
+  },
+  {
+    slug: 'finance', name: 'Finance and Microfinance', body: 'Secure systems and compliance support.',
+    tags: ['Security', 'Compliance'],
+    challenges: ['Phishing and Mobile Money fraud aimed at staff', 'Branches that need secure, reliable connections', 'Regulator and audit questions about IT controls'],
+    solutions: ['cybersecurity', 'networks', 'managed-it'],
+  },
+  {
+    slug: 'sme', name: 'SMEs and Professional Services', body: 'Affordable all-in-one IT through TBP plans.',
+    tags: ['Managed IT', 'Brand and Print'],
+    challenges: ['No in-house IT person, so problems wait', 'Personal email accounts used for business', 'A brand that looks different everywhere it appears'],
+    solutions: ['managed-it', 'cloud', 'brand-print'],
+  },
 ];
 
 export const plans = [

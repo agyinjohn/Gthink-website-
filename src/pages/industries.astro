@@ -5,56 +5,166 @@ import CTA from '../components/CTA.astro';
 import Arrow from '../components/Arrow.astro';
 import Pattern from '../components/Pattern.astro';
 import { industries } from '../data/content';
-const industryImgs = [
-  'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=800&q=80&fit=crop', // hospitality
-  'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=800&q=80&fit=crop', // retail
-  'https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=800&q=80&fit=crop', // education
-  'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=800&q=80&fit=crop', // healthcare
-  'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=800&q=80&fit=crop', // finance
-  'https://images.unsplash.com/photo-1497366216548-37526070297c?w=800&q=80&fit=crop', // SMEs
-];
---- title="Industries We Serve | GTHINK, Accra" description="IT, software and brand solutions for hospitality, retail, education, healthcare, finance and SMEs in Ghana.">
-  <PageHead index="04 / Industries" label="Industries" title='Built for the way <span class="serif">your industry works.</span>' lede="Six sectors we know well, and the systems each one depends on." />
+import { getSolution } from '../data/solutions';
 
-  <section class="hs" data-hscroll>
-    <div class="hs__track" data-htrack>
+const industryImgs = [
+  'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1200&q=80&fit=crop', // hospitality
+  'https://images.unsplash.com/photo-1441986300917-64674bd600d8?w=1200&q=80&fit=crop', // retail
+  'https://images.unsplash.com/photo-1580582932707-520aed937b7b?w=1200&q=80&fit=crop', // education
+  'https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?w=1200&q=80&fit=crop', // healthcare
+  'https://images.unsplash.com/photo-1611974789855-9c2a0a7236a3?w=1200&q=80&fit=crop', // finance
+  'https://images.unsplash.com/photo-1497366216548-37526070297c?w=1200&q=80&fit=crop', // SMEs
+];
+const basics = [
+  { t: 'Managed IT', b: 'Helpdesk, monitoring and backups for one monthly fee.', href: '/solutions/managed-it' },
+  { t: 'Security', b: 'Every system tested against attacks before it goes live.', href: '/solutions/cybersecurity' },
+  { t: 'Business email', b: 'Professional email and file sharing that the business owns.', href: '/solutions/cloud' },
+  { t: 'Brand and print', b: 'One consistent look, from the website to the business card.', href: '/solutions/brand-print' },
+];
+---
+<Layout title="Industries We Serve | GTHINK, Accra" description="IT, software and brand solutions for hospitality, retail, education, healthcare, finance and SMEs in Ghana.">
+  <PageHead index="04 / Industries" label="Industries" title='Built for the way <span class="serif">your industry works.</span>' lede="Six sectors we know well, the problems we see most often in each, and what we set up to fix them.">
+    <nav class="jump" aria-label="Jump to an industry" data-reveal="hero">
+      {industries.map((ind) => <a href={`#${ind.slug}`}>{ind.name}</a>)}
+    </nav>
+  </PageHead>
+
+  <section class="section inds">
+    <div class="wrap">
       {industries.map((ind, i) => (
-        <a href="/case-studies" class="ind" data-cursor-text="Cases" style={`--c: var(--${['tech', 'brand', 'print'][i % 3]})`}>
-          <Pattern seed={i + 3} class="ind__art" img={industryImgs[i]} />
-          <span class="mono ind__n">0{i + 1} / 06</span>
-          <h2 class="ind__name">{ind.name}</h2>
-          <p class="ind__body">{ind.body}</p>
-          <ul class="ind__tags">{ind.tags.map((t) => <li class="mono">{t}</li>)}</ul>
-          <span class="link ind__link">See related case studies <Arrow /></span>
-        </a>
+        <article class:list={['ind', { 'ind--flip': i % 2 === 1 }]} id={ind.slug} style={`--c: var(--${['brand', 'tech', 'print'][i % 3]})`}>
+          <div class="ind__media">
+            <div class="ind__frame" data-reveal>
+              <div class="ind__img" data-parallax="0.06">
+                <Pattern seed={i + 3} img={industryImgs[i]} label={`${ind.name} photo`} />
+              </div>
+              <span class="mono ind__n">0{i + 1} / 06</span>
+            </div>
+          </div>
+
+          <div class="ind__body">
+            <p class="eyebrow" data-reveal>{ind.name}</p>
+            <h2 class="h2 ind__name" data-split>{ind.body}</h2>
+
+            <div class="ind__cols">
+              <div data-reveal>
+                <h3 class="mono ind__h">What we often see</h3>
+                <ul class="ind__list">
+                  {ind.challenges.map((c) => <li>{c}</li>)}
+                </ul>
+              </div>
+              <div data-reveal data-delay="0.08">
+                <h3 class="mono ind__h">What we set up</h3>
+                <ul class="ind__sols">
+                  {ind.solutions.map((slug) => {
+                    const s = getSolution(slug);
+                    return <li><a href={`/solutions/${slug}`}><span>{s.name}</span><Arrow /></a></li>;
+                  })}
+                </ul>
+              </div>
+            </div>
+
+            <ul class="ind__tags" data-reveal>{ind.tags.map((t) => <li class="mono">{t}</li>)}</ul>
+
+            <div class="ind__ctas" data-reveal>
+              <a href="/contact#enquiry" class="btn" data-magnetic>Talk to us about {ind.name.split(' ')[0]} <Arrow /></a>
+              <a href="/case-studies" class="link">See related case studies <Arrow /></a>
+            </div>
+          </div>
+        </article>
       ))}
     </div>
-    <div class="hs__bar" aria-hidden="true"><i data-hbar></i></div>
+  </section>
+
+  <section class="section dark basics">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow" data-reveal>Every sector</p>
+        <h2 class="h2" data-split>Whatever you do, <span class="serif">the basics come included.</span></h2>
+      </div>
+      <ul class="basics__grid" data-stagger>
+        {basics.map((b, i) => (
+          <li>
+            <a href={b.href} class="basic">
+              <span class="mono basic__n">0{i + 1}</span>
+              <h3 class="basic__t">{b.t}</h3>
+              <p>{b.b}</p>
+              <span class="basic__go" aria-hidden="true"><Arrow /></span>
+            </a>
+          </li>
+        ))}
+      </ul>
+    </div>
   </section>
 
   <CTA title='Don’t see your sector? <span class="serif">Talk to us anyway.</span>' />
 </Layout>
+
 <style>
-  .hs { position: relative; padding-block: clamp(40px, 6vw, 80px); overflow: hidden; }
-  .hs__track { display: flex; gap: 20px; padding-inline: var(--gutter); width: max-content; }
-  .ind {
-    position: relative; flex: 0 0 clamp(300px, 34vw, 520px); height: min(72vh, 640px); min-height: 520px;
-    display: flex; flex-direction: column; justify-content: flex-end; gap: 14px;
-    padding: 28px; border-radius: 8px; background: var(--paper-2); overflow: hidden;
+  /* quick links under the page title */
+  .jump { display: flex; flex-wrap: wrap; gap: 8px; max-width: 640px; justify-content: flex-end; }
+  .jump a {
+    padding: 9px 14px; border-radius: 999px; font-size: 0.88rem;
+    box-shadow: inset 0 0 0 1px var(--line-strong); transition: background 0.3s, color 0.3s, box-shadow 0.3s;
   }
-  .ind :global(.ind__art) { position: absolute; left: 0; right: 0; top: 0; height: 46%; border-radius: 0; transition: height 0.8s var(--ease); }
-  .ind:hover :global(.ind__art) { height: 52%; }
-  .ind__n { position: absolute; top: 18px; right: 18px; z-index: 1; background: var(--paper); padding: 5px 8px; font-size: 0.66rem; }
-  .ind__name { font-size: var(--step-3); max-width: 10ch; }
-  .ind__body { color: var(--ink-2); max-width: 32ch; }
+  .jump a:hover { background: var(--ink); color: var(--paper); box-shadow: none; }
+  @media (max-width: 760px) { .jump { justify-content: flex-start; } }
+
+  /* one row per industry */
+  .inds .wrap { display: grid; gap: clamp(80px, 11vw, 160px); }
+  .ind {
+    display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(32px, 6vw, 96px);
+    align-items: center; scroll-margin-top: 110px;
+  }
+  .ind--flip .ind__media { order: 2; }
+  .ind__frame { position: relative; aspect-ratio: 4 / 5; max-height: 640px; width: 100%; overflow: hidden; border-radius: 6px; background: var(--ink); }
+  .ind__img { position: absolute; inset: -8% 0; }
+  .ind__img :global(.pattern) { height: 100%; border-radius: 0; }
+  .ind__img :global(img) { transition: transform 1.2s var(--ease); }
+  .ind:hover .ind__img :global(img) { transform: scale(1.04); }
+  .ind__n { position: absolute; top: 16px; left: 16px; z-index: 1; background: var(--paper); padding: 5px 9px; font-size: 0.66rem; }
+  .ind__frame::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 6px; background: var(--c); }
+
+  .ind__body { display: grid; gap: 24px; align-content: center; }
+  .ind__name { font-size: var(--step-3); max-width: 18ch; }
+  .ind__cols { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; padding-top: 24px; border-top: 1px solid var(--line); }
+  .ind__h { color: var(--muted); margin: 0 0 14px; font-weight: 500; }
+  .ind__list { display: grid; gap: 12px; }
+  .ind__list li { position: relative; padding-left: 20px; line-height: 1.4; }
+  .ind__list li::before { content: ''; position: absolute; left: 0; top: 0.55em; width: 8px; height: 8px; background: var(--c); }
+  .ind__sols { display: grid; border-top: 1px solid var(--line); }
+  .ind__sols a {
+    display: flex; justify-content: space-between; align-items: center; gap: 12px;
+    padding: 12px 0; border-bottom: 1px solid var(--line); font-weight: 520; transition: color 0.3s, padding 0.5s var(--ease);
+  }
+  .ind__sols a:hover { color: var(--brand); padding-left: 6px; }
+  .ind__sols :global(.arrow) { width: 16px; height: 16px; flex: none; }
   .ind__tags { display: flex; flex-wrap: wrap; gap: 6px; }
   .ind__tags li { font-size: 0.64rem; padding: 6px 10px; border-radius: 999px; box-shadow: inset 0 0 0 1px var(--line-strong); }
-  .ind__link { align-self: flex-start; margin-top: 8px; }
-  .hs__bar { margin: 36px var(--gutter) 0; height: 2px; background: var(--line); }
-  .hs__bar i { display: block; height: 100%; background: linear-gradient(90deg, var(--tech), var(--brand), var(--print)); transform: scaleX(0); transform-origin: left; }
-  @media (max-width: 899px) {
-    .hs__track { flex-direction: column; width: auto; }
-    .ind { flex: none; height: auto; min-height: 480px; }
-    .hs__bar { display: none; }
+  .ind__ctas { display: flex; align-items: center; gap: 14px 24px; flex-wrap: wrap; }
+
+  @media (max-width: 900px) {
+    .ind { grid-template-columns: 1fr; }
+    .ind--flip .ind__media { order: 0; }
+    .ind__frame { aspect-ratio: 4 / 3; }
   }
+  @media (max-width: 560px) { .ind__cols { grid-template-columns: 1fr; } }
+
+  /* the basics */
+  .basics__grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+  .basic {
+    position: relative; display: flex; flex-direction: column; gap: 12px; height: 100%; min-height: 240px;
+    padding: 26px; border-radius: 6px; background: #0b3a52; transition: background 0.4s;
+  }
+  .basic:hover { background: var(--brand); }
+  .basic__n { color: var(--print); }
+  .basic:hover .basic__n { color: var(--paper); }
+  .basic__t { font-size: var(--step-2); }
+  .basic p { color: var(--muted); flex: 1; transition: color 0.4s; }
+  .basic:hover p { color: var(--paper); }
+  .basic__go { width: 40px; height: 40px; border-radius: 50%; display: grid; place-items: center; box-shadow: inset 0 0 0 1px var(--line-strong); transition: transform 0.5s var(--ease); }
+  .basic:hover .basic__go { transform: rotate(-45deg); }
+  .basic__go :global(.arrow) { width: 16px; }
+  @media (max-width: 1000px) { .basics__grid { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 560px) { .basics__grid { grid-template-columns: 1fr; } }
 </style>
