@@ -6,6 +6,7 @@ export type Solution = {
   outcome: string;
   intro: string;
   thread: 'tech' | 'brand' | 'print';
+  bandImg: string;
   pains: { title: string; body: string }[];
   deliver: string[];
   steps: { title: string; body: string }[];
@@ -28,6 +29,7 @@ export const solutions: Solution[] = [
     short: 'Custom web and mobile apps, plus ready-made systems like GEMS ERP.',
     headline: 'Software built around how your business works.',
     outcome: 'Systems that match your processes, take Mobile Money and grow with you.',
+    bandImg: 'https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=1600&q=80&fit=crop',
     intro:
       'Off-the-shelf tools rarely fit. We build web and mobile applications and business systems that match your processes, integrate with Mobile Money and grow with you.',
     thread: 'tech',
@@ -60,6 +62,7 @@ export const solutions: Solution[] = [
     short: 'Monitoring, helpdesk and maintenance for one fixed monthly fee.',
     headline: 'Your IT department for one monthly fee.',
     outcome: 'Problems fixed fast, or prevented before they happen.',
+    bandImg: 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=1600&q=80&fit=crop',
     intro:
       'No in-house IT team, or one that is stretched thin? We monitor, maintain and support your systems so problems are fixed fast, or never happen.',
     thread: 'tech',
@@ -92,6 +95,7 @@ export const solutions: Solution[] = [
     short: 'Find and fix weaknesses before attackers do.',
     headline: 'Protect your data, your customers and your reputation.',
     outcome: 'Practical controls, tested defences and a team ready if something goes wrong.',
+    bandImg: 'https://images.unsplash.com/photo-1563986768609-322da13575f3?w=1600&q=80&fit=crop',
     intro:
       'Phishing, ransomware and Mobile Money fraud target businesses of every size. We find weaknesses and put practical controls in place.',
     thread: 'tech',
@@ -122,6 +126,7 @@ export const solutions: Solution[] = [
     short: 'Reliable office networks, servers and Wi-Fi.',
     headline: 'A network your team can depend on.',
     outcome: 'Fast, stable connections that are designed, installed and maintained properly.',
+    bandImg: 'https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=1600&q=80&fit=crop',
     intro:
       'Slow Wi-Fi and dropped connections cost hours every week. We design, install and maintain networks that just work.',
     thread: 'tech',
@@ -151,6 +156,7 @@ export const solutions: Solution[] = [
     short: 'Business email, hosting, backups and migration.',
     headline: 'Work securely from anywhere.',
     outcome: 'Email, files and applications in the cloud, with backups you can rely on.',
+    bandImg: 'https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=1600&q=80&fit=crop',
     intro:
       'Move email, files and applications to the cloud without disruption, with backups you can rely on.',
     thread: 'tech',
@@ -180,6 +186,7 @@ export const solutions: Solution[] = [
     short: 'Brand identity, digital marketing and corporate printing.',
     headline: 'Look as professional as you are.',
     outcome: 'One consistent brand, from your logo to your next campaign to the card in your hand.',
+    bandImg: 'https://images.unsplash.com/photo-1561070791-2526d30994b5?w=1600&q=80&fit=crop',
     intro:
       'From your logo to your next campaign and the materials you hand to customers, we keep your brand consistent everywhere.',
     thread: 'brand',

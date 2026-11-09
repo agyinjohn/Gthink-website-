@@ -21,9 +21,18 @@ import Arrow from '../../components/Arrow.astro';
         <h2 class="h2" data-split>Technology, brand and print, woven together.</h2>
       </div>
       <div class="threads__cols" data-stagger>
-        <div class="thr" style="--c: var(--tech)"><i></i><h3 class="h3">Technology</h3><p class="muted">Software, managed IT, cybersecurity, networks and cloud.</p></div>
-        <div class="thr" style="--c: var(--brand)"><i></i><h3 class="h3">Brand</h3><p class="muted">Identity, website design, social media and online ads.</p></div>
-        <div class="thr" style="--c: var(--print)"><i></i><h3 class="h3">Print</h3><p class="muted">Stationery, brochures, banners, signage and merchandise.</p></div>
+        <div class="thr" style="--c: var(--tech)">
+          <div class="thr__img"><img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&q=80&fit=crop" alt="Technology" loading="lazy" /></div>
+          <h3 class="h3">Technology</h3><p class="muted">Software, managed IT, cybersecurity, networks and cloud.</p>
+        </div>
+        <div class="thr" style="--c: var(--brand)">
+          <div class="thr__img"><img src="https://images.unsplash.com/photo-1561070791-2526d30994b5?w=800&q=80&fit=crop" alt="Brand" loading="lazy" /></div>
+          <h3 class="h3">Brand</h3><p class="muted">Identity, website design, social media and online ads.</p>
+        </div>
+        <div class="thr" style="--c: var(--print)">
+          <div class="thr__img"><img src="https://images.unsplash.com/photo-1586075010923-2dd4570fb338?w=800&q=80&fit=crop" alt="Print" loading="lazy" /></div>
+          <h3 class="h3">Print</h3><p class="muted">Stationery, brochures, banners, signage and merchandise.</p>
+        </div>
       </div>
     </div>
   </section>
@@ -36,7 +45,8 @@ import Arrow from '../../components/Arrow.astro';
   .threads__grid .h2 { max-width: 16ch; margin-top: 22px; }
   .threads__cols { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
   .thr { display: grid; gap: 14px; }
-  .thr i { display: block; height: 120px; background: repeating-linear-gradient(90deg, var(--c) 0 14px, transparent 14px 22px); border-radius: 3px; transition: background-size 0.6s; }
-  .thr:nth-child(2) i { background: var(--c); }
+  .thr__img { height: 120px; border-radius: 3px; overflow: hidden; border-bottom: 3px solid var(--c); }
+  .thr__img img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.7s var(--ease); }
+  .thr:hover .thr__img img { transform: scale(1.05); }
   @media (max-width: 760px) { .threads__cols { grid-template-columns: 1fr; } }
 </style>

@@ -14,10 +14,10 @@ const proof = [
   { v: site.responseHours, label: 'X', unit: 'hour support response' },
 ];
 const why = [
-  { n: '01', t: 'One partner, not five.', b: 'IT, software, brand and print through one account manager.', c: 'tech' },
-  { n: '02', t: 'Security built in.', b: 'Every system we build is tested against attacks before it goes live.', c: 'brand' },
-  { n: '03', t: 'Clear pricing.', b: 'Published plans with defined inclusions. No surprise bills.', c: 'print' },
-  { n: '04', t: 'Local and fast.', b: 'Accra-based engineers, on-site when you need us, WhatsApp when you don’t.', c: 'leaf' },
+  { n: '01', t: 'One partner, not five.', b: 'IT, software, brand and print through one account manager.', c: 'tech', img: 'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=900&q=80&fit=crop' },
+  { n: '02', t: 'Security built in.', b: 'Every system we build is tested against attacks before it goes live.', c: 'brand', img: 'https://images.unsplash.com/photo-1563986768609-322da13575f3?w=900&q=80&fit=crop' },
+  { n: '03', t: 'Clear pricing.', b: 'Published plans with defined inclusions. No surprise bills.', c: 'print', img: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?w=900&q=80&fit=crop' },
+  { n: '04', t: 'Local and fast.', b: 'Accra-based engineers, on-site when you need us, WhatsApp when you don’t.', c: 'leaf', img: 'https://images.unsplash.com/photo-1521737711867-e3b97375f902?w=900&q=80&fit=crop' },
 ];
 const suppliers = [
   { t: 'IT support vendor', x: 12, y: 22, r: -8 },
@@ -137,7 +137,7 @@ const heroImg = imgAttrs(site.heroImage, { widths: heroWidths, sizes: '100vw', q
       <div class="why__stack" data-stack>
         {why.map((w, i) => (
           <article class="why__card" data-stack-card style={`--c: var(--${w.c}); top: ${110 + i * 22}px`}>
-            <div class="why__art" aria-hidden="true">{Array.from({ length: 12 }).map(() => <i></i>)}</div>
+            <div class="why__art" aria-hidden="true"><img src={w.img} alt="" loading="lazy" /></div>
             <span class="mono">{w.n} / 04</span>
             <h3 class="h3">{w.t}</h3>
             <p>{w.b}</p>
@@ -428,11 +428,9 @@ const heroImg = imgAttrs(site.heroImage, { widths: heroWidths, sizes: '100vw', q
   .why__card .mono { position: absolute; top: 28px; left: clamp(28px, 3vw, 44px); color: var(--muted); }
   .why__card h3 { font-size: var(--step-2); max-width: 12ch; }
   .why__card p { max-width: 40ch; font-size: var(--step-1); line-height: 1.35; color: var(--ink-2); }
-  .why__art { position: absolute; right: 0; top: 0; width: 46%; height: 100%; display: grid; grid-template-columns: repeat(4, 1fr); grid-template-rows: repeat(3, 1fr); }
-  .why__art i { background: var(--c); }
-  .why__art i:nth-child(3n) { background: repeating-linear-gradient(90deg, var(--c) 0 6px, transparent 6px 12px); }
-  .why__art i:nth-child(4n+1) { background: transparent; }
-  .why__art i:nth-child(5n+2) { background: var(--ink); }
+  .why__art { position: absolute; right: 0; top: 0; width: 46%; height: 100%; overflow: hidden; }
+  .why__art img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.9s var(--ease); filter: brightness(0.85); }
+  .why__card:hover .why__art img { transform: scale(1.04); }
   @media (max-width: 900px) { .why__art { width: 100%; height: 150px; } .why__card { min-height: 400px; padding-right: clamp(28px, 3vw, 44px); padding-top: 190px; } .why__card .mono { background: var(--paper); padding: 4px 8px; z-index: 1; } }
 
   /* gems */

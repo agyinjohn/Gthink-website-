@@ -29,7 +29,7 @@ const titleHtml = s.headline;
     <!-- outcome band -->
     <section class="band" aria-label="Outcome">
       <div class="band__weave" aria-hidden="true">
-        {Array.from({ length: 24 }).map((_, k) => <i style={`--k:${k}`}></i>)}
+        <img src={s.bandImg} alt="" loading="lazy" />
       </div>
       <div class="wrap band__in">
         <span class="mono">The outcome</span>
@@ -153,8 +153,8 @@ const titleHtml = s.headline;
 <style>
   :global(.phead__title .serif) { color: var(--ct) !important; }
   .band { position: relative; overflow: hidden; background: var(--c); color: var(--on); }
-  .band__weave { position: absolute; inset: 0; display: grid; grid-template-columns: repeat(24, 1fr); opacity: 0.2; }
-  .band__weave i { background: repeating-linear-gradient(0deg, currentColor 0 6px, transparent 6px 14px); transform: translateY(calc(var(--k) % 2 * 7px)); }
+  .band__weave { position: absolute; inset: 0; opacity: 0.18; }
+  .band__weave img { width: 100%; height: 100%; object-fit: cover; display: block; }
   .band__in { position: relative; padding-block: clamp(56px, 8vw, 110px); display: grid; gap: 22px; }
   .band__text { font-family: var(--f-serif); font-size: var(--step-4); line-height: 1; letter-spacing: -0.02em; max-width: 18ch; }
 
