@@ -40,7 +40,6 @@ const heroImg = imgAttrs(site.heroImage, { widths: heroWidths, sizes: '100vw', q
     </div>
 
     <div class="wrap hero__top" data-hero-content>
-      <p class="eyebrow hero__eyebrow" data-reveal="hero">IT · Software · Security · Brand · Print</p>
       <h1 class="hero__title display" data-split="hero">
         One partner for your technology, <span class="serif">brand</span> and <span class="serif t-print-dark">print.</span>
       </h1>
@@ -329,8 +328,6 @@ const heroImg = imgAttrs(site.heroImage, { widths: heroWidths, sizes: '100vw', q
       linear-gradient(90deg, rgba(7, 47, 67, 0.88) 0%, rgba(10, 69, 97, 0.55) 55%, rgba(10, 127, 174, 0.2) 100%);
   }
   .hero__top { position: relative; }
-  .hero__eyebrow { margin-bottom: clamp(18px, 2.4vw, 28px); }
-  .hero .eyebrow::before { background: linear-gradient(90deg, var(--brand) 0 50%, var(--print) 0); }
   .hero__title { max-width: 12.6ch; color: var(--paper); font-size: clamp(2.5rem, 1.3rem + 5vw, 7rem); }
   .hero__title .serif { color: var(--print); padding-right: 0.04em; }
   .hero__title .t-print-dark { color: var(--paper); }
