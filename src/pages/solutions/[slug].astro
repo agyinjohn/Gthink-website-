@@ -6,6 +6,7 @@ import T from '../../components/T.astro';
 import Faq from '../../components/Faq.astro';
 import EnquiryForm from '../../components/EnquiryForm.astro';
 import { solutions, type Solution } from '../../data/solutions';
+import { imgAttrs } from '../../lib/img';
 
 export function getStaticPaths() {
   return solutions.map((s, i) => ({ params: { slug: s.slug }, props: { s, i } }));
@@ -28,12 +29,12 @@ const titleHtml = s.headline;
 
     <!-- outcome band -->
     <section class="band" aria-label="Outcome">
-      <div class="band__weave" aria-hidden="true">
-        <img src={s.bandImg} alt="" loading="lazy" />
-      </div>
-      <div class="wrap band__in">
+      <div class="band__copy">
         <span class="mono">The outcome</span>
         <p class="band__text" data-split>{s.outcome}</p>
+      </div>
+      <div class="band__media" aria-hidden="true">
+        <img {...imgAttrs(s.bandImg, { widths: [600, 900, 1200, 1600], sizes: '(max-width: 900px) 100vw, 50vw' })} alt="" loading="lazy" decoding="async" data-parallax="0.06" />
       </div>
     </section>
 
@@ -47,11 +48,14 @@ const titleHtml = s.headline;
         <div class="grid-3" data-stagger>
           {s.pains.map((p, k) => (
             <article class="pain">
-              <img class="pain__img" src={p.img} alt="" aria-hidden="true" />
-              <div class="pain__overlay"></div>
-              <span class="pain__n">0{k + 1}</span>
-              <h3 class="h3">{p.title}</h3>
-              <p class="muted">{p.body}</p>
+              <div class="pain__media">
+                <img class="pain__img" {...imgAttrs(p.img, { widths: [400, 700, 1000], sizes: '(max-width: 900px) 100vw, 33vw' })} alt="" aria-hidden="true" loading="lazy" decoding="async" />
+                <span class="mono pain__n">0{k + 1}</span>
+              </div>
+              <div class="pain__body">
+                <h3 class="pain__t">{p.title}</h3>
+                <p class="muted">{p.body}</p>
+              </div>
             </article>
           ))}
         </div>
@@ -154,19 +158,28 @@ const titleHtml = s.headline;
 
 <style>
   :global(.phead__title .serif) { color: var(--ct) !important; }
-  .band { position: relative; overflow: hidden; background: var(--c); color: var(--on); }
-  .band__weave { position: absolute; inset: 0; opacity: 0.18; }
-  .band__weave img { width: 100%; height: 100%; object-fit: cover; display: block; }
-  .band__in { position: relative; padding-block: clamp(56px, 8vw, 110px); display: grid; gap: 22px; }
-  .band__text { font-family: var(--f-serif); font-size: var(--step-4); line-height: 1; letter-spacing: -0.02em; max-width: 18ch; }
+  .band { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); min-height: clamp(360px, 42vw, 560px); background: var(--c); color: var(--on); }
+  .band__copy {
+    display: grid; gap: 22px; align-content: center;
+    padding: clamp(48px, 7vw, 100px) clamp(24px, 5vw, 72px) clamp(48px, 7vw, 100px) max(var(--gutter), calc((100vw - var(--max)) / 2 + var(--gutter)));
+  }
+  .band__text { font-family: var(--f-serif); font-size: var(--step-3); line-height: 1.05; letter-spacing: -0.02em; max-width: 18ch; }
+  .band__media { position: relative; overflow: hidden; background: var(--ink); }
+  .band__media img { position: absolute; inset: -8% 0; width: 100%; height: 116%; object-fit: cover; display: block; }
+  @media (max-width: 900px) {
+    .band { grid-template-columns: 1fr; min-height: 0; }
+    .band__copy { padding: 48px var(--gutter); }
+    .band__media { height: clamp(220px, 56vw, 380px); }
+  }
 
-  .pain { padding: 28px; border-radius: 6px; background: var(--paper-2); min-height: 320px; display: flex; flex-direction: column; gap: 14px; justify-content: flex-end; position: relative; overflow: hidden; }
-  .pain__img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; display: block; z-index: 0; filter: brightness(0.55); transition: transform 0.9s var(--ease), filter 0.9s; }
-  .pain:hover .pain__img { transform: scale(1.06); filter: brightness(0.7); }
-  .pain__overlay { position: absolute; inset: 0; z-index: 1; background: linear-gradient(to top, rgba(7,47,67,0.75) 40%, rgba(7,47,67,0.3) 100%); transition: opacity 0.9s; }
-  .pain:hover .pain__overlay { opacity: 0.6; }
-  .pain__n { position: relative; z-index: 2; font-size: 7rem; font-weight: 700; letter-spacing: -0.06em; line-height: 1; color: transparent; -webkit-text-stroke: 1.5px var(--ct); font-variation-settings: 'opsz' 96, 'wdth' 75; align-self: flex-start; }
-  .pain h3, .pain p { position: relative; z-index: 2; }
+  .pain { display: flex; flex-direction: column; border-radius: 6px; overflow: hidden; background: var(--paper-2); }
+  .pain__media { position: relative; aspect-ratio: 4 / 3; overflow: hidden; background: var(--ink); }
+  .pain__img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform 0.9s var(--ease); }
+  .pain:hover .pain__img { transform: scale(1.05); }
+  .pain__media::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 4px; background: var(--c); }
+  .pain__n { position: absolute; left: 14px; top: 14px; padding: 5px 9px; background: var(--paper); color: var(--ink); font-size: 0.66rem; }
+  .pain__body { display: grid; gap: 10px; align-content: start; padding: 24px 24px 28px; }
+  .pain__t { font-size: var(--step-1); letter-spacing: -0.02em; line-height: 1.15; }
 
   .deliver__h { margin: 22px 0 32px; }
   .deliver__h .serif, .faq__h .serif { color: var(--c); }
@@ -188,10 +201,10 @@ const titleHtml = s.headline;
 
   .proof2 { display: grid; grid-template-columns: 1fr 1.3fr; gap: clamp(32px, 6vw, 96px); align-items: end; }
   .proof2__case { display: grid; gap: 24px; justify-items: start; }
-  .proof2__res { font-size: var(--step-3); letter-spacing: -0.04em; line-height: 1; }
+  .proof2__res { font-size: var(--step-2); letter-spacing: -0.03em; line-height: 1.1; }
   .proof2__res .ph, .proof2__quote .ph { white-space: normal; }
   .proof2__quote { margin: 0; padding-left: 32px; border-left: 3px solid var(--c); }
-  .proof2__quote p { font-size: var(--step-3); line-height: 1.05; margin-bottom: 24px; }
+  .proof2__quote p { font-size: var(--step-2); line-height: 1.15; margin-bottom: 20px; }
   @media (max-width: 900px) { .proof2, .gems-mini__in { grid-template-columns: 1fr; } }
 
   .next { display: block; background: var(--paper-2); color: var(--ink); overflow: hidden; box-shadow: inset 0 6px 0 var(--c); }
