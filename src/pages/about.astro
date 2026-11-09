@@ -3,45 +3,39 @@ import Layout from '../layouts/Layout.astro';
 import PageHead from '../components/PageHead.astro';
 import CTA from '../components/CTA.astro';
 import Arrow from '../components/Arrow.astro';
-import Icon from '../components/Icon.astro';
 import Ph from '../components/Ph.astro';
 import Pattern from '../components/Pattern.astro';
 import { site } from '../data/site';
 const values = [
-  { icon: 'check', t: 'Reliability', b: 'We do what we promise.' },
-  { icon: 'shield', t: 'Security', b: 'Protection is built in, not added later.' },
-  { icon: 'tag', t: 'Clarity', b: 'Plain advice and honest pricing.' },
-  { icon: 'one', t: 'Ownership', b: 'We treat your systems like our own.' },
+  { t: 'Reliability', b: 'We do what we promise.', c: 'print' },
+  { t: 'Security', b: 'Protection is built in, not added later.', c: 'brand' },
+  { t: 'Clarity', b: 'Plain advice and honest pricing.', c: 'print' },
+  { t: 'Ownership', b: 'We treat your systems like our own.', c: 'leaf' },
 ];
 const sinceTitle = site.foundedYear
   ? `Helping Ghanaian businesses work smarter <span class="serif">since ${site.foundedYear}.</span>`
   : 'Helping Ghanaian businesses work smarter <span class="serif">since <span class="ph">[year]</span>.</span>';
-const milestones = [['[Year]', 'Founded in Accra'], ['[Year]', '[Milestone]'], ['[Year]', '[Milestone]'], ['[Year]', '[Milestone]']];
 ---
 <Layout title="About GTHINK | IT Company in Accra, Ghana" description="GTHINK Company Limited: developers, engineers and designers in Accra helping Ghanaian businesses with technology, brand and print.">
-  <PageHead label="About" title={sinceTitle} lede="GTHINK Company Limited started with a simple idea: businesses should not need five suppliers to keep their technology, brand and print running." />
+  <PageHead index="06 / About" label="Our story" title={sinceTitle}>
+  </PageHead>
 
-  <!-- story -->
-  <section class="section">
+  <section class="section--tight">
     <div class="wrap split">
+      <div class="sticky"><p class="eyebrow" data-reveal>Our story</p></div>
       <div class="story">
-        <p class="eyebrow" data-reveal>Our story</p>
-        <h2 class="h2" data-split>One local team for <span class="serif">the whole job.</span></h2>
-        <p class="lede" data-reveal>Today our team of developers, engineers and designers in Accra supports <Ph value={site.clientsSupported} label="XXX" /> organisations across Ghana.</p>
+        <p class="story__lead" data-split>GTHINK Company Limited started with a simple idea: businesses should not need five suppliers to keep their technology, brand and print running.</p>
+        <p class="lede muted" data-reveal>Today our team of developers, engineers and designers in Accra supports <Ph value={site.clientsSupported} label="XXX" /> organisations across Ghana.</p>
+        <ol class="tl" data-stagger>
+          {['[Year] · Founded in Accra', '[Year] · [Milestone]', '[Year] · [Milestone]', '[Year] · [Milestone]'].map((m, i) => {
+            const [y, t] = m.split(' · ');
+            return <li><span class="tl__y"><span class="ph">{y}</span></span><span class="tl__t">{t.startsWith('[') ? <span class="ph">{t}</span> : t}</span></li>;
+          })}
+        </ol>
       </div>
-      <ol class="tl" data-stagger>
-        {milestones.map(([y, t]) => (
-          <li>
-            <span class="tl__dot" aria-hidden="true"></span>
-            <span class="tl__y"><span class="ph">{y}</span></span>
-            <span class="tl__t">{t.startsWith('[') ? <span class="ph">{t}</span> : t}</span>
-          </li>
-        ))}
-      </ol>
     </div>
   </section>
 
-  <!-- mission and values -->
   <section class="section dark">
     <div class="wrap">
       <div class="sec-head">
@@ -49,88 +43,79 @@ const milestones = [['[Year]', 'Founded in Accra'], ['[Year]', '[Milestone]'], [
         <h2 class="h2 mission" data-split>To give growing businesses dependable, secure technology and a professional brand, <span class="serif">delivered by one trusted local partner.</span></h2>
       </div>
       <div class="vals" data-stagger>
-        {values.map((v) => (
-          <div class="val">
-            <span class="val__icon"><Icon name={v.icon} /></span>
-            <h3 class="val__t">{v.t}</h3>
-            <p>{v.b}</p>
+        {values.map((v, i) => (
+          <div class="val" style={`--c: var(--${v.c})`}>
+            <span class="val__l" aria-hidden="true">{v.t[0]}</span>
+            <span class="mono muted">0{i + 1}</span>
+            <h3 class="h3">{v.t}</h3>
+            <p class="muted">{v.b}</p>
           </div>
         ))}
       </div>
     </div>
   </section>
 
-  <!-- leadership -->
   <section class="section" id="leadership">
     <div class="wrap">
       <div class="sec-head">
         <p class="eyebrow" data-reveal>Leadership</p>
         <h2 class="h2" data-split>The people <span class="serif">accountable.</span></h2>
       </div>
-      <div class="ceo" data-reveal>
-        <Pattern seed={1} label="CEO photo" class="ceo__img" />
-        <div class="ceo__q">
-          <span class="ceo__qi"><Icon name="quote" /></span>
-          <blockquote>“<span class="ph">[CEO message, 3 to 4 sentences]</span>”</blockquote>
-          <p><b>{site.ceo.name}</b><br /><span class="muted">{site.ceo.role}</span></p>
-        </div>
+      <div class="ceo">
+        <Pattern seed={11} label="CEO photo" class="ceo__img" />
+        <blockquote class="ceo__q">
+          <p class="serif" data-reveal>“<span class="ph">[CEO message, 3 to 4 sentences]</span>”</p>
+          <footer data-reveal><b>{site.ceo.name}</b><span class="mono muted">{site.ceo.role}</span></footer>
+        </blockquote>
       </div>
       <div class="team" data-stagger>
         {[1, 2, 3, 4].map((n) => (
           <article class="person">
-            <Pattern seed={n} label="Photo" class="person__img" />
-            <div class="person__body">
-              <h3 class="person__n"><span class="ph">[Name]</span></h3>
-              <p class="muted"><span class="ph">[Role]</span></p>
-              <p><span class="ph">[Short bio]</span></p>
-              <span class="ph">[LinkedIn]</span>
-            </div>
+            <Pattern seed={n * 5} label="Photo" class="person__img" />
+            <h3 class="person__n"><span class="ph">[Name]</span></h3>
+            <p class="mono muted"><span class="ph">[Role]</span></p>
+            <p class="muted"><span class="ph">[Short bio]</span></p>
+            <span class="mono"><span class="ph">[LinkedIn]</span></span>
           </article>
         ))}
       </div>
     </div>
   </section>
 
-  <!-- awards -->
   <section class="section sand" id="awards">
     <div class="wrap split">
-      <div class="sec-head">
+      <div>
         <p class="eyebrow" data-reveal>Awards, certifications and partners</p>
-        <h2 class="h2" data-split>Recognition we <span class="serif">actually hold.</span></h2>
-        <p class="lede" data-reveal>We publish only what is held and can be verified.</p>
+        <h2 class="h2 aw__h" data-split>Recognition we <span class="serif">actually hold.</span></h2>
       </div>
       <ul class="aw" data-stagger>
-        {['[Award, e.g. GITTA]', '[Certification, e.g. ISO 27001, if pursued]', '[Vendor partnership]', '[Vendor partnership]'].map((a) => (
-          <li><span class="aw__badge" aria-hidden="true"><Icon name="check" /></span><span class="ph">{a}</span><span class="ph">[Year]</span></li>
+        {['[Award, e.g. GITTA]', '[Certification, e.g. ISO 27001, if pursued]', '[Vendor partnership]', '[Vendor partnership]'].map((a, i) => (
+          <li><span class="mono muted">0{i + 1}</span><span class="ph">{a}</span><span class="mono muted"><span class="ph">[Year]</span></span></li>
         ))}
       </ul>
     </div>
   </section>
 
-  <!-- careers -->
-  <section class="section--tight" id="careers">
-    <div class="wrap">
-      <div class="careers" data-reveal>
-        <div>
-          <p class="eyebrow">Careers</p>
-          <h2 class="h2">Grow your career <span class="serif">with us.</span></h2>
-          <p class="careers__body">We hire curious developers, engineers, designers and support specialists. <span class="ph">[Open roles, internship and national service details]</span></p>
-        </div>
-        <a href="/contact#enquiry" class="btn">View Open Roles <Arrow /></a>
+  <section class="section dark" id="careers">
+    <div class="wrap careers">
+      <p class="eyebrow" data-reveal>Careers</p>
+      <h2 class="careers__h" data-split>Grow your career <span class="serif">with us.</span></h2>
+      <div class="careers__row">
+        <p class="lede" data-reveal>We hire curious developers, engineers, designers and support specialists. <span class="ph">[Open roles, internship and national service details]</span></p>
+        <a href="/contact#enquiry" class="btn" data-magnetic data-reveal>View Open Roles <Arrow /></a>
       </div>
     </div>
   </section>
 
-  <!-- gallery -->
   <section class="section" id="gallery">
     <div class="wrap">
       <div class="sec-head">
         <p class="eyebrow" data-reveal>Gallery</p>
-        <h2 class="h2" data-split>Team, office, events <span class="serif">and projects.</span></h2>
+        <h2 class="h2" data-split>Team, office, <span class="serif">events and projects.</span></h2>
       </div>
-      <div class="gal" data-stagger>
-        {['Team', 'Office', 'Event', 'Project', 'Team', 'Office'].map((l, n) => (
-          <div class={`gal__i gal__i--${n}`}><Pattern seed={n} label={`${l} photo`} /></div>
+      <div class="gal">
+        {[0, 1, 2, 3, 4, 5].map((n) => (
+          <div class={`gal__i gal__i--${n}`}><div class="gal__p" data-parallax="0.08"><Pattern seed={n * 3 + 20} dense label={['Team', 'Office', 'Event', 'Project', 'Team', 'Office'][n] + ' photo'} /></div></div>
         ))}
       </div>
     </div>
@@ -139,61 +124,52 @@ const milestones = [['[Year]', 'Founded in Accra'], ['[Year]', '[Milestone]'], [
   <CTA />
 </Layout>
 <style>
-  .story { display: grid; gap: 18px; align-content: start; }
-  .tl { list-style: none; margin: 0; padding: 0; position: relative; }
-  .tl::before { content: ''; position: absolute; left: 7px; top: 12px; bottom: 12px; width: 2px; background: var(--line-strong); }
-  .tl li { position: relative; display: grid; grid-template-columns: 16px 110px 1fr; gap: 18px; align-items: center; padding: 18px 0; font-size: var(--step-1); }
-  .tl__dot { width: 16px; height: 16px; border-radius: 50%; background: var(--blue); box-shadow: 0 0 0 4px var(--bg); position: relative; }
-  .tl__y { font-family: var(--f-display); font-weight: 700; color: var(--navy); }
-
-  .mission { max-width: 30ch !important; font-size: var(--step-2) !important; line-height: 1.25; }
+  .story { display: grid; gap: 32px; }
+  .story__lead { font-size: var(--step-3); letter-spacing: -0.035em; line-height: 1.02; font-weight: 520; font-variation-settings: 'opsz' 96, 'wdth' 88; }
+  .tl { list-style: none; margin: 16px 0 0; padding: 0; border-top: 1px solid var(--line); }
+  .tl li { display: grid; grid-template-columns: 140px 1fr; gap: 16px; padding: 18px 0; border-bottom: 1px solid var(--line); font-size: var(--step-1); }
+  .mission { max-width: 22ch !important; font-size: var(--step-2) !important; line-height: 1.05; }
+  .mission .serif { color: var(--print); }
   .vals { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
-  .val { display: grid; gap: 10px; align-content: start; padding: 28px; border-radius: 12px; background: rgba(255,255,255,0.05); border: 1px solid var(--line); }
-  .val__icon { width: 48px; height: 48px; border-radius: 10px; background: var(--blue); color: #fff; display: grid; place-items: center; margin-bottom: 6px; }
-  .val__icon :global(svg) { width: 24px; }
-  .val__t { font-size: var(--step-1); }
-  .val p { color: #c4d7e2; }
-
-  .ceo { display: grid; grid-template-columns: 1fr 1.6fr; gap: clamp(24px, 4vw, 56px); align-items: center; padding: clamp(20px, 3vw, 32px); border-radius: 16px; background: var(--surface); border: 1px solid var(--line); margin-bottom: 24px; }
+  .val { position: relative; overflow: hidden; min-height: 300px; padding: 24px; border-radius: 6px; background: #0b3a52; display: flex; flex-direction: column; justify-content: flex-end; gap: 10px; }
+  .val .mono { position: absolute; top: 20px; left: 24px; }
+  .val__l { position: absolute; right: -8px; top: -30px; font-size: 13rem; font-weight: 700; line-height: 1; color: var(--c); letter-spacing: -0.06em; font-variation-settings: 'opsz' 96, 'wdth' 75; transition: transform 0.9s var(--ease); }
+  .val:hover .val__l { transform: translateY(14px) rotate(-6deg); }
+  .ceo { display: grid; grid-template-columns: 1fr 1.5fr; gap: clamp(28px, 5vw, 80px); align-items: end; margin-bottom: 72px; }
   .ceo :global(.ceo__img) { aspect-ratio: 4 / 5; }
-  .ceo__q { display: grid; gap: 18px; }
-  .ceo__qi { width: 44px; height: 44px; border-radius: 50%; background: var(--blue); color: #fff; display: grid; place-items: center; }
-  .ceo__qi :global(svg) { width: 20px; }
-  .ceo__q blockquote { margin: 0; font-family: var(--f-display); font-size: var(--step-2); font-weight: 600; line-height: 1.3; color: var(--navy); }
-  .ceo__q b { color: var(--navy); font-family: var(--f-display); }
+  .ceo__q { margin: 0; }
+  .ceo__q p { font-size: var(--step-3); line-height: 1.05; margin-bottom: 28px; }
+  .ceo__q .ph { white-space: normal; }
+  .ceo__q footer { display: grid; gap: 4px; }
   .team { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
-  .person { border-radius: 12px; overflow: hidden; background: var(--surface); border: 1px solid var(--line); }
-  .person :global(.person__img) { aspect-ratio: 4 / 4; border-radius: 0; }
-  .person__body { display: grid; gap: 4px; padding: 18px; }
+  .person { display: grid; gap: 8px; }
+  .person :global(.person__img) { aspect-ratio: 4 / 5; margin-bottom: 10px; }
   .person__n { font-size: var(--step-1); }
-
-  .aw { display: grid; gap: 10px; }
-  .aw li { display: grid; grid-template-columns: 36px 1fr auto; gap: 14px; align-items: center; padding: 18px; border-radius: 10px; background: var(--surface); font-size: var(--step-1); }
-  .aw__badge { width: 36px; height: 36px; border-radius: 8px; background: var(--surface-2); color: var(--blue); display: grid; place-items: center; }
-  .aw__badge :global(svg) { width: 20px; }
-
-  .careers { display: flex; justify-content: space-between; align-items: flex-end; gap: 28px; flex-wrap: wrap; padding: clamp(28px, 5vw, 56px); border-radius: 16px; background: var(--blue); color: #fff; }
-  .careers .eyebrow { color: #fff; }
-  .careers .h2 { margin: 12px 0; }
-  .careers .serif { color: #fff; opacity: 0.85; }
-  .careers__body { color: #dcecf4; max-width: 56ch; }
-  .careers .ph { color: #dcecf4; }
-  .careers .btn { background: #fff; color: var(--navy); }
-  .careers .btn:hover { background: var(--navy); color: #fff; }
-
-  .gal { display: grid; grid-template-columns: repeat(12, 1fr); grid-auto-rows: 110px; gap: 14px; }
-  .gal__i :global(.pattern) { height: 100%; }
-  .gal__i--0 { grid-column: span 5; grid-row: span 3; }
-  .gal__i--1 { grid-column: span 4; grid-row: span 2; }
-  .gal__i--2 { grid-column: span 3; grid-row: span 3; }
-  .gal__i--3 { grid-column: span 4; grid-row: span 1; }
-  .gal__i--4 { grid-column: span 6; grid-row: span 2; }
-  .gal__i--5 { grid-column: span 6; grid-row: span 2; }
+  .aw__h { margin-top: 22px; }
+  .aw__h .serif { color: var(--brand); }
+  .aw li { display: grid; grid-template-columns: 50px 1fr auto; gap: 16px; padding: 22px 0; border-top: 1px solid var(--line); font-size: var(--step-1); }
+  .aw li:last-child { border-bottom: 1px solid var(--line); }
+  .aw .ph { white-space: normal; }
+  .careers__h { font-size: var(--step-5); margin: 24px 0 40px; max-width: 12ch; }
+  .careers__h .serif { color: var(--print); }
+  .careers__row { display: flex; justify-content: space-between; align-items: flex-end; gap: 28px; flex-wrap: wrap; }
+  .careers__row .ph { white-space: normal; }
+  .gal { display: grid; grid-template-columns: repeat(12, 1fr); grid-auto-rows: 90px; gap: 14px; }
+  .gal__i { overflow: hidden; border-radius: 6px; }
+  .gal__p { height: 120%; margin-top: -10%; }
+  .gal__p :global(.pattern) { height: 100%; }
+  .gal__i--0 { grid-column: 1 / 6; grid-row: span 4; }
+  .gal__i--1 { grid-column: 6 / 10; grid-row: span 3; }
+  .gal__i--2 { grid-column: 10 / 13; grid-row: span 5; }
+  .gal__i--3 { grid-column: 1 / 4; grid-row: span 3; }
+  .gal__i--4 { grid-column: 4 / 10; grid-row: span 4; }
+  .gal__i--5 { grid-column: 10 / 13; grid-row: span 2; }
   @media (max-width: 900px) {
     .vals, .team { grid-template-columns: 1fr 1fr; }
     .ceo { grid-template-columns: 1fr; }
-    .gal { grid-template-columns: 1fr 1fr; grid-auto-rows: 150px; }
-    .gal__i { grid-column: span 1 !important; grid-row: span 1 !important; }
+    .gal { grid-template-columns: 1fr 1fr; grid-auto-rows: 160px; }
+    .gal__i { grid-column: auto !important; grid-row: span 1 !important; }
+    .gal__i--0, .gal__i--4 { grid-column: 1 / -1 !important; grid-row: span 2 !important; }
   }
-  @media (max-width: 520px) { .vals, .team { grid-template-columns: 1fr; } .tl li { grid-template-columns: 16px 80px 1fr; } }
+  @media (max-width: 520px) { .vals, .team { grid-template-columns: 1fr; } .tl li { grid-template-columns: 90px 1fr; } }
 </style>

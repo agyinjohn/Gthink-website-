@@ -2,54 +2,42 @@
 import Layout from '../layouts/Layout.astro';
 import PageHead from '../components/PageHead.astro';
 import Arrow from '../components/Arrow.astro';
-import Icon from '../components/Icon.astro';
+import Pattern from '../components/Pattern.astro';
 import { whatsappHref } from '../data/site';
-const cats = [
-  { t: 'Laptops', icon: 'laptops' }, { t: 'Desktops', icon: 'desktops' }, { t: 'Printers and Ink', icon: 'printers' },
-  { t: 'Networking', icon: 'networking' }, { t: 'Storage', icon: 'storage' }, { t: 'Accessories', icon: 'accessories' },
-];
-const products = cats.flatMap((c) => [0, 1].map(() => c));
-const assurance = [
-  { icon: 'check', t: 'Genuine products', b: 'From authorised suppliers.' },
-  { icon: 'shield', t: 'Warranty', b: '[Warranty terms]' },
-  { icon: 'pin', t: 'Delivery', b: '[Delivery areas]' },
-  { icon: 'tag', t: 'Mobile Money accepted', b: 'Plus bank transfer.' },
-];
+const cats = ['Laptops', 'Desktops', 'Printers and Ink', 'Networking', 'Storage', 'Accessories'];
+const products = cats.flatMap((c, i) => [0, 1].map((k) => ({ cat: c, seed: i * 2 + k + 30 })));
 ---
 <Layout title="Shop: Genuine Laptops, Printers and Accessories in Accra | GTHINK" description="Genuine computers, printers, networking and accessories, delivered and set up by the GTHINK team.">
-  <PageHead label="Shop" title='Genuine computers and accessories, <span class="serif">set up by experts.</span>' lede="Buy from a team that can install, configure and support what you buy.">
-    <a href="#corporate" class="btn btn--ghost">Corporate orders <Arrow /></a>
+  <PageHead index="07 / Shop" label="Shop" title='Genuine computers and accessories, <span class="serif">set up by experts.</span>' lede="Buy from a team that can install, configure and support what you buy.">
+    <a href="#corporate" class="btn btn--ghost" data-magnetic data-reveal="hero">Corporate orders <Arrow /></a>
   </PageHead>
 
-  <section class="wrap assure-wrap">
-    <ul class="assure" data-stagger>
-      {assurance.map((a) => (
-        <li>
-          <span class="assure__icon"><Icon name={a.icon} /></span>
-          <span><b>{a.t}</b><br />{a.b.startsWith('[') ? <span class="ph">{a.b}</span> : <span class="muted">{a.b}</span>}</span>
-        </li>
-      ))}
-    </ul>
+  <section class="assure">
+    <div class="marquee" data-marquee data-speed="40">
+      <div class="marquee__track">
+        {['Genuine products', 'Warranty [terms]', 'Delivery [areas]', 'Mobile Money accepted', 'Set up by our engineers'].map((x) => (
+          <span class="assure__i mono">✦ {x}</span>
+        ))}
+      </div>
+    </div>
   </section>
 
   <section class="section--tight">
     <div class="wrap">
-      <div class="cats" role="group" aria-label="Categories" data-filters data-reveal>
-        <button class="filter on" data-filter="All" aria-pressed="true">All</button>
-        {cats.map((c) => <button class="filter" data-filter={c.t} aria-pressed="false">{c.t}</button>)}
+      <div class="cats" role="group" aria-label="Categories" data-reveal>
+        <button class="cat on" data-cat="All">All</button>
+        {cats.map((c) => <button class="cat" data-cat={c}>{c}</button>)}
       </div>
       <div class="prods" data-stagger>
         {products.map((p) => (
-          <article class="prod" data-filter-item={p.t}>
-            <div class="prod__img"><Icon name={p.icon} /><span>{p.t}</span></div>
-            <div class="prod__body">
-              <h2 class="prod__n"><span class="ph">[Product name]</span></h2>
-              <p class="muted"><span class="ph">[Key specs]</span></p>
-              <p class="prod__price">GHS <span class="ph">[Price]</span></p>
-              <div class="prod__btns">
-                <a href={whatsappHref(`Hello GTHINK, I would like to order: ${p.t}`)} class="btn btn--sm btn--wa">Order on WhatsApp</a>
-                <a href="/contact#enquiry" class="link">Request a Quote</a>
-              </div>
+          <article class="prod" data-pcat={p.cat}>
+            <div class="prod__img"><Pattern seed={p.seed} dense label={p.cat} /></div>
+            <h2 class="prod__n"><span class="ph">[Product name]</span></h2>
+            <p class="mono muted"><span class="ph">[Key specs]</span></p>
+            <p class="prod__price">GHS <span class="ph">[Price]</span></p>
+            <div class="prod__btns">
+              <a href={whatsappHref(`Hello GTHINK, I would like to order: ${p.cat}`)} class="btn btn--sm btn--wa">Order on WhatsApp</a>
+              <a href="/contact#enquiry" class="link">Request a Quote</a>
             </div>
           </article>
         ))}
@@ -57,48 +45,45 @@ const assurance = [
     </div>
   </section>
 
-  <section class="section--tight" id="corporate">
-    <div class="wrap">
-      <div class="corp" data-reveal>
-        <div>
-          <p class="eyebrow">Corporate orders</p>
-          <h2 class="h2">Equipping a whole office? <span class="serif">Ask for bulk pricing.</span></h2>
-        </div>
-        <div class="corp__copy">
-          <p>Bulk pricing and delivery for businesses, with setup, configuration and support by the same team.</p>
-          <a href="/contact#enquiry" class="btn">Request a Quote <Arrow /></a>
-        </div>
+  <section class="section dark" id="corporate">
+    <div class="wrap corp">
+      <div>
+        <p class="eyebrow" data-reveal>Corporate orders</p>
+        <h2 class="h2 corp__h" data-split>Equipping a whole office? <span class="serif">Ask for bulk pricing.</span></h2>
+      </div>
+      <div class="corp__copy">
+        <p class="lede" data-reveal>Bulk pricing and delivery for businesses, with setup, configuration and support by the same team.</p>
+        <a href="/contact#enquiry" class="btn" data-magnetic data-reveal>Request a Quote <Arrow /></a>
       </div>
     </div>
   </section>
 </Layout>
+<script>
+  const btns = document.querySelectorAll<HTMLButtonElement>('[data-cat]');
+  const items = document.querySelectorAll<HTMLElement>('[data-pcat]');
+  btns.forEach((b) => b.addEventListener('click', () => {
+    btns.forEach((x) => x.classList.toggle('on', x === b));
+    items.forEach((it) => (it.style.display = b.dataset.cat === 'All' || it.dataset.pcat === b.dataset.cat ? '' : 'none'));
+  }));
+</script>
 <style>
-  .assure-wrap { padding-top: clamp(28px, 4vw, 40px); }
-  .assure { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
-  .assure li { display: flex; gap: 12px; align-items: center; padding: 16px; border-radius: 10px; background: var(--surface); border: 1px solid var(--line); font-size: 0.92rem; line-height: 1.35; }
-  .assure b { color: var(--navy); }
-  .assure__icon { flex: none; width: 40px; height: 40px; border-radius: 8px; background: var(--surface-2); color: var(--blue); display: grid; place-items: center; }
-  .assure__icon :global(svg) { width: 20px; }
-  .cats { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 28px; }
-  .filter { padding: 9px 16px; border-radius: 8px; border: 1px solid var(--line-strong); background: var(--surface); font-size: 0.92rem; font-weight: 600; transition: background 0.2s, color 0.2s, border-color 0.2s; }
-  .filter.on, .filter:hover { background: var(--blue); border-color: var(--blue); color: #fff; }
-  .prods { display: grid; grid-template-columns: repeat(4, 1fr); gap: 20px; }
-  .prod { border-radius: 12px; overflow: hidden; background: var(--surface); border: 1px solid var(--line); display: flex; flex-direction: column; transition: border-color 0.25s; }
-  .prod:hover { border-color: var(--blue); }
-  .prod__img { aspect-ratio: 4 / 3; display: grid; place-items: center; align-content: center; gap: 8px; background: var(--surface-2); color: var(--blue); font-size: 0.8rem; font-weight: 600; }
-  .prod__img :global(svg) { width: 56px; height: 56px; transition: transform 0.4s var(--ease); }
-  .prod:hover .prod__img :global(svg) { transform: scale(1.08); }
-  .prod__body { display: grid; gap: 6px; padding: 18px; }
-  .prod__n { font-size: 1.05rem; }
-  .prod__price { font-family: var(--f-display); font-weight: 700; color: var(--navy); }
-  .prod__btns { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin-top: 8px; }
-  .corp { display: grid; grid-template-columns: 1.2fr 1fr; gap: 32px; align-items: end; padding: clamp(28px, 5vw, 56px); border-radius: 16px; background: var(--navy); color: #fff; }
-  .corp .eyebrow { color: var(--sky); }
-  .corp .h2 { margin-top: 12px; }
-  .corp .serif { color: var(--sky); }
-  .corp__copy { display: grid; gap: 20px; justify-items: start; color: #c4d7e2; }
-  .corp .btn { background: #fff; color: var(--navy); }
-  .corp .btn:hover { background: var(--sky); }
-  @media (max-width: 1000px) { .prods { grid-template-columns: repeat(2, 1fr); } .assure { grid-template-columns: 1fr 1fr; } .corp { grid-template-columns: 1fr; } }
-  @media (max-width: 560px) { .prods, .assure { grid-template-columns: 1fr; } }
+  .assure { border-block: 1px solid var(--line); padding-block: 18px; }
+  .assure__i { margin-right: 48px; font-size: 0.8rem; }
+  .cats { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 40px; }
+  .cat { padding: 10px 16px; border-radius: 999px; box-shadow: inset 0 0 0 1px var(--line-strong); font-size: 0.92rem; transition: background 0.3s, color 0.3s; }
+  .cat.on, .cat:hover { background: var(--ink); color: var(--paper); box-shadow: none; }
+  .prods { display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px 20px; }
+  .prod { display: grid; gap: 8px; align-content: start; }
+  .prod__img { aspect-ratio: 1; border-radius: 6px; overflow: hidden; margin-bottom: 10px; }
+  .prod__img :global(.pattern) { height: 100%; transition: transform 0.9s var(--ease); }
+  .prod:hover .prod__img :global(.pattern) { transform: scale(1.05); }
+  .prod__n { font-size: var(--step-1); letter-spacing: -0.02em; }
+  .prod__price { font-weight: 560; }
+  .prod__btns { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; margin-top: 6px; }
+  .corp { display: grid; grid-template-columns: 1.2fr 1fr; gap: 48px; align-items: end; }
+  .corp__h { margin-top: 22px; }
+  .corp__h .serif { color: var(--print); }
+  .corp__copy { display: grid; gap: 28px; justify-items: start; }
+  @media (max-width: 1000px) { .prods { grid-template-columns: repeat(2, 1fr); } .corp { grid-template-columns: 1fr; } }
+  @media (max-width: 560px) { .prods { grid-template-columns: 1fr; } }
 </style>

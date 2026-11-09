@@ -2,162 +2,170 @@
 import { site, nav } from '../data/site';
 import { solutions } from '../data/solutions';
 import Arrow from './Arrow.astro';
-import Icon from './Icon.astro';
 const path = Astro.url.pathname;
 const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWith(href));
 ---
 <header class="hdr" data-header>
   <div class="util">
     <div class="wrap util__in">
-      <span class="util__loc">Accra, Ghana · <span data-clock>--:--</span> GMT</span>
+      <span class="mono util__loc">Accra, Ghana · <span data-clock>--:--</span> GMT</span>
       <nav class="util__links" aria-label="Utility">
-        <a href="/support">Client Support</a>
-        <a href="/shop">Shop</a>
-        {site.phone ? <a href={`tel:${site.phone.replace(/\s/g, '')}`}>{site.phone}</a> : <span class="util__ph">[Phone]</span>}
+        <a href="/support" class="mono">Client Support</a>
+        <a href="/shop" class="mono">Shop</a>
+        {site.phone ? <a class="mono" href={`tel:${site.phone.replace(/\s/g, '')}`}>{site.phone}</a> : <span class="mono ph">[Phone]</span>}
       </nav>
     </div>
   </div>
 
-  <div class="bar-wrap">
-    <div class="wrap bar">
-      <a href="/" class="logo" aria-label="GTHINK Company Limited, home">
-        <img src="/logo.png" alt="GTHINK Company Limited" width="176" height="40" />
-      </a>
+  <div class="wrap bar">
+    <a href="/" class="logo" aria-label="GTHINK Company Limited, home">
+      <img src="/logo.png" alt="GTHINK Company Limited" width="176" height="40" />
+    </a>
 
-      <nav class="menu" aria-label="Main">
-        <ul>
-          {nav.map((n) => (
-            <li class={n.mega ? 'has-mega' : ''}>
-              <a href={n.href} class:list={['menu__a', { active: isActive(n.href) }]} aria-haspopup={n.mega ? 'true' : undefined}>
-                {n.label}
-                {n.mega && <svg class="chev" viewBox="0 0 12 12" aria-hidden="true"><path d="M3 4.5 6 7.5l3-3" fill="none" stroke="currentColor" stroke-width="1.6" /></svg>}
-              </a>
-              {n.mega && (
-                <div class="mega">
-                  <div class="mega__in">
-                    <ul class="mega__list">
-                      {solutions.map((s) => (
-                        <li>
-                          <a href={`/solutions/${s.slug}`}>
-                            <span class="mega__icon"><Icon name={s.slug} /></span>
-                            <span class="mega__name">{s.name}</span>
-                            <span class="mega__short">{s.short}</span>
-                          </a>
-                        </li>
-                      ))}
-                    </ul>
-                    <div class="mega__side">
-                      <p class="mega__lead">Not sure what you need?</p>
-                      <p class="mega__sub">Start with a free IT assessment. We review your systems and send a clear plan.</p>
-                      <a href="/contact#enquiry" class="btn btn--sm">Book an assessment <Arrow /></a>
-                      <a href="/solutions/managed-it/plans" class="link">Compare Managed IT plans <Arrow /></a>
-                    </div>
+    <nav class="menu" aria-label="Main">
+      <ul>
+        {nav.map((n) => (
+          <li class={n.mega ? 'has-mega' : ''}>
+            <a href={n.href} class:list={['menu__a', { active: isActive(n.href) }]} aria-haspopup={n.mega ? 'true' : undefined}>
+              <span data-text={n.label}>{n.label}</span>
+            </a>
+            {n.mega && (
+              <div class="mega">
+                <div class="mega__in">
+                  <div class="mega__intro">
+                    <p class="eyebrow">Solutions</p>
+                    <p class="mega__lead">Everything your business runs on, <span class="serif">handled by one team.</span></p>
+                    <a href="/solutions" class="link">All solutions <Arrow /></a>
                   </div>
+                  <ul class="mega__list">
+                    {solutions.map((s, i) => (
+                      <li>
+                        <a href={`/solutions/${s.slug}`} style={`--c: var(--${s.thread})`}>
+                          <span class="mono">0{i + 1}</span>
+                          <span class="mega__name">{s.name}</span>
+                          <span class="mega__short">{s.short}</span>
+                        </a>
+                      </li>
+                    ))}
+                    <li>
+                      <a href="/solutions/managed-it/plans" style="--c: var(--print)">
+                        <span class="mono">→</span>
+                        <span class="mega__name">Managed IT Plans</span>
+                        <span class="mega__short">Published plans with clear inclusions.</span>
+                      </a>
+                    </li>
+                  </ul>
                 </div>
-              )}
-            </li>
-          ))}
-        </ul>
-      </nav>
+              </div>
+            )}
+          </li>
+        ))}
+      </ul>
+    </nav>
 
-      <a href="/contact" class="btn btn--sm bar__cta">Get a Quote <Arrow /></a>
+    <a href="/contact" class="btn btn--sm bar__cta" data-magnetic>Get a Quote <Arrow /></a>
 
-      <button class="burger" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu" data-burger>
-        <span></span><span></span>
-      </button>
-    </div>
+    <button class="burger" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu" data-burger>
+      <span></span><span></span>
+    </button>
   </div>
 </header>
 
 <div class="mm" id="mobile-menu" data-mm aria-hidden="true">
-  <div class="mm__bg"></div>
+  <div class="mm__bg"><i></i><i></i><i></i></div>
   <div class="wrap mm__in">
     <ul class="mm__list">
-      <li><a href="/">Home</a></li>
-      {nav.map((n) => <li><a href={n.href}>{n.label}</a></li>)}
+      <li><a href="/"><span class="mono">00</span>Home</a></li>
+      {nav.map((n, i) => <li><a href={n.href}><span class="mono">0{i + 1}</span>{n.label}</a></li>)}
     </ul>
     <div class="mm__foot">
-      <a href="/support">Client Support</a>
-      <a href="/shop">Shop</a>
-      <a href="/solutions/managed-it/plans">Managed IT Plans</a>
+      <a href="/support" class="mono">Client Support</a>
+      <a href="/shop" class="mono">Shop</a>
+      <a href="/solutions/managed-it/plans" class="mono">Managed IT Plans</a>
       <a href="/contact" class="btn">Get a Quote <Arrow /></a>
     </div>
   </div>
 </div>
 
 <style>
-  .hdr { position: fixed; inset: 0 0 auto 0; z-index: 90; transition: transform 0.5s var(--ease); }
+  .hdr { position: fixed; inset: 0 0 auto 0; z-index: 90; transition: transform 0.7s var(--ease); }
   .hdr.is-hidden { transform: translateY(-100%); }
-
-  .util { background: var(--navy); color: #fff; font-size: 0.8rem; transition: margin 0.4s var(--ease); }
-  .hdr.is-scrolled .util { margin-top: -34px; }
-  .util__in { display: flex; justify-content: space-between; align-items: center; height: 34px; }
-  .util__loc { color: #a9c3d2; }
-  .util__links { display: flex; gap: 22px; }
-  .util__links a { opacity: 0.85; transition: opacity 0.2s; }
-  .util__links a:hover { opacity: 1; }
-  .util__ph { color: #a9c3d2; font-style: italic; }
-
-  .bar-wrap { background: var(--surface); border-bottom: 1px solid transparent; transition: border-color 0.3s, box-shadow 0.3s; }
-  .hdr.is-scrolled .bar-wrap { border-bottom-color: var(--line); box-shadow: 0 8px 24px -18px rgba(7, 47, 67, 0.4); }
-  .bar { display: flex; align-items: center; gap: 24px; height: 76px; }
-  .logo { margin-right: auto; display: block; }
-  .logo img { width: 176px; height: auto; }
-
-  .menu ul { display: flex; gap: 2px; }
-  .menu__a {
-    position: relative; display: inline-flex; align-items: center; gap: 4px;
-    padding: 10px 12px; border-radius: 6px;
-    font-family: var(--f-display); font-size: 0.9rem; font-weight: 600; color: var(--ink-2);
-    transition: color 0.2s, background 0.2s;
+  .hdr::before {
+    content: ''; position: absolute; inset: 0; z-index: -1;
+    background: color-mix(in oklab, var(--paper) 82%, transparent);
+    backdrop-filter: blur(14px) saturate(1.3); -webkit-backdrop-filter: blur(14px) saturate(1.3);
+    opacity: 0; transition: opacity 0.4s;
   }
-  .menu__a:hover { color: var(--blue); background: var(--surface-2); }
-  .menu__a.active { color: var(--navy); }
-  .menu__a.active::after { content: ''; position: absolute; left: 12px; right: 12px; bottom: 2px; height: 2px; border-radius: 2px; background: var(--blue); }
-  .chev { width: 12px; height: 12px; transition: rotate 0.3s var(--ease); }
-  .has-mega:hover .chev { rotate: 180deg; }
+  .hdr.is-scrolled::before { opacity: 1; }
+  .hdr.is-scrolled { box-shadow: 0 1px 0 var(--line); }
+
+  .util { border-bottom: 1px solid var(--line); transition: margin 0.5s var(--ease); }
+  .hdr.is-scrolled .util { margin-top: -37px; }
+  .util__in { display: flex; justify-content: space-between; align-items: center; height: 36px; }
+  .util .mono { font-size: 0.68rem; }
+  .util__links { display: flex; gap: 22px; }
+  .util__links a { opacity: 0.8; transition: opacity 0.3s; }
+  .util__links a:hover { opacity: 1; }
+
+  .bar { display: flex; align-items: center; gap: 28px; height: 76px; }
+  .logo { display: inline-flex; align-items: center; gap: 10px; margin-right: auto; }
+  .logo img { width: 172px; height: auto; transition: opacity 0.3s; }
+  .logo:hover img { opacity: 0.85; }
+  @media (max-width: 420px) { .logo img { width: 146px; } }
+
+  .menu ul { display: flex; gap: 4px; }
+  .menu__a { position: relative; display: block; margin: 10px 12px; line-height: 1.25; font-size: 0.95rem; font-weight: 480; overflow: hidden; }
+  .menu__a span { position: relative; display: inline-block; transition: transform 0.55s var(--ease); }
+  .menu__a span::after { content: attr(data-text); position: absolute; left: 0; top: 100%; color: var(--brand); }
+  .menu__a:hover span { transform: translateY(-100%); }
+  .menu__a { overflow: clip; overflow-clip-margin: 0; }
+  .menu__a.active { overflow: visible; }
+  .menu__a.active span::after { display: none; }
+  .menu__a.active::before { content: ''; position: absolute; left: 0; right: 0; bottom: -6px; height: 2px; background: linear-gradient(90deg, var(--tech) 0 33.3%, var(--brand) 0 66.6%, var(--print) 0); }
 
   .has-mega { position: static; }
   .mega {
     position: absolute; left: 0; right: 0; top: 100%;
-    visibility: hidden; opacity: 0; transform: translateY(-8px); pointer-events: none;
-    transition: opacity 0.25s, transform 0.3s var(--ease), visibility 0s 0.3s;
+    padding-top: 1px; visibility: hidden; pointer-events: none;
+    clip-path: inset(0 0 100% 0); transition: clip-path 0.7s var(--ease), visibility 0s 0.7s;
   }
-  .has-mega:hover .mega, .has-mega:focus-within .mega { visibility: visible; opacity: 1; transform: none; pointer-events: auto; transition: opacity 0.25s, transform 0.3s var(--ease), visibility 0s; }
+  .has-mega:hover .mega, .has-mega:focus-within .mega { visibility: visible; pointer-events: auto; clip-path: inset(0 0 0 0); transition: clip-path 0.7s var(--ease), visibility 0s; }
   .mega__in {
-    max-width: var(--max); margin: 0 auto; padding: 28px var(--gutter);
-    background: var(--surface); border-top: 1px solid var(--line); box-shadow: 0 30px 60px -30px rgba(7, 47, 67, 0.35);
-    display: grid; grid-template-columns: 2.4fr 1fr; gap: 28px;
+    max-width: var(--max); margin-inline: auto; padding: 40px var(--gutter) 48px;
+    background: var(--ink); color: var(--paper);
+    display: grid; grid-template-columns: 1fr 2.2fr; gap: 48px;
   }
-  .mega__list { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; }
-  .mega__list a { display: grid; grid-template-columns: 40px 1fr; gap: 2px 14px; padding: 14px; border-radius: 8px; transition: background 0.2s; }
-  .mega__list a:hover { background: var(--surface-2); }
-  .mega__icon { grid-row: span 2; width: 40px; height: 40px; border-radius: 8px; background: var(--surface-2); color: var(--blue); display: grid; place-items: center; transition: background 0.2s, color 0.2s; }
-  .mega__list a:hover .mega__icon { background: var(--blue); color: #fff; }
-  .mega__icon :global(svg) { width: 22px; height: 22px; }
-  .mega__name { font-family: var(--f-display); font-weight: 600; font-size: 0.95rem; color: var(--navy); }
-  .mega__short { font-size: 0.86rem; color: var(--muted); line-height: 1.4; }
-  .mega__side { display: grid; gap: 12px; align-content: start; justify-items: start; padding: 22px; border-radius: 10px; background: var(--navy); color: #fff; }
-  .mega__lead { font-family: var(--f-display); font-weight: 700; font-size: 1.15rem; }
-  .mega__sub { font-size: 0.9rem; color: #a9c3d2; margin-bottom: 6px; }
-  .mega__side .btn { background: #fff; color: var(--navy); }
-  .mega__side .btn:hover { background: var(--sky); }
-  .mega__side .link { color: var(--sky); font-size: 0.86rem; }
+  .mega__lead { font-size: var(--step-2); line-height: 1.05; letter-spacing: -0.03em; margin: 20px 0 28px; max-width: 14ch; }
+  .mega__list { display: grid; grid-template-columns: 1fr 1fr; gap: 0 32px; }
+  .mega__list a {
+    display: grid; grid-template-columns: 34px 1fr; gap: 2px 8px;
+    padding: 16px 0; border-top: 1px solid rgba(243,246,248,0.16); position: relative;
+  }
+  .mega__list a::before { content: ''; position: absolute; left: 0; top: -1px; height: 1px; width: 100%; background: var(--c); transform: scaleX(0); transform-origin: left; transition: transform 0.6s var(--ease); }
+  .mega__list a:hover::before { transform: scaleX(1); }
+  .mega__list .mono { grid-row: span 2; color: var(--print); padding-top: 4px; font-size: 0.7rem; }
+  .mega__name { font-size: 1.1rem; font-weight: 520; letter-spacing: -0.02em; transition: transform 0.5s var(--ease); }
+  .mega__list a:hover .mega__name { transform: translateX(6px); }
+  .mega__short { font-size: 0.86rem; color: #a9c3d2; }
 
-  .burger { display: none; width: 44px; height: 44px; border-radius: 8px; background: var(--navy); position: relative; z-index: 101; }
-  .burger span { position: absolute; left: 12px; right: 12px; height: 2px; background: #fff; transition: transform 0.4s var(--ease), top 0.4s var(--ease); }
-  .burger span:first-child { top: 17px; }
+  .btn--sm { padding: 12px 16px 12px 18px; font-size: 0.9rem; }
+
+  .burger { display: none; width: 44px; height: 44px; border-radius: 50%; background: var(--ink); position: relative; z-index: 101; }
+  .burger span { position: absolute; left: 13px; right: 13px; height: 1.5px; background: var(--paper); transition: transform 0.6s var(--ease), top 0.6s var(--ease); }
+  .burger span:first-child { top: 18px; }
   .burger span:last-child { top: 25px; }
-  :global(.menu-open) .burger span:first-child { top: 21px; transform: rotate(45deg); }
-  :global(.menu-open) .burger span:last-child { top: 21px; transform: rotate(-45deg); }
+  .menu-open .burger span:first-child { top: 21.5px; transform: rotate(45deg); }
+  .menu-open .burger span:last-child { top: 21.5px; transform: rotate(-45deg); }
 
   .mm { position: fixed; inset: 0; z-index: 89; visibility: hidden; }
-  .mm__bg { position: absolute; inset: 0; background: var(--navy); transform: scaleY(0); transform-origin: top; }
-  .mm__in { position: relative; height: 100%; display: flex; flex-direction: column; justify-content: space-between; padding-top: 140px; padding-bottom: calc(28px + env(safe-area-inset-bottom, 0px)); color: #fff; overflow-y: auto; }
-  .mm__list a { display: block; padding: 8px 0; font-family: var(--f-display); font-size: clamp(1.8rem, 8vw, 2.6rem); font-weight: 700; letter-spacing: -0.02em; line-height: 1.15; }
-  .mm__list li { overflow: hidden; border-bottom: 1px solid rgba(255,255,255,0.12); }
-  .mm__foot { display: flex; flex-wrap: wrap; gap: 12px 22px; align-items: center; padding-top: 24px; font-size: 0.95rem; color: #a9c3d2; }
-  .mm__foot .btn { background: #fff; color: var(--navy); margin-top: 6px; }
+  .mm__bg { position: absolute; inset: 0; display: grid; grid-template-columns: repeat(3, 1fr); }
+  .mm__bg i { background: var(--ink); transform: scaleY(0); transform-origin: top; }
+  .mm__in { position: relative; height: 100%; display: flex; flex-direction: column; justify-content: space-between; padding-top: 130px; padding-bottom: 32px; color: var(--paper); }
+  .mm__list a { display: flex; align-items: baseline; gap: 14px; font-size: clamp(2.4rem, 11vw, 4.5rem); font-weight: 560; letter-spacing: -0.045em; line-height: 1.05; font-variation-settings: 'opsz' 96, 'wdth' 85; }
+  .mm__list .mono { font-size: 0.7rem; color: var(--print); }
+  .mm__list li { overflow: hidden; }
+  .mm__foot { display: flex; flex-wrap: wrap; gap: 14px 22px; align-items: center; }
+  .mm__foot .btn { margin-top: 8px; }
 
   @media (max-width: 1080px) {
     .menu, .bar__cta { display: none; }
@@ -165,10 +173,11 @@ const isActive = (href: string) => (href === '/' ? path === '/' : path.startsWit
     .util__loc { display: none; }
     .util__in { justify-content: flex-end; }
   }
-  @media (max-width: 420px) { .logo img { width: 148px; } }
-  :global(.menu-open) .util { opacity: 0; pointer-events: none; }
-  :global(.menu-open) .bar-wrap { background: transparent; box-shadow: none; border-color: transparent; }
-  :global(.menu-open) .logo img { filter: brightness(0) invert(1); }
-  :global(.menu-open) .burger { background: #fff; }
-  :global(.menu-open) .burger span { background: var(--navy); }
+  .menu-open .hdr::before { opacity: 0; }
+  .menu-open .util { opacity: 0; pointer-events: none; }
+  .menu-open .hdr { box-shadow: none; }
+  .menu-open .logo { position: relative; z-index: 101; }
+  .menu-open .logo img { filter: brightness(0) invert(1); }
+  .menu-open .burger { background: var(--paper); }
+  .menu-open .burger span { background: var(--ink); }
 </style>

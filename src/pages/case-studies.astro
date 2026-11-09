@@ -3,57 +3,69 @@ import Layout from '../layouts/Layout.astro';
 import PageHead from '../components/PageHead.astro';
 import CTA from '../components/CTA.astro';
 import T from '../components/T.astro';
+import Pattern from '../components/Pattern.astro';
 import { cases } from '../data/content';
 const filters = ['All', 'Software', 'Managed IT', 'Cybersecurity', 'Network', 'Brand and Print'];
-const tagFor = (sol: string) => filters.filter((f) => f !== 'All' && sol.toLowerCase().includes(f.toLowerCase())).join('|');
 ---
 <Layout title="Case Studies: Results We Have Delivered | GTHINK" description="Results-first case studies from GTHINK clients across Ghana.">
-  <PageHead label="Case Studies" title='Results we have <span class="serif">delivered.</span>' lede="Every story leads with a number the client can check." />
+  <PageHead index="05 / Case Studies" label="Case Studies" title='Results we have <span class="serif">delivered.</span>' lede="Every story leads with a number the client can check." />
 
   <section class="section--tight">
     <div class="wrap">
-      <div class="filters" role="group" aria-label="Filter by solution" data-filters data-reveal>
-        {filters.map((f, i) => <button class:list={['filter', { on: i === 0 }]} data-filter={f} aria-pressed={i === 0 ? 'true' : 'false'}>{f}</button>)}
+      <div class="filters" role="group" aria-label="Filter by solution" data-reveal>
+        {filters.map((f, i) => <button class:list={['filter', { on: i === 0 }]} data-filter={f}>{f}</button>)}
       </div>
 
       <div class="cs" data-stagger>
         {cases.map((c, i) => (
-          <article class="csr" data-filter-item={tagFor(c.solution)}>
-            <div class="csr__top">
-              <span class="csr__n">Case study {i + 1}</span>
-              <span class="csr__sol">{c.solution}</span>
+          <article class="csr" data-sol={c.solution} style={`--c: var(--${c.thread})`}>
+            <Pattern seed={i * 7 + 2} class="csr__art" />
+            <div class="csr__body">
+              <span class="mono muted">Case 0{i + 1} · {c.solution}</span>
+              <h2 class="csr__res"><T text={c.result} /></h2>
+              <p><T text={c.client} /> · <T text={c.sector} /></p>
+              <dl class="csr__glance">
+                <div><dt class="mono">Challenge</dt><dd><span class="ph">[In the client’s words]</span></dd></div>
+                <div><dt class="mono">What we did</dt><dd><span class="ph">[Main steps and tools]</span></dd></div>
+                <div><dt class="mono">Results</dt><dd><span class="ph">[2 to 3 numbers]</span></dd></div>
+                <div><dt class="mono">Timeline</dt><dd><span class="ph">[X weeks]</span></dd></div>
+              </dl>
             </div>
-            <h2 class="csr__res"><T text={c.result} /></h2>
-            <p class="csr__client"><T text={c.client} /> · <T text={c.sector} /></p>
-            <dl class="csr__glance">
-              <div><dt>The challenge</dt><dd><span class="ph">[In the client’s words]</span></dd></div>
-              <div><dt>What we did</dt><dd><span class="ph">[Main steps and tools]</span></dd></div>
-              <div><dt>The results</dt><dd><span class="ph">[2 to 3 numbers]</span></dd></div>
-              <div><dt>Timeline</dt><dd><span class="ph">[X weeks]</span></dd></div>
-            </dl>
           </article>
         ))}
       </div>
-      <p class="note">Start with three: a GEMS ERP deployment, a managed IT client and a branding or print project. Written client approval is needed before publishing.</p>
+      <p class="mono muted note">Note: start with a GEMS ERP deployment, a managed IT client and a branding or print project. Written client approval required before publishing.</p>
     </div>
   </section>
 
   <CTA title='Want results like these? <span class="serif">Let’s talk.</span>' />
 </Layout>
+<script>
+  const btns = document.querySelectorAll<HTMLButtonElement>('[data-filter]');
+  const rows = document.querySelectorAll<HTMLElement>('[data-sol]');
+  btns.forEach((b) => b.addEventListener('click', () => {
+    btns.forEach((x) => x.classList.toggle('on', x === b));
+    const f = b.dataset.filter!;
+    rows.forEach((r) => {
+      const show = f === 'All' || r.dataset.sol!.toLowerCase().includes(f.toLowerCase().split(' ')[0]);
+      r.style.display = show ? '' : 'none';
+    });
+  }));
+</script>
 <style>
-  .filters { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 32px; }
-  .filter { padding: 9px 16px; border-radius: 8px; border: 1px solid var(--line-strong); background: var(--surface); font-size: 0.92rem; font-weight: 600; transition: background 0.2s, color 0.2s, border-color 0.2s; }
-  .filter.on, .filter:hover { background: var(--blue); border-color: var(--blue); color: #fff; }
+  .filters { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 48px; }
+  .filter { padding: 10px 16px; border-radius: 999px; box-shadow: inset 0 0 0 1px var(--line-strong); font-size: 0.92rem; transition: background 0.3s, color 0.3s; }
+  .filter.on, .filter:hover { background: var(--ink); color: var(--paper); box-shadow: none; }
   .cs { display: grid; gap: 20px; }
-  .csr { display: grid; gap: 14px; padding: clamp(24px, 3vw, 36px); border-radius: 12px; background: var(--surface); border: 1px solid var(--line); border-left: 4px solid var(--blue); }
-  .csr__top { display: flex; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
-  .csr__n { font-size: 0.8rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--blue); }
-  .csr__sol { padding: 3px 10px; border-radius: 6px; background: var(--surface-2); color: var(--navy); font-size: 0.82rem; font-weight: 600; }
-  .csr__res { font-size: var(--step-2); color: var(--navy); }
-  .csr__glance { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; margin: 8px 0 0; padding-top: 16px; border-top: 1px solid var(--line); }
-  .csr__glance div { display: grid; gap: 4px; }
-  .csr__glance dt { font-size: 0.82rem; font-weight: 700; color: var(--navy); }
+  .csr { display: grid; grid-template-columns: 1fr 1.4fr; gap: clamp(24px, 4vw, 64px); padding: 20px; border-radius: 8px; background: var(--paper-2); }
+  .csr :global(.csr__art) { min-height: 360px; }
+  .csr__body { display: grid; gap: 18px; align-content: center; padding: 12px 12px 12px 0; }
+  .csr__res { font-size: var(--step-3); }
+  .csr__res :global(.ph), .csr__body :global(.ph) { white-space: normal; }
+  .csr__glance { display: grid; grid-template-columns: 1fr 1fr; gap: 0 24px; margin: 8px 0 0; }
+  .csr__glance div { padding: 14px 0; border-top: 1px solid var(--line); display: grid; gap: 6px; }
+  .csr__glance dt { color: var(--muted); font-size: 0.66rem; }
   .csr__glance dd { margin: 0; }
-  .note { margin-top: 24px; font-size: 0.9rem; color: var(--muted); max-width: 80ch; }
-  @media (max-width: 860px) { .csr__glance { grid-template-columns: 1fr 1fr; } }
+  .note { margin-top: 24px; font-size: 0.68rem; max-width: 80ch; }
+  @media (max-width: 860px) { .csr { grid-template-columns: 1fr; } .csr :global(.csr__art) { min-height: 220px; } }
 </style>

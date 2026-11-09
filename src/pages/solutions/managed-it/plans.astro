@@ -4,7 +4,6 @@ import PageHead from '../../../components/PageHead.astro';
 import Faq from '../../../components/Faq.astro';
 import CTA from '../../../components/CTA.astro';
 import Arrow from '../../../components/Arrow.astro';
-import Icon from '../../../components/Icon.astro';
 import T from '../../../components/T.astro';
 import { plans } from '../../../data/content';
 import { getSolution } from '../../../data/solutions';
@@ -12,29 +11,31 @@ const rowKeys = Object.keys(plans[0].rows);
 const faqs = getSolution('managed-it').faqs;
 ---
 <Layout title="Managed IT Support Plans in Ghana | GTHINK" description="Simple Managed IT plans with clear inclusions: helpdesk, monitoring, security, backups, and brand and print support from one team, billed monthly.">
-  <PageHead label="Managed IT Plans" title='Simple plans. Predictable costs. <span class="serif">Fewer headaches.</span>' lede="Technology, Brand and Print support from one team, billed monthly." />
+  <PageHead index="03 / Managed IT Plans (TBP)" label="Managed IT Plans" title='Simple plans. Predictable costs. <span class="serif">Fewer headaches.</span>' lede="Technology, Brand and Print support from one team, billed monthly." />
 
-  <section class="section">
+  <section class="section plans">
     <div class="wrap">
       <div class="pcards" data-stagger>
-        {plans.map((p) => (
-          <article class:list={['pcard', { 'pcard--feat': p.featured }]}>
-            {p.featured && <span class="pcard__tag">Most chosen</span>}
-            <h2 class="pcard__name">{p.name}</h2>
-            <p class="pcard__best"><T text={p.best} /></p>
-            <p class="pcard__price"><b><T text={p.price} /></b> <span>{p.per}</span></p>
-            <ul class="pcard__rows">
+        {plans.map((p, i) => (
+          <article class:list={['pcard', { 'pcard--feat': p.featured }]} style={`--c: var(--${['tech', 'brand', 'print'][i]})`}>
+            {p.featured && <span class="pcard__tag mono">Most chosen</span>}
+            <div class="pcard__top">
+              <span class="pcard__strip" aria-hidden="true"></span>
+              <h2 class="h3">{p.name}</h2>
+              <p class="muted"><T text={p.best} /></p>
+            </div>
+            <p class="pcard__price"><b><T text={p.price} /></b> <span class="muted">{p.per}</span></p>
+            <dl class="pcard__rows">
               {Object.entries(p.rows).map(([k, v]) => (
-                <li><Icon name="check" /><span><b>{k}</b><br /><T text={v} /></span></li>
+                <div><dt class="mono">{k}</dt><dd><T text={v} /></dd></div>
               ))}
-            </ul>
-            <a href="/contact#enquiry" class:list={['btn', { 'btn--ghost': !p.featured }]}>{p.price === 'Custom quote' ? 'Request a Quote' : `Choose ${p.name}`} <Arrow /></a>
+            </dl>
+            <a href="/contact#enquiry" class:list={['btn', { 'btn--ghost': !p.featured }]} data-magnetic>{p.price === 'Custom quote' ? 'Request a Quote' : `Choose ${p.name}`} <Arrow /></a>
           </article>
         ))}
       </div>
-      <p class="note">All prices and inclusions to be confirmed by management.</p>
+      <p class="mono muted note">Note: All prices and inclusions to be confirmed by management.</p>
 
-      <h2 class="h3 cmp__h" data-reveal>Compare plans</h2>
       <div class="cmp" data-reveal>
         <table>
           <caption class="sr-only">Plan comparison</caption>
@@ -51,9 +52,9 @@ const faqs = getSolution('managed-it').faqs;
 
   <section class="section sand">
     <div class="wrap split">
-      <div class="sec-head">
+      <div>
         <p class="eyebrow" data-reveal>FAQ</p>
-        <h2 class="h2" data-split>Straight <span class="serif">answers.</span></h2>
+        <h2 class="h2 faqh" data-split>Straight <span class="serif">answers.</span></h2>
       </div>
       <Faq items={faqs} />
     </div>
@@ -62,32 +63,27 @@ const faqs = getSolution('managed-it').faqs;
   <CTA />
 </Layout>
 <style>
-  .pcards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; align-items: stretch; }
-  .pcard { position: relative; display: flex; flex-direction: column; gap: 10px; padding: clamp(24px, 2.6vw, 36px); border-radius: 14px; background: var(--surface); border: 1px solid var(--line); }
-  .pcard--feat { background: var(--navy); color: #fff; border-color: var(--navy); --muted: #a9c3d2; --line: rgba(255,255,255,0.15); }
-  .pcard--feat .btn { background: #fff; color: var(--navy); }
-  .pcard--feat .btn:hover { background: var(--sky); }
-  .pcard__tag { position: absolute; top: 20px; right: 20px; padding: 5px 10px; border-radius: 6px; background: var(--sky); color: var(--navy-deep); font-size: 0.75rem; font-weight: 700; }
-  .pcard__name { font-size: var(--step-2); }
-  .pcard:not(.pcard--feat) .pcard__name { color: var(--navy); }
-  .pcard__best { color: var(--muted); }
-  .pcard__price { margin: 6px 0 10px; }
-  .pcard__price b { font-family: var(--f-display); font-size: clamp(1.6rem, 1.2rem + 1.4vw, 2.3rem); white-space: nowrap; }
-  .pcard__price span { color: var(--muted); }
-  .pcard__rows { display: grid; gap: 14px; padding-top: 18px; border-top: 1px solid var(--line); flex: 1; margin-bottom: 18px; }
-  .pcard__rows li { display: grid; grid-template-columns: 20px 1fr; gap: 10px; font-size: 0.95rem; }
-  .pcard__rows b { font-size: 0.85rem; color: var(--muted); font-weight: 600; }
-  .pcard__rows :global(svg) { width: 20px; height: 20px; color: var(--blue); }
-  .pcard--feat .pcard__rows :global(svg) { color: var(--sky); }
-  .pcard--feat :global(.ph) { color: #a9c3d2; }
+  .pcards { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; align-items: stretch; }
+  .pcard { position: relative; display: flex; flex-direction: column; gap: 28px; padding: clamp(24px, 2.6vw, 40px); border-radius: 8px; box-shadow: inset 0 0 0 1px var(--line-strong); transition: transform 0.7s var(--ease); }
+  .pcard:hover { transform: translateY(-6px); }
+  .pcard--feat { background: var(--ink); color: var(--paper); --line: rgba(243,246,248,0.16); --muted: #a9c3d2; box-shadow: none; }
+  .pcard--feat .btn { --bg: var(--paper); --fg: var(--ink); }
+  .pcard__tag { position: absolute; top: 20px; right: 20px; background: var(--print); color: var(--ink); padding: 5px 9px; font-size: 0.64rem; }
+  .pcard__top { display: grid; gap: 10px; }
+  .pcard__strip { display: block; width: 64px; height: 10px; background: repeating-linear-gradient(90deg, var(--c) 0 8px, transparent 8px 12px); margin-bottom: 14px; }
+  .pcard__price b { font-size: var(--step-3); font-weight: 560; letter-spacing: -0.05em; font-variation-settings: 'opsz' 96, 'wdth' 85; }
+  .pcard__rows { margin: 0; display: grid; border-top: 1px solid var(--line); flex: 1; }
+  .pcard__rows div { display: grid; grid-template-columns: 1fr 1.3fr; gap: 12px; padding: 14px 0; border-bottom: 1px solid var(--line); }
+  .pcard__rows dt { color: var(--muted); font-size: 0.68rem; padding-top: 3px; }
+  .pcard__rows dd { margin: 0; }
   .pcard .btn { align-self: flex-start; }
-  .note { margin-top: 16px; font-size: 0.9rem; color: var(--muted); }
-  .cmp__h { margin-top: clamp(56px, 7vw, 96px); margin-bottom: 20px; color: var(--navy); }
-  .cmp { overflow-x: auto; border-radius: 12px; border: 1px solid var(--line); background: var(--surface); }
+  .note { margin-top: 20px; font-size: 0.68rem; }
+  .cmp { margin-top: clamp(64px, 8vw, 120px); overflow-x: auto; }
   .cmp table { width: 100%; border-collapse: collapse; min-width: 640px; }
-  .cmp th, .cmp td { text-align: left; padding: 16px 20px; border-bottom: 1px solid var(--line); vertical-align: top; }
-  .cmp tr:last-child th, .cmp tr:last-child td { border-bottom: 0; }
-  .cmp thead th { background: var(--navy); color: #fff; font-family: var(--f-display); font-weight: 700; }
-  .cmp tbody th { font-weight: 600; color: var(--navy); width: 20%; background: var(--bg); }
+  .cmp th, .cmp td { text-align: left; padding: 18px 16px 18px 0; border-bottom: 1px solid var(--line); vertical-align: top; }
+  .cmp thead th { font-size: var(--step-1); font-weight: 560; letter-spacing: -0.02em; border-bottom-color: var(--ink); }
+  .cmp tbody th { font-family: var(--f-mono); font-size: 0.7rem; text-transform: uppercase; color: var(--muted); font-weight: 400; width: 20%; }
+  .faqh { margin-top: 22px; }
+  .faqh .serif { color: var(--brand); }
   @media (max-width: 960px) { .pcards { grid-template-columns: 1fr; } }
 </style>
