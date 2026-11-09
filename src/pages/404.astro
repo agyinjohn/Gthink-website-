@@ -5,13 +5,13 @@ import Arrow from '../components/Arrow.astro';
 <Layout title="Page not found | GTHINK">
   <section class="nf wrap">
     <span class="eyebrow" data-reveal="hero">Error 404</span>
-    <h1 class="nf__t" data-split="hero">A loose <span class="serif">thread.</span></h1>
+    <h1 class="nf__t" data-split="hero">This page <span class="serif">isn’t here.</span></h1>
     <p class="lede" data-reveal="hero">This page doesn’t exist, or it has moved.</p>
-    <div data-reveal="hero"><a href="/" class="btn" data-magnetic>Back to home <Arrow /></a></div>
+    <div data-reveal="hero"><a href="/" class="btn">Back to home <Arrow /></a></div>
   </section>
 </Layout>
 <style>
   .nf { min-height: 90vh; display: grid; align-content: center; gap: 28px; padding-top: 140px; }
-  .nf__t { font-size: var(--step-5); }
+  .nf__t { font-size: var(--step-5); color: var(--navy); }
   .nf__t .serif { color: var(--brand); }
 </style>

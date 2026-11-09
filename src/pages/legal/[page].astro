@@ -11,8 +11,8 @@ export function getStaticPaths() {
 const { title, body } = Astro.props;
 ---
 <Layout title={`${title} | GTHINK`}>
-  <PageHead index="Legal" label={title} title={title} lede={body} />
-  <section class="section--tight">
+  <PageHead label={title} title={title} lede={body} />
+  <section class="section">
     <div class="wrap prose" style="max-width: 820px; margin-left: 0;">
       <p><span class="ph">[Full {title.toLowerCase()} text to be provided and reviewed by counsel before launch]</span></p>
       {Astro.params.page === 'cookies' && (

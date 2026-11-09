@@ -6,44 +6,36 @@ import CTA from '../components/CTA.astro';
 import { insights } from '../data/content';
 ---
 <Layout title="Insights: Plain-Language IT Advice for Ghanaian Businesses | GTHINK" description="Helpful, plain-language articles on IT support costs, networks, cybersecurity, the Data Protection Act and business software in Ghana.">
-  <PageHead index="08 / Insights" label="Insights" title='Answers to the questions <span class="serif">business owners ask.</span>' lede="Plain-language articles on technology, security and running a growing business in Ghana." />
+  <PageHead label="Insights" title='Answers to the questions <span class="serif">business owners ask.</span>' lede="Plain-language articles on technology, security and running a growing business in Ghana." />
 
-  <section class="section--tight">
+  <section class="section">
     <div class="wrap">
-      <ol class="ilist" data-stagger>
+      <div class="arts" data-stagger>
         {insights.map((a, i) => (
-          <li id={a.slug}>
-            <a href="/contact#enquiry" class="irow" data-cursor-text="Soon">
-              <span class="mono muted">{String(i + 1).padStart(2, '0')}</span>
-              <span class="mono irow__cat">{a.cat}</span>
-              <span class="irow__t">{a.title}</span>
-              <span class="irow__x muted">{a.excerpt}</span>
-              <span class="irow__go" aria-hidden="true"><Arrow /></span>
-            </a>
-          </li>
+          <article id={a.slug} class:list={['art', { 'art--lead': i === 0 }]}>
+            <span class="art__cat">{a.cat}</span>
+            <h2 class="art__t">{a.title}</h2>
+            <p class="muted">{a.excerpt}</p>
+            <span class="art__soon">Article coming soon</span>
+          </article>
         ))}
-      </ol>
-      <p class="mono muted note">Articles are being written. Each will answer the question a business owner would type into Google.</p>
+      </div>
+      <p class="note">Each article answers the question a business owner would type into Google.</p>
     </div>
   </section>
   <CTA />
 </Layout>
 <style>
-  .ilist { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
-  .ilist li { border-bottom: 1px solid var(--line); }
-  .irow { display: grid; grid-template-columns: 50px 140px minmax(0, 1.4fr) minmax(0, 1fr) 48px; gap: 20px; align-items: center; padding: 30px 0; transition: padding 0.6s var(--ease); }
-  .irow__cat { font-size: 0.66rem; }
-  .irow__t { font-size: var(--step-2); line-height: 1.05; letter-spacing: -0.03em; font-weight: 520; transition: color 0.4s; }
-  .irow:hover .irow__t { color: var(--brand); }
-  .irow:hover { padding-left: 12px; }
-  .irow__go { width: 48px; height: 48px; border-radius: 50%; box-shadow: inset 0 0 0 1px var(--line-strong); display: grid; place-items: center; transition: transform 0.6s var(--ease), background 0.3s, color 0.3s; }
-  .irow:hover .irow__go { background: var(--ink); color: var(--paper); transform: rotate(-45deg); }
-  .irow__go :global(.arrow) { width: 18px; }
-  .note { margin-top: 24px; font-size: 0.68rem; }
-  @media (max-width: 900px) {
-    .irow { grid-template-columns: 1fr 44px; gap: 10px; }
-    .irow > .mono:first-child { display: none; }
-    .irow__cat, .irow__t, .irow__x { grid-column: 1; }
-    .irow__go { grid-column: 2; grid-row: 1 / span 3; }
-  }
+  .arts { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .art { display: flex; flex-direction: column; gap: 12px; padding: 28px; border-radius: 12px; background: var(--surface); border: 1px solid var(--line); scroll-margin-top: 120px; }
+  .art--lead { grid-column: span 2; background: var(--navy); color: #fff; border-color: var(--navy); --muted: #c4d7e2; }
+  .art--lead .art__t { color: #fff; font-size: var(--step-3); }
+  .art--lead .art__cat { background: rgba(255,255,255,0.14); color: #fff; }
+  .art__cat { align-self: flex-start; padding: 4px 10px; border-radius: 6px; background: var(--surface-2); color: var(--blue); font-size: 0.78rem; font-weight: 700; }
+  .art__t { font-size: var(--step-1); color: var(--navy); line-height: 1.25; }
+  .art .muted { flex: 1; }
+  .art__soon { font-size: 0.85rem; font-weight: 600; color: var(--muted); }
+  .note { margin-top: 24px; font-size: 0.9rem; color: var(--muted); }
+  @media (max-width: 900px) { .arts { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 600px) { .arts { grid-template-columns: 1fr; } .art--lead { grid-column: auto; } }
 </style>

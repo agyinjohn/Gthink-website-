@@ -1,54 +1,26 @@
 ---
-/**
- * Seeded, woven-strip artwork. Used wherever a photo will eventually go,
- * so the site looks finished before real photography arrives.
- */
+/** Placeholder frame for photography that has not been supplied yet. */
 interface Props { seed?: number; label?: string; class?: string; dense?: boolean }
-const { seed = 1, label, class: cls = '', dense = false } = Astro.props;
-let s = seed * 9301 + 49297;
-const rnd = () => ((s = (s * 9301 + 49297) % 233280) / 233280);
-const palette = ['#2a3cf5', '#ff5627', '#f0b318', '#0f5a3d'];
-const pick = () => palette[Math.floor(rnd() * palette.length)];
-const W = 120;
-const H = dense ? 120 : 90;
-// Kente-style: horizontal bands; some are plain stripes, some are blocks of woven motifs.
-const shapes: { x: number; y: number; w: number; h: number; c: string; o?: number }[] = [];
-let y = 0;
-while (y < H) {
-  const bh = 6 + Math.floor(rnd() * 3) * 5;
-  if (rnd() < 0.35) {
-    const c = pick();
-    shapes.push({ x: 0, y, w: W, h: bh, c });
-    for (let k = 1; k < bh; k += 3) shapes.push({ x: 0, y: y + k, w: W, h: 0.8, c: '#141210', o: 0.35 });
-  } else {
-    let x = 0;
-    while (x < W) {
-      const bw = 10 + Math.floor(rnd() * 4) * 5;
-      const c = pick();
-      shapes.push({ x, y, w: bw, h: bh, c });
-      const motif = Math.floor(rnd() * 3);
-      if (motif === 0) for (let k = 2; k < bw; k += 4) shapes.push({ x: x + k, y, w: 1.6, h: bh, c: '#efebe3', o: 0.85 });
-      if (motif === 1) for (let k = 2; k < bh; k += 4) shapes.push({ x, y: y + k, w: bw, h: 1.6, c: '#141210', o: 0.7 });
-      if (motif === 2) shapes.push({ x: x + bw * 0.3, y: y + bh * 0.25, w: bw * 0.4, h: bh * 0.5, c: '#efebe3' });
-      shapes.push({ x: x + bw - 1, y, w: 1, h: bh, c: '#141210' });
-      x += bw;
-    }
-  }
-  shapes.push({ x: 0, y: y + bh - 1, w: W, h: 1, c: '#141210' });
-  y += bh;
-}
+const { seed = 1, label = 'Photo', class: cls = '' } = Astro.props;
+const tones = ['var(--navy)', 'var(--blue)', 'var(--navy-deep)'];
+const bg = tones[seed % tones.length];
 ---
-<figure class={`pattern ${cls}`} data-pattern>
-  <svg viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="xMidYMid slice" aria-hidden="true">
-    {shapes.map((r) => <rect x={r.x} y={r.y} width={r.w} height={r.h} fill={r.c} opacity={r.o} />)}
-  </svg>
-  {label && <figcaption class="mono">{label}</figcaption>}
+<figure class={`pattern ${cls}`} style={`--pbg: ${bg}`}>
+  <img src="/logo-mark.png" alt="" width="98" height="83" loading="lazy" />
+  {label && <figcaption>{label}</figcaption>}
 </figure>
 <style>
-  .pattern { position: relative; margin: 0; overflow: hidden; background: var(--ink); border-radius: var(--radius); }
-  .pattern svg { width: 100%; height: 100%; object-fit: cover; transform: scale(1.04); }
+  .pattern {
+    position: relative; margin: 0; overflow: hidden; border-radius: var(--radius);
+    background:
+      radial-gradient(circle at 85% 15%, rgba(124, 198, 230, 0.25), transparent 45%),
+      var(--pbg);
+    display: grid; place-items: center; min-height: 160px; height: 100%;
+  }
+  .pattern img { width: 22%; max-width: 90px; height: auto; filter: brightness(0) invert(1); opacity: 0.18; }
   figcaption {
     position: absolute; left: 12px; bottom: 12px;
-    background: var(--paper); color: var(--ink); padding: 6px 9px; font-size: 0.66rem;
+    background: rgba(255, 255, 255, 0.92); color: var(--navy); padding: 4px 9px; border-radius: 6px;
+    font-size: 0.75rem; font-weight: 600;
   }
 </style>

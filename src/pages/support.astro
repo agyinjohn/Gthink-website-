@@ -2,25 +2,26 @@
 import Layout from '../layouts/Layout.astro';
 import PageHead from '../components/PageHead.astro';
 import Arrow from '../components/Arrow.astro';
+import Icon from '../components/Icon.astro';
 import { site, whatsappHref } from '../data/site';
 const tiles = [
-  { n: '01', t: 'Log a ticket', b: 'Log a ticket and track it to resolution.', href: site.ticketUrl ?? '#ticket', cta: 'Log a Ticket', c: 'tech' },
-  { n: '02', t: 'Remote support', b: 'Download the remote assistance tool so an engineer can connect to your screen.', href: site.remoteToolUrl ?? '#', cta: 'Download tool', ph: site.remoteToolUrl ? null : '[link]', c: 'brand' },
-  { n: '03', t: 'Urgent issues', b: 'Call the helpdesk line for anything that has stopped your business.', href: site.helpdesk ? `tel:${site.helpdesk}` : '#', cta: 'Call Helpdesk', ph: site.helpdesk ? null : '[number]', c: 'print' },
-  { n: '04', t: 'Service status', b: 'Current incidents and planned maintenance.', href: '#', cta: 'View status', ph: '[optional]', c: 'leaf' },
+  { n: '01', icon: 'check', t: 'Log a ticket', b: 'Log a ticket and track it to resolution.', href: site.ticketUrl ?? '#ticket', cta: 'Log a Ticket', c: 'tech' },
+  { n: '02', icon: 'desktops', t: 'Remote support', b: 'Download the remote assistance tool so an engineer can connect to your screen.', href: site.remoteToolUrl ?? '#', cta: 'Download tool', ph: site.remoteToolUrl ? null : '[link]', c: 'brand' },
+  { n: '03', icon: 'managed-it', t: 'Urgent issues', b: 'Call the helpdesk line for anything that has stopped your business.', href: site.helpdesk ? `tel:${site.helpdesk}` : '#', cta: 'Call Helpdesk', ph: site.helpdesk ? null : '[number]', c: 'print' },
+  { n: '04', icon: 'networks', t: 'Service status', b: 'Current incidents and planned maintenance.', href: '#', cta: 'View status', ph: '[optional]', c: 'leaf' },
 ];
 ---
 <Layout title="Client Support | GTHINK" description="Existing GTHINK client? Log a ticket, get remote support or call the helpdesk.">
-  <PageHead index="09 / Support" label="Client support" title='Existing client? <span class="serif">Get help now.</span>' lede="Support requests go straight to the helpdesk, separate from sales, so you get a fast answer.">
-    <a href={whatsappHref('Hello GTHINK support, I need help with')} class="btn btn--wa" data-magnetic data-reveal="hero">WhatsApp support <Arrow /></a>
+  <PageHead label="Client Support" title='Existing client? <span class="serif">Get help now.</span>' lede="Support requests go straight to the helpdesk, separate from sales, so you get a fast answer.">
+    <a href={whatsappHref('Hello GTHINK support, I need help with')} class="btn btn--wa" data-reveal="hero">WhatsApp support <Arrow /></a>
   </PageHead>
 
-  <section class="section--tight">
+  <section class="section">
     <div class="wrap">
       <div class="tiles" data-stagger>
         {tiles.map((t) => (
           <a href={t.href} class="tile" style={`--c: var(--${t.c})`}>
-            <span class="mono">{t.n}</span>
+            <span class="tile__icon"><Icon name={t.icon} /></span>
             <h2 class="h3">{t.t}</h2>
             <p class="muted">{t.b} {t.ph && <span class="ph">{t.ph}</span>}</p>
             <span class="link">{t.cta} <Arrow /></span>
@@ -32,9 +33,9 @@ const tiles = [
 
   <section class="section dark" id="ticket">
     <div class="wrap split">
-      <div>
+      <div class="tk">
         <p class="eyebrow" data-reveal>Log a ticket</p>
-        <h2 class="h2 tk__h" data-split>Describe the problem. <span class="serif">We’ll take it from here.</span></h2>
+        <h2 class="h2" data-split>Describe the problem. <span class="serif">We’ll take it from here.</span></h2>
         <p class="muted" data-reveal>Placeholder form until the ticketing system is connected. <span class="ph">[ticketing tool]</span></p>
       </div>
       <form class="form" data-form="ticket" action={site.formEndpoint ?? '#'} method="post">
@@ -54,22 +55,22 @@ const tiles = [
         </fieldset>
         <div class="field"><label for="t-msg">What is happening?</label><textarea id="t-msg" name="message" required></textarea></div>
         <input class="hp" type="text" name="company_website" tabindex="-1" autocomplete="off" aria-hidden="true" />
-        <div style="display:flex;gap:20px;align-items:center;flex-wrap:wrap"><button class="btn" type="submit" data-magnetic>Submit Ticket <Arrow /></button><p class="form-note" data-note aria-live="polite"></p></div>
+        <div style="display:flex;gap:20px;align-items:center;flex-wrap:wrap"><button class="btn" type="submit">Submit Ticket <Arrow /></button><p class="form-note" data-note aria-live="polite"></p></div>
       </form>
     </div>
   </section>
 </Layout>
 <style>
   .tiles { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
-  .tile { position: relative; display: flex; flex-direction: column; gap: 14px; min-height: 340px; padding: 26px; border-radius: 8px; background: var(--paper-2); overflow: hidden; isolation: isolate; }
-  .tile::before { content: ''; position: absolute; inset: 0; z-index: -1; background: var(--c); clip-path: circle(0% at 100% 0%); transition: clip-path 0.8s var(--ease); }
-  .tile:hover::before { clip-path: circle(150% at 100% 0%); }
-  .tile:hover, .tile:hover .muted { color: var(--ink); }
-  .tile[style*='leaf']:hover, .tile[style*='leaf']:hover .muted, .tile[style*='tech']:hover, .tile[style*='tech']:hover .muted { color: var(--paper); }
+  .tile { display: flex; flex-direction: column; gap: 12px; padding: 26px; border-radius: 12px; background: var(--surface); border: 1px solid var(--line); transition: border-color 0.25s, transform 0.3s var(--ease); }
+  .tile:hover { border-color: var(--blue); transform: translateY(-4px); }
+  .tile__icon { width: 48px; height: 48px; border-radius: 10px; background: var(--surface-2); color: var(--blue); display: grid; place-items: center; }
+  .tile:hover .tile__icon { background: var(--blue); color: #fff; }
+  .tile__icon :global(svg) { width: 24px; }
+  .tile .h3 { font-size: var(--step-1); color: var(--navy); }
   .tile .link { margin-top: auto; align-self: flex-start; }
-  .tile .h3 { margin-top: 40px; }
-  .tk__h { margin: 22px 0 24px; }
-  .tk__h .serif { color: var(--print); }
+  .tk { display: grid; gap: 18px; align-content: start; }
+  .tk .muted { color: #c4d7e2; }
   @media (max-width: 1000px) { .tiles { grid-template-columns: 1fr 1fr; } }
   @media (max-width: 560px) { .tiles { grid-template-columns: 1fr; } }
 </style>

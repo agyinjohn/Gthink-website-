@@ -7,123 +7,111 @@ const year = 2026;
 <footer class="ftr dark">
   <div class="wrap">
     <div class="ftr__top">
-      <p class="ftr__line" data-split>One partner for your technology, <span class="serif">brand and print.</span></p>
+      <div class="ftr__brand">
+        <img src="/logo-white.png" alt="GTHINK Company Limited" width="200" height="45" loading="lazy" />
+        <p>One partner for your technology, brand and print.</p>
+      </div>
       <form class="ftr__news" data-form="newsletter" action={site.formEndpoint ?? '#'} method="post">
-        <label for="nl-email" class="mono">Plain-language IT advice, monthly</label>
+        <label for="nl-email">Plain-language IT advice, once a month</label>
         <div class="ftr__nl">
           <input id="nl-email" type="email" name="email" placeholder="you@company.com" required autocomplete="email" />
           <input class="hp" type="text" name="company_website" tabindex="-1" autocomplete="off" aria-hidden="true" />
-          <button type="submit" aria-label="Subscribe"><Arrow /></button>
+          <button type="submit" class="btn">Subscribe</button>
         </div>
-        <p class="form-note" data-note></p>
+        <p class="form-note" data-note aria-live="polite"></p>
       </form>
     </div>
 
     <div class="ftr__cols">
       <div>
-        <p class="mono ftr__h">Solutions</p>
+        <p class="ftr__h">Solutions</p>
         <ul>
-          {solutions.map((s) => <li><a class="link" href={`/solutions/${s.slug}`}>{s.name}</a></li>)}
-          <li><a class="link" href="/solutions/managed-it/plans">Managed IT Plans</a></li>
+          {solutions.map((s) => <li><a href={`/solutions/${s.slug}`}>{s.name}</a></li>)}
+          <li><a href="/solutions/managed-it/plans">Managed IT Plans</a></li>
         </ul>
       </div>
       <div>
-        <p class="mono ftr__h">Company</p>
+        <p class="ftr__h">Company</p>
         <ul>
-          <li><a class="link" href="/about">Our Story</a></li>
-          <li><a class="link" href="/about#leadership">Leadership</a></li>
-          <li><a class="link" href="/about#awards">Awards</a></li>
-          <li><a class="link" href="/about#careers">Careers</a></li>
-          <li><a class="link" href="/industries">Industries</a></li>
-          <li><a class="link" href="/case-studies">Case Studies</a></li>
-          <li><a class="link" href="/insights">Insights</a></li>
+          <li><a href="/about">Our Story</a></li>
+          <li><a href="/about#leadership">Leadership</a></li>
+          <li><a href="/about#awards">Awards</a></li>
+          <li><a href="/about#careers">Careers</a></li>
+          <li><a href="/industries">Industries</a></li>
+          <li><a href="/case-studies">Case Studies</a></li>
+          <li><a href="/insights">Insights</a></li>
         </ul>
       </div>
       <div>
-        <p class="mono ftr__h">Support</p>
+        <p class="ftr__h">Support</p>
         <ul>
-          <li><a class="link" href="/support">Client Support</a></li>
-          <li><a class="link" href="/support#ticket">Log a Ticket</a></li>
-          <li><a class="link" href="/shop">Shop</a></li>
-          <li><a class="link" href="/contact">Contact</a></li>
+          <li><a href="/support">Client Support</a></li>
+          <li><a href="/support#ticket">Log a Ticket</a></li>
+          <li><a href="/shop">Shop</a></li>
+          <li><a href="/contact">Contact</a></li>
         </ul>
       </div>
       <div class="ftr__contact">
-        <p class="mono ftr__h">Visit / call</p>
+        <p class="ftr__h">Visit or call</p>
         <p>{site.address ?? <span class="ph">[Address]</span>}, Accra</p>
         <p>GPS: {site.gps ?? <span class="ph">[GA-XXX-XXXX]</span>}</p>
         <p>{site.phone ?? <span class="ph">[+233]</span>}</p>
         <p>{site.email ?? <span class="ph">[email]</span>}</p>
         <ul class="ftr__social">
-          {site.social.map((s) => <li>{s.href ? <a class="link" href={s.href} rel="noopener" target="_blank">{s.label}</a> : <span class="muted">{s.label}</span>}</li>)}
+          {site.social.map((s) => <li>{s.href ? <a href={s.href} rel="noopener" target="_blank">{s.label}</a> : <span>{s.label}</span>}</li>)}
         </ul>
       </div>
     </div>
 
     <div class="ftr__badges">
-      <span class="mono">Awards &amp; certifications</span>
+      <span>Awards and certifications</span>
       <span class="ph">[Award or certification badges, only those held]</span>
     </div>
-  </div>
 
-  <div class="ftr__word" aria-hidden="true" data-footword>
-    <span>G</span><span>T</span><span>H</span><span>I</span><span>N</span><span>K</span>
-  </div>
-
-  <div class="wrap ftr__legal">
-    <span class="mono">© {year} {site.legalName}</span>
-    <nav aria-label="Legal">
-      <a class="mono" href="/legal/privacy">Privacy Policy</a>
-      <a class="mono" href="/legal/terms">Terms</a>
-      <a class="mono" href="/legal/cookies">Cookie Policy</a>
-    </nav>
-    <button class="mono ftr__top-btn" data-totop>Back to top ↑</button>
+    <div class="ftr__legal">
+      <span>© {year} {site.legalName}</span>
+      <nav aria-label="Legal">
+        <a href="/legal/privacy">Privacy Policy</a>
+        <a href="/legal/terms">Terms</a>
+        <a href="/legal/cookies">Cookie Policy</a>
+      </nav>
+      <button class="ftr__totop" data-totop>Back to top <Arrow /></button>
+    </div>
   </div>
 </footer>
 
 <style>
-  .ftr { padding-top: clamp(80px, 10vw, 140px); overflow: hidden; }
-  .ftr__top { display: grid; grid-template-columns: 1.4fr 1fr; gap: 48px; align-items: end; padding-bottom: clamp(56px, 7vw, 96px); border-bottom: 1px solid var(--line); }
-  .ftr__line { font-size: var(--step-3); line-height: 1; letter-spacing: -0.04em; font-weight: 540; max-width: 14ch; font-variation-settings: 'opsz' 96, 'wdth' 85; }
-  .ftr__line .serif { color: var(--print); }
-  .ftr__news label { display: block; color: var(--muted); margin-bottom: 10px; }
-  .ftr__nl { display: flex; border-bottom: 1px solid var(--line-strong); }
-  .ftr__nl input[type='email'] { flex: 1; background: none; border: 0; color: inherit; font: inherit; font-size: var(--step-1); padding: 12px 0; }
-  .ftr__nl input:focus { outline: none; }
-  .ftr__nl button { width: 52px; display: grid; place-items: center; transition: color 0.3s, transform 0.4s var(--ease); }
-  .ftr__nl button:hover { color: var(--print); transform: translateX(4px); }
-  .ftr__nl .arrow { width: 22px; height: 22px; }
-  .ftr__cols { display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; padding-block: 56px; }
-  .ftr__h { color: var(--muted); margin-bottom: 18px; }
+  .ftr { padding-top: clamp(64px, 8vw, 100px); }
+  .ftr__top { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; align-items: end; padding-bottom: 48px; border-bottom: 1px solid var(--line); }
+  .ftr__brand { display: grid; gap: 18px; }
+  .ftr__brand img { width: 200px; height: auto; }
+  .ftr__brand p { font-family: var(--f-display); font-size: var(--step-2); font-weight: 700; line-height: 1.15; letter-spacing: -0.02em; max-width: 18ch; }
+  .ftr__news label { display: block; color: var(--muted); font-size: 0.9rem; margin-bottom: 10px; }
+  .ftr__nl { display: flex; gap: 8px; }
+  .ftr__nl input[type='email'] { flex: 1; min-width: 0; background: rgba(255,255,255,0.07); border: 1px solid var(--line-strong); color: #fff; font: inherit; padding: 12px 14px; border-radius: 8px; }
+  .ftr__nl input::placeholder { color: #87a5b6; }
+  .ftr__nl input:focus { outline: none; border-color: var(--sky); }
+
+  .ftr__cols { display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; padding-block: 48px; }
+  .ftr__h { font-family: var(--f-display); font-weight: 700; font-size: 0.95rem; margin-bottom: 16px; }
   .ftr__cols li + li { margin-top: 8px; }
-  .ftr__cols .link { font-weight: 400; }
+  .ftr__cols a, .ftr__contact p { color: #c4d7e2; font-size: 0.95rem; transition: color 0.2s; }
+  .ftr__cols a:hover { color: #fff; }
   .ftr__contact p + p { margin-top: 6px; }
-  .ftr__social { display: flex; flex-wrap: wrap; gap: 6px 18px; margin-top: 18px; }
+  .ftr__social { display: flex; flex-wrap: wrap; gap: 6px 16px; margin-top: 18px; }
   .ftr__social li + li { margin-top: 0 !important; }
-  .ftr__badges { display: flex; gap: 24px; align-items: center; padding: 22px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); flex-wrap: wrap; }
-  .ftr__badges .mono { color: var(--muted); }
+  .ftr__social span { color: #87a5b6; font-size: 0.9rem; }
 
-  .ftr__word {
-    display: flex; justify-content: space-between;
-    padding-inline: var(--gutter); margin-top: 3vw;
-    font-size: clamp(5rem, 24vw, 26rem); font-weight: 700; line-height: 0.78;
-    letter-spacing: -0.06em; font-variation-settings: 'opsz' 96, 'wdth' 75;
-    user-select: none;
-  }
-  .ftr__word span { display: inline-block; transform-origin: bottom; }
-  .ftr__word span:nth-child(3n+1) { color: var(--paper); }
-  .ftr__word span:nth-child(2) { color: var(--tech); }
-  .ftr__word span:nth-child(4) { color: var(--brand); }
-  .ftr__word span:nth-child(6) { color: var(--print); }
-
-  .ftr__legal { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding-block: 28px; flex-wrap: wrap; }
+  .ftr__badges { display: flex; gap: 20px; align-items: center; flex-wrap: wrap; padding: 20px 0; border-top: 1px solid var(--line); font-size: 0.9rem; color: var(--muted); }
+  .ftr__legal { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; padding-block: 24px calc(24px + env(safe-area-inset-bottom, 0px)); border-top: 1px solid var(--line); font-size: 0.85rem; color: var(--muted); }
   .ftr__legal nav { display: flex; gap: 20px; flex-wrap: wrap; }
-  .ftr__legal .mono { font-size: 0.68rem; color: var(--muted); transition: color 0.3s; }
-  .ftr__legal a:hover, .ftr__top-btn:hover { color: var(--paper); }
+  .ftr__legal a:hover, .ftr__totop:hover { color: #fff; }
+  .ftr__totop { display: inline-flex; align-items: center; gap: 6px; }
+  .ftr__totop :global(.arrow) { width: 14px; height: 14px; rotate: -90deg; }
 
   @media (max-width: 900px) {
     .ftr__top { grid-template-columns: 1fr; }
     .ftr__cols { grid-template-columns: 1fr 1fr; }
   }
-  @media (max-width: 520px) { .ftr__cols { grid-template-columns: 1fr; } }
+  @media (max-width: 520px) { .ftr__cols { grid-template-columns: 1fr; } .ftr__nl { flex-direction: column; } }
 </style>

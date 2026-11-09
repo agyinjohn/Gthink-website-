@@ -1,81 +1,32 @@
 ---
 import { solutions } from '../data/solutions';
 import Arrow from './Arrow.astro';
+import Icon from './Icon.astro';
 ---
-<div class="sol" data-sollist>
-  <ol class="sol__list">
-    {solutions.map((s, i) => (
-      <li data-solrow style={`--c: var(--${['tech', 'brand', 'print'][i % 3]})`}>
-        <a href={`/solutions/${s.slug}`} class="sol__row" data-cursor-text="Explore">
-          <span class="mono sol__i">0{i + 1}</span>
-          <span class="sol__name">{s.name}</span>
-          <span class="sol__short">{s.short}</span>
-          <span class="sol__go" aria-hidden="true"><Arrow /></span>
-        </a>
-      </li>
-    ))}
-  </ol>
-
-  <div class="sol__prev" data-solprev aria-hidden="true">
-    <div class="sol__slides">
-      {solutions.map((s, i) => (
-        <div class="sol__slide" data-prevslide style={`--c: var(--${['tech', 'brand', 'print'][i % 3]})`}>
-          <div class="sol__art">
-            {Array.from({ length: 7 }).map((_, k) => <i style={`--k:${k}`}></i>)}
-          </div>
-          <span class="sol__big">0{i + 1}</span>
-          <span class="mono sol__cap">{s.name}</span>
-        </div>
-      ))}
-    </div>
-  </div>
+<div class="sgrid" data-stagger>
+  {solutions.map((s) => (
+    <a href={`/solutions/${s.slug}`} class="scard">
+      <span class="scard__icon"><Icon name={s.slug} /></span>
+      <h2 class="scard__name">{s.name}</h2>
+      <p class="scard__short">{s.short}</p>
+      <ul class="scard__list">{s.deliver.slice(0, 3).map((d) => <li>{d.replace(/\s*\[[^\]]+\]/, '')}</li>)}</ul>
+      <span class="link">Learn more <Arrow /></span>
+    </a>
+  ))}
 </div>
-
 <style>
-  .sol { position: relative; }
-  .sol__list { list-style: none; margin: 0; padding: 0; border-top: 1px solid var(--line); }
-  .sol__list li { position: relative; border-bottom: 1px solid var(--line); overflow: hidden; }
-  .sol__row {
-    position: relative; z-index: 1;
-    display: grid; grid-template-columns: 70px minmax(0, 1.1fr) minmax(0, 1fr) 48px; gap: 20px; align-items: center;
-    padding: clamp(22px, 3vw, 40px) 0;
-    transition: color 0.5s var(--ease), padding 0.6s var(--ease);
-  }
-  .sol__list li::before {
-    content: ''; position: absolute; inset: 0; background: var(--c);
-    transform: scaleY(0); transform-origin: bottom; transition: transform 0.6s var(--ease);
-  }
-  .sol__list li:hover::before { transform: scaleY(1); }
-  .sol__list li:hover .sol__row { padding-left: 20px; padding-right: 20px; }
-  .sol__name { font-size: var(--step-3); font-weight: 540; letter-spacing: -0.045em; line-height: 0.95; font-variation-settings: 'opsz' 96, 'wdth' 85; }
-  .sol__short { color: var(--muted); max-width: 34ch; transition: color 0.4s; }
-  .sol__list li:hover .sol__short { color: inherit; }
-  .sol__i { color: var(--muted); }
-  .sol__go { width: 48px; height: 48px; border-radius: 50%; display: grid; place-items: center; box-shadow: inset 0 0 0 1px var(--line-strong); transition: transform 0.6s var(--ease), background 0.4s; }
-  .sol__go .arrow { width: 18px; }
-  .sol__list li:hover .sol__go { transform: rotate(-45deg); background: var(--ink); color: var(--paper); box-shadow: none; }
-  .dark .sol__list li:hover .sol__go { background: var(--paper); color: var(--ink); }
-  .dark .sol__list li:hover .sol__row { color: var(--ink); }
-  .dark .sol__list li:hover .sol__i { color: var(--ink); }
-
-  .sol__prev {
-    position: absolute; left: 0; top: 0; z-index: 3; pointer-events: none;
-    width: 260px; height: 320px; margin: -160px 0 0 -130px;
-    border-radius: 6px; overflow: hidden; opacity: 0; transform: scale(0.4);
-    box-shadow: 0 30px 60px -20px rgba(0,0,0,0.45);
-  }
-  .sol__slides { height: 100%; }
-  .sol__slide { position: relative; height: 100%; background: var(--ink); color: var(--paper); overflow: hidden; }
-  .sol__art { position: absolute; inset: 0; display: grid; grid-template-rows: repeat(7, 1fr); }
-  .sol__art i { display: block; background: var(--c); opacity: calc(1 - var(--k) * 0.12); transform: translateX(calc((var(--k) - 3) * 9%)) skewX(-12deg); margin: 3px 0; }
-  .sol__art i:nth-child(odd) { background: repeating-linear-gradient(90deg, var(--c) 0 10px, transparent 10px 16px); }
-  .sol__big { position: absolute; left: 18px; bottom: 6px; font-size: 7rem; font-weight: 700; letter-spacing: -0.06em; line-height: 1; mix-blend-mode: difference; color: #fff; }
-  .sol__cap { position: absolute; left: 18px; top: 16px; font-size: 0.66rem; background: var(--paper); color: var(--ink); padding: 5px 8px; }
-
-  @media (max-width: 900px) {
-    .sol__row { grid-template-columns: 44px 1fr 44px; }
-    .sol__short { grid-column: 2; grid-row: 2; }
-    .sol__go { grid-column: 3; grid-row: 1; width: 40px; height: 40px; }
-    .sol__prev { display: none; }
-  }
+  .sgrid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .scard { display: flex; flex-direction: column; gap: 12px; padding: 28px; background: var(--surface); border: 1px solid var(--line); border-radius: 12px; transition: border-color 0.25s, box-shadow 0.3s, transform 0.3s var(--ease); }
+  .scard:hover { border-color: var(--blue); box-shadow: 0 20px 40px -28px rgba(7, 47, 67, 0.45); transform: translateY(-4px); }
+  .scard__icon { width: 52px; height: 52px; border-radius: 10px; background: var(--surface-2); color: var(--blue); display: grid; place-items: center; margin-bottom: 6px; transition: background 0.25s, color 0.25s; }
+  .scard:hover .scard__icon { background: var(--blue); color: #fff; }
+  .scard__icon :global(svg) { width: 26px; height: 26px; }
+  .scard__name { font-size: var(--step-1); color: var(--navy); }
+  .scard__short { color: var(--muted); }
+  .scard__list { display: grid; gap: 6px; padding: 14px 0; border-top: 1px solid var(--line); flex: 1; font-size: 0.92rem; }
+  .scard__list li { padding-left: 16px; position: relative; }
+  .scard__list li::before { content: ''; position: absolute; left: 0; top: 0.6em; width: 6px; height: 6px; border-radius: 2px; background: var(--blue); }
+  .scard .link { align-self: flex-start; }
+  @media (max-width: 900px) { .sgrid { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 600px) { .sgrid { grid-template-columns: 1fr; } }
 </style>

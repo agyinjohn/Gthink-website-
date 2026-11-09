@@ -8,12 +8,12 @@ export function initWeave(canvas: HTMLCanvasElement, reduce: boolean) {
   const ctx = canvas.getContext('2d')!;
   const css = getComputedStyle(document.documentElement);
   const C = {
-    bg: css.getPropertyValue('--ink').trim() || '#141210',
-    warp: '#e9e4da',
+    bg: css.getPropertyValue('--navy-deep').trim() || '#072f43',
+    warp: '#e7f0f5',
     threads: [
-      { c: css.getPropertyValue('--tech').trim(), label: 'TECHNOLOGY' },
-      { c: css.getPropertyValue('--brand').trim(), label: 'BRAND' },
-      { c: css.getPropertyValue('--print').trim(), label: 'PRINT' },
+      { c: css.getPropertyValue('--blue').trim() || '#0a7fae' },
+      { c: css.getPropertyValue('--sky').trim() || '#7cc6e6' },
+      { c: '#ffffff' },
     ],
   };
 
@@ -30,10 +30,10 @@ export function initWeave(canvas: HTMLCanvasElement, reduce: boolean) {
   };
 
   const yAt = (j: number, x: number) => {
-    const base = h * (0.3 + j * 0.2);
+    const base = h * (0.28 + j * 0.22);
     const amp = h * (0.13 + 0.03 * j) * (1 + state.pull * 0.6);
     const k = (Math.PI * 2) / (w * (0.55 + j * 0.12));
-    const phase = state.t * (0.35 + j * 0.08) + j * 1.9 + state.scroll * 2;
+    const phase = state.t * (0.25 + j * 0.06) + j * 1.9 + state.scroll * 2;
     // pointer pulls nearby thread sections toward it
     const dx = (x - state.mx * w) / (w * 0.22);
     const tug = Math.exp(-dx * dx) * (state.my * h - base) * 0.35 * state.pull;
@@ -52,7 +52,7 @@ export function initWeave(canvas: HTMLCanvasElement, reduce: boolean) {
     const cols = Math.ceil(w / spacing) + 1;
 
     // warp, behind
-    ctx.fillStyle = 'rgba(233,228,218,0.07)';
+    ctx.fillStyle = 'rgba(231,240,245,0.06)';
     for (let i = 0; i < cols; i++) ctx.fillRect(i * spacing, 0, ww, h);
 
     // weft threads
@@ -91,31 +91,13 @@ export function initWeave(canvas: HTMLCanvasElement, reduce: boolean) {
         if ((i + j) % 2 !== 0) return;
         const yc = yAt(j, x0 + ww / 2);
         const y0 = yc - th / 2 - 3;
-        ctx.fillStyle = 'rgba(0,0,0,0.28)';
+        ctx.fillStyle = 'rgba(0,0,0,0.25)';
         ctx.fillRect(x0 - 1.5, y0, ww + 3, th + 6);
         ctx.fillStyle = C.warp;
         ctx.fillRect(x0, y0, ww, th + 6);
       });
     }
 
-    // labels riding each thread
-    ctx.font = `500 ${Math.max(10, Math.min(12, w / 110))}px "JetBrains Mono", monospace`;
-    ctx.textBaseline = 'middle';
-    C.threads.forEach((tr, j) => {
-      const lx = w * (0.08 + j * 0.31) + Math.sin(state.t * 0.2 + j) * 20;
-      if (lx > revealX - 60) return;
-      const ly = yAt(j, lx);
-      const slope = (yAt(j, lx + 4) - yAt(j, lx - 4)) / 8;
-      ctx.save();
-      ctx.translate(lx, ly);
-      ctx.rotate(Math.atan(slope));
-      const tw = ctx.measureText(tr.label).width;
-      ctx.fillStyle = C.bg;
-      ctx.fillRect(-8, -11, tw + 16, 22);
-      ctx.fillStyle = '#efebe3';
-      ctx.fillText(tr.label, 0, 1);
-      ctx.restore();
-    });
   };
 
   resize();

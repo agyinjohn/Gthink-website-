@@ -1,21 +1,24 @@
 ---
-interface Props { index: string; label: string; title: string; lede?: string }
-const { index, label, title, lede } = Astro.props;
+interface Props { index?: string; label: string; title: string; lede?: string }
+const { label, title, lede } = Astro.props;
 import T from './T.astro';
 ---
-<section class="phead wrap">
-  <div class="phead__meta">
-    <span class="eyebrow" data-reveal="hero">{label}</span>
-    <span class="mono muted" data-reveal="hero">{index}</span>
+<section class="phead">
+  <div class="wrap">
+    <nav class="crumbs" aria-label="Breadcrumb" data-reveal="hero">
+      <a href="/">Home</a><span aria-hidden="true">/</span><span>{label}</span>
+    </nav>
+    <h1 class="phead__title" data-split="hero" set:html={title} />
+    <div class="phead__bottom">
+      {lede && <p class="lede" data-reveal="hero"><T text={lede} /></p>}
+      <div class="phead__actions" data-reveal="hero"><slot /></div>
+    </div>
   </div>
-  <h1 class="phead__title" data-split="hero" set:html={title} />
-  <div class="phead__bottom">
-    {lede && <p class="lede" data-reveal="hero"><T text={lede} /></p>}
-    <slot />
-  </div>
-  <hr class="rule phead__rule" data-draw />
 </section>
 <style>
-  .phead__rule { position: absolute; left: var(--gutter); right: var(--gutter); bottom: 0; }
-  :global(.phead__title .serif) { color: var(--brand); }
+  .phead { background: var(--surface); border-bottom: 1px solid var(--line); }
+  .crumbs { display: flex; gap: 8px; font-size: 0.85rem; color: var(--muted); margin-bottom: 20px; }
+  .crumbs a { color: var(--blue); font-weight: 600; }
+  .phead__actions { display: flex; gap: 10px; flex-wrap: wrap; }
+  .phead__actions:empty { display: none; }
 </style>

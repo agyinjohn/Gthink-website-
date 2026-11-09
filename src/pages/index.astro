@@ -1,58 +1,59 @@
 ---
 import Layout from '../layouts/Layout.astro';
 import Arrow from '../components/Arrow.astro';
+import Icon from '../components/Icon.astro';
 import Ph from '../components/Ph.astro';
 import T from '../components/T.astro';
-import SolutionIndex from '../components/SolutionIndex.astro';
 import CTA from '../components/CTA.astro';
 import { site } from '../data/site';
+import { solutions } from '../data/solutions';
 import { insights, cases, plans } from '../data/content';
 
 const proof = [
-  { v: site.foundedYear ? 2026 - site.foundedYear : null, label: 'XX', unit: 'years in business' },
-  { v: site.clientsSupported, label: 'XXX', unit: 'businesses supported', plus: true },
-  { v: site.responseHours, label: 'X', unit: 'hour support response' },
+  { v: site.foundedYear ? 2026 - site.foundedYear : null, label: 'XX', unit: 'Years in business' },
+  { v: site.clientsSupported, label: 'XXX', unit: 'Businesses supported', plus: true },
+  { v: site.responseHours, label: 'X', unit: 'Hour support response' },
 ];
 const why = [
-  { n: '01', t: 'One partner, not five.', b: 'IT, software, brand and print through one account manager.', c: 'tech' },
-  { n: '02', t: 'Security built in.', b: 'Every system we build is tested against attacks before it goes live.', c: 'brand' },
-  { n: '03', t: 'Clear pricing.', b: 'Published plans with defined inclusions. No surprise bills.', c: 'print' },
-  { n: '04', t: 'Local and fast.', b: 'Accra-based engineers, on-site when you need us, WhatsApp when you don’t.', c: 'leaf' },
+  { icon: 'one', t: 'One partner, not five', b: 'IT, software, brand and print through one account manager.' },
+  { icon: 'shield', t: 'Security built in', b: 'Every system we build is tested against attacks before it goes live.' },
+  { icon: 'tag', t: 'Clear pricing', b: 'Published plans with defined inclusions. No surprise bills.' },
+  { icon: 'pin', t: 'Local and fast', b: 'Accra-based engineers, on-site when you need us, WhatsApp when you don’t.' },
 ];
-const suppliers = [
-  { t: 'IT support vendor', x: 12, y: 22, r: -8 },
-  { t: 'Software house', x: 80, y: 18, r: 6 },
-  { t: 'Security consultant', x: 8, y: 74, r: 5 },
-  { t: 'Ad agency', x: 86, y: 70, r: -6 },
-  { t: 'Print shop', x: 50, y: 88, r: 3 },
+const shopCats = [
+  { icon: 'laptops', t: 'Laptops' }, { icon: 'desktops', t: 'Desktops' }, { icon: 'printers', t: 'Printers and Ink' },
+  { icon: 'networking', t: 'Networking' }, { icon: 'storage', t: 'Storage' }, { icon: 'accessories', t: 'Accessories' },
 ];
 ---
 <Layout title="GTHINK | IT Support, Software and Branding for Businesses in Accra">
-  <!-- ============ HERO ============ -->
+
+  <!-- 1. HERO -->
   <section class="hero">
-    <div class="wrap hero__top">
-      <div class="hero__meta">
-        <span class="eyebrow" data-reveal="hero">IT · Software · Security · Brand · Print</span>
-        <span class="mono muted hero__coords" data-reveal="hero">5.6037° N, 0.1870° W</span>
-      </div>
-      <h1 class="hero__title display" data-split="hero">
-        One partner for your technology, <span class="serif">brand</span> and <span class="serif t-print-dark">print.</span>
-      </h1>
-      <div class="hero__row">
+    <div class="wrap hero__grid">
+      <div class="hero__copy">
+        <p class="eyebrow" data-reveal="hero">IT · Software · Security · Brand · Print</p>
+        <h1 class="hero__title display" data-split="hero">One partner for your technology, <span class="serif">brand and print.</span></h1>
         <p class="lede" data-reveal="hero">
           We build your software, secure your systems and keep your team running, with local support that responds within <Ph value={site.responseHours && `${site.responseHours} hours`} label="X hours" />. GTHINK handles the technology so you can run the business.
         </p>
-        <div class="hero__btns" data-reveal="hero" data-delay="0.1">
-          <a href="/contact#enquiry" class="btn" data-magnetic>Book a Free IT Assessment <Arrow /></a>
-          <a href="/solutions" class="btn btn--ghost" data-magnetic>Explore Solutions</a>
+        <div class="hero__btns" data-reveal="hero" data-delay="0.08">
+          <a href="/contact#enquiry" class="btn">Book a Free IT Assessment <Arrow /></a>
+          <a href="/solutions" class="btn btn--ghost">Explore Solutions</a>
+        </div>
+      </div>
+
+      <div class="hero__art" data-reveal="hero" data-delay="0.15">
+        <canvas data-weave role="img" aria-label="Animated artwork: three threads weaving together, for technology, brand and print"></canvas>
+        <div class="hero__tag">
+          <span class="hero__tag-icon"><Icon name="managed-it" /></span>
+          <span><b>Local support</b><br />Accra-based engineers, on-site or on WhatsApp</span>
         </div>
       </div>
     </div>
+  </section>
 
-    <div class="hero__loom" data-cursor-text="Pull">
-      <canvas data-weave aria-label="Animated artwork: three threads labelled technology, brand and print weaving together" role="img"></canvas>
-    </div>
-
+  <!-- 2. PROOF BAR -->
+  <section class="proof-wrap" aria-label="GTHINK in numbers">
     <div class="wrap">
       <ul class="proof" data-stagger>
         {proof.map((p) => (
@@ -60,172 +61,142 @@ const suppliers = [
             <span class="proof__n">
               {p.v !== null ? <span data-count={p.v}>{p.v}</span> : <span class="ph">[{p.label}]</span>}{p.plus && '+'}
             </span>
-            <span class="mono muted">{p.unit}</span>
+            <span class="proof__l">{p.unit}</span>
           </li>
         ))}
         <li>
           <span class="proof__n proof__n--sm">{site.certification ?? <span class="ph">[Certification or partner badge]</span>}</span>
-          <span class="mono muted">verified only</span>
+          <span class="proof__l">Verified only</span>
         </li>
       </ul>
     </div>
   </section>
 
-  <!-- ============ CLIENTS ============ -->
-  <section class="clients">
-    <div class="wrap clients__head">
-      <span class="mono muted">Trusted by</span>
-      <span class="mono muted">[6 to 8 client logos, with permission]</span>
-    </div>
-    <div class="marquee" data-marquee data-speed="50">
-      <div class="marquee__track">
-        {Array.from({ length: 8 }).map((_, i) => (
-          <span class="logo-slot"><span class="logo-slot__mark" style={`--c: var(--${['tech', 'brand', 'print', 'leaf'][i % 4]})`}></span>Client logo {String(i + 1).padStart(2, '0')}</span>
-        ))}
-      </div>
+  <!-- 3. CLIENTS -->
+  <section class="clients section--tight">
+    <div class="wrap">
+      <p class="clients__h">Trusted by growing businesses across Ghana</p>
+      <ul class="clients__grid" data-stagger>
+        {Array.from({ length: 8 }).map((_, i) => <li><span class="ph">[Client logo {i + 1}]</span></li>)}
+      </ul>
     </div>
   </section>
 
-  <!-- ============ SOLUTIONS ============ -->
-  <section class="section" id="solutions">
+  <!-- 4. SOLUTIONS -->
+  <section class="section sol" id="solutions">
     <div class="wrap">
       <div class="sec-head">
-        <div>
-          <p class="eyebrow" data-reveal>Solutions</p>
-        </div>
-        <div>
-          <h2 class="h2" data-split>Everything your business runs on, <span class="serif">handled by one team.</span></h2>
-        </div>
+        <p class="eyebrow" data-reveal>Solutions</p>
+        <h2 class="h2" data-split>Everything your business runs on, <span class="serif">handled by one team.</span></h2>
+        <p class="lede" data-reveal>Pick what you need today and add more as you grow.</p>
       </div>
-      <SolutionIndex />
-      <div class="sol-foot" data-reveal>
-        <p class="muted">Pick what you need today and add more as you grow.</p>
-        <a href="/solutions" class="link">All solutions <Arrow /></a>
-      </div>
-    </div>
-  </section>
-
-  <!-- ============ WHY: converge ============ -->
-  <section class="conv dark" data-converge aria-labelledby="why-title">
-    <div class="conv__stage">
-      {suppliers.map((s) => (
-        <span class="conv__chip" data-chip style={`left:${s.x}%; top:${s.y}%; rotate:${s.r}deg`}>{s.t}</span>
-      ))}
-      <div class="conv__one" data-one aria-hidden="true">
-        <span class="logo__mark"><i></i><i></i><i></i></span>GTHINK
-      </div>
-    </div>
-    <div class="conv__text wrap">
-      <p class="eyebrow">Why GTHINK</p>
-      <h2 id="why-title" class="conv__h">
-        <span class="conv__swap">
-          <span data-conv-a>Most businesses juggle <span class="serif">five suppliers.</span></span>
-          <span data-conv-b>Our clients deal with <span class="serif">one team.</span></span>
-        </span>
-      </h2>
-    </div>
-  </section>
-
-  <section class="section why">
-    <div class="wrap split">
-      <div class="sticky">
-        <p class="eyebrow" data-reveal>Four reasons</p>
-        <h2 class="h2 why__h" data-split>Plain promises, <span class="serif">kept.</span></h2>
-        <p class="lede muted" data-reveal>Specific claims instead of superlatives. If we cannot prove it, we do not say it.</p>
-      </div>
-      <div class="why__stack" data-stack>
-        {why.map((w, i) => (
-          <article class="why__card" data-stack-card style={`--c: var(--${w.c}); top: ${110 + i * 22}px`}>
-            <div class="why__art" aria-hidden="true">{Array.from({ length: 12 }).map(() => <i></i>)}</div>
-            <span class="mono">{w.n} / 04</span>
-            <h3 class="h3">{w.t}</h3>
-            <p>{w.b}</p>
-          </article>
+      <div class="sol__grid" data-stagger>
+        {solutions.map((s) => (
+          <a href={`/solutions/${s.slug}`} class="sol__card">
+            <span class="sol__icon"><Icon name={s.slug} /></span>
+            <h3 class="sol__name">{s.name}</h3>
+            <p class="sol__short">{s.short}</p>
+            <span class="link sol__more">Learn more <Arrow /></span>
+          </a>
         ))}
       </div>
     </div>
   </section>
 
-  <!-- ============ GEMS ERP ============ -->
-  <section class="section gems dark" id="gems">
+  <!-- 5. WHY GTHINK -->
+  <section class="section why dark">
+    <div class="wrap why__grid">
+      <div class="why__intro">
+        <p class="eyebrow" data-reveal>Why GTHINK</p>
+        <h2 class="h2" data-split>One partner, <span class="serif">not five.</span></h2>
+        <p class="lede" data-reveal>Most businesses juggle an IT vendor, a software house, a security consultant, an agency and a printer. Our clients deal with one team.</p>
+        <div data-reveal><a href="/about" class="btn btn--ghost">About GTHINK <Arrow /></a></div>
+      </div>
+      <ul class="why__list" data-stagger>
+        {why.map((w) => (
+          <li class="why__item">
+            <span class="why__icon"><Icon name={w.icon} /></span>
+            <h3 class="why__t">{w.t}</h3>
+            <p>{w.b}</p>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </section>
+
+  <!-- 6. GEMS ERP -->
+  <section class="section gems" id="gems">
     <div class="wrap gems__grid">
       <div class="gems__copy">
         <p class="eyebrow" data-reveal>Featured product</p>
         <h2 class="h2" data-split>GEMS ERP: run your hotel or business from <span class="serif">one system.</span></h2>
         <p class="lede" data-reveal>Bookings, billing, ledger, wallet and budgeting in one platform built for Ghanaian businesses. <span class="ph">[Confirm public product name and features]</span></p>
         <ul class="gems__feats" data-stagger>
-          {['Bookings', 'Billing', 'Ledger', 'Wallet', 'Budgeting', 'Mobile Money'].map((f) => <li class="mono">{f}</li>)}
+          {['Bookings', 'Billing', 'Ledger', 'Wallet', 'Budgeting', 'Mobile Money'].map((f) => <li><Icon name="check" />{f}</li>)}
         </ul>
-        <div data-reveal><a href="/contact#enquiry" class="btn" data-magnetic>Request a Demo <Arrow /></a></div>
+        <div data-reveal><a href="/contact#enquiry" class="btn">Request a Demo <Arrow /></a></div>
       </div>
 
-      <div class="gems__ui" aria-hidden="true">
-        <div class="ui ui--main" data-parallax="0.06">
-          <div class="ui__bar"><i></i><i></i><i></i><span class="mono">gems / front-desk</span></div>
+      <div class="gems__ui" aria-hidden="true" data-reveal>
+        <div class="ui">
+          <div class="ui__bar"><i></i><i></i><i></i><span>GEMS · Front desk</span></div>
           <div class="ui__body">
-            <div class="ui__side">{['Dashboard', 'Bookings', 'Billing', 'Ledger', 'Wallet', 'Budget'].map((x, i) => <span class:list={['mono', { on: i === 1 }]}>{x}</span>)}</div>
+            <div class="ui__side">{['Dashboard', 'Bookings', 'Billing', 'Ledger', 'Wallet', 'Budget'].map((x, i) => <span class:list={{ on: i === 1 }}>{x}</span>)}</div>
             <div class="ui__main">
               <div class="ui__kpis">
-                <div><span class="mono">Occupancy</span><b>—%</b></div>
-                <div><span class="mono">Arrivals</span><b>—</b></div>
-                <div><span class="mono">Revenue</span><b>GHS —</b></div>
+                <div><span>Occupancy</span><b>—%</b></div>
+                <div><span>Arrivals</span><b>—</b></div>
+                <div><span>Revenue</span><b>GHS —</b></div>
               </div>
               <div class="ui__cal">
                 {Array.from({ length: 6 }).map((_, r) => (
-                  <div class="ui__room"><span class="mono">{101 + r}</span>
-                    <div class="ui__track"><i style={`left:${(r * 17) % 60}%; width:${22 + ((r * 13) % 30)}%; --c: var(--${['tech', 'brand', 'print'][r % 3]})`}></i></div>
+                  <div class="ui__room"><span>{101 + r}</span>
+                    <div class="ui__track"><i style={`left:${(r * 17) % 60}%; width:${22 + ((r * 13) % 30)}%`} class={`c${r % 3}`}></i></div>
                   </div>
                 ))}
               </div>
             </div>
           </div>
         </div>
-        <div class="ui ui--float" data-parallax="-0.25">
-          <span class="mono">Mobile Money</span>
+        <div class="ui ui--float" data-parallax="-0.15">
+          <span class="ui__small">Mobile Money</span>
           <b>Payment received</b>
-          <span class="ui__ok">✓ Reconciled to ledger</span>
-        </div>
-        <div class="ui ui--chip" data-parallax="-0.4">
-          <span class="mono">Room 104</span><b>Checked in</b>
+          <span class="ui__ok"><Icon name="check" /> Reconciled to ledger</span>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ============ PLANS TEASER ============ -->
-  <section class="section plans-t">
+  <!-- 7. MANAGED IT PLANS -->
+  <section class="section plans sand">
     <div class="wrap">
       <div class="sec-head">
         <p class="eyebrow" data-reveal>Managed IT plans (TBP)</p>
-        <div>
-          <h2 class="h2 plans-t__h" data-split>IT support from GHS <Ph value={site.starterPriceGHS} label="XXX" /> <span class="serif">per month.</span></h2>
-          <p class="lede muted" data-reveal>Choose a plan, and we take care of your systems, security, website and print needs.</p>
-        </div>
+        <h2 class="h2" data-split>IT support from GHS <Ph value={site.starterPriceGHS} label="XXX" /> <span class="serif">per month.</span></h2>
+        <p class="lede" data-reveal>Choose a plan, and we take care of your systems, security, website and print needs.</p>
       </div>
-
-      <div class="tabs" data-tabs data-reveal>
-        <div class="tabs__list" role="tablist" aria-label="Plans">
-          <span class="tabs__ind" data-tab-ind></span>
-          {plans.map((p, i) => <button role="tab" id={`tab-${i}`} aria-controls={`panel-${i}`} aria-selected={p.featured ? 'true' : 'false'}>{p.name}</button>)}
-        </div>
-        {plans.map((p, i) => (
-          <div class="tabs__panel" role="tabpanel" id={`panel-${i}`} aria-labelledby={`tab-${i}`} hidden={!p.featured}>
-            <div class="tp__price"><span class="mono muted">Best for: <T text={p.best} /></span><b><T text={p.price} /></b><span class="muted">{p.per}</span></div>
-            <dl class="tp__rows">
-              {Object.entries(p.rows).map(([k, v]) => <div><dt class="mono">{k}</dt><dd><T text={v} /></dd></div>)}
-            </dl>
-          </div>
+      <div class="plans__grid" data-stagger>
+        {plans.map((p) => (
+          <article class:list={['plan', { 'plan--feat': p.featured }]}>
+            {p.featured && <span class="plan__tag">Most chosen</span>}
+            <h3 class="plan__name">{p.name}</h3>
+            <p class="plan__best"><T text={p.best} /></p>
+            <p class="plan__price"><b><T text={p.price} /></b> <span>{p.per}</span></p>
+            <ul class="plan__rows">
+              {Object.entries(p.rows).slice(0, 4).map(([k, v]) => <li><Icon name="check" /><span><b>{k}:</b> <T text={v} /></span></li>)}
+            </ul>
+          </article>
         ))}
-        <div class="tabs__foot">
-          <span class="mono muted">All prices and inclusions to be confirmed by management.</span>
-          <a href="/solutions/managed-it/plans" class="btn btn--ghost" data-magnetic>Compare Plans <Arrow /></a>
-        </div>
+      </div>
+      <div class="plans__foot" data-reveal>
+        <span class="muted">All prices and inclusions to be confirmed by management.</span>
+        <a href="/solutions/managed-it/plans" class="btn btn--ghost">Compare Plans <Arrow /></a>
       </div>
     </div>
   </section>
 
-  <!-- ============ RESULTS ============ -->
-  <section class="section sand results">
+  <!-- 8. RESULTS -->
+  <section class="section results">
     <div class="wrap">
       <div class="sec-head">
         <p class="eyebrow" data-reveal>Results</p>
@@ -233,281 +204,239 @@ const suppliers = [
       </div>
       <div class="grid-3" data-stagger>
         {cases.map((c, i) => (
-          <a href="/case-studies" class="case" style={`--c: var(--${c.thread})`} data-cursor-text="Read">
-            <div class="case__img" aria-hidden="true"><div class="case__art"><i></i><i></i><i></i><i></i><i></i></div></div>
-            <span class="mono case__n">Case 0{i + 1}</span>
+          <a href="/case-studies" class="case">
+            <span class="case__n">Case study {i + 1}</span>
             <p class="case__res"><T text={c.result} /></p>
             <div class="case__meta">
               <span><T text={c.client} /> · <T text={c.sector} /></span>
-              <span class="mono">{c.solution}</span>
+              <span class="case__sol">{c.solution}</span>
             </div>
-            <span class="link case__more">Read the story <Arrow /></span>
+            <span class="link">Read the story <Arrow /></span>
           </a>
         ))}
       </div>
     </div>
   </section>
 
-  <!-- ============ TESTIMONIAL ============ -->
-  <section class="section quote">
+  <!-- 9. TESTIMONIAL -->
+  <section class="section--tight quote-sec">
     <div class="wrap">
-      <span class="quote__mark" aria-hidden="true">“</span>
-      <blockquote>
-        <p class="quote__text" data-split>A client quote that focuses on a measurable result, in the client’s own words.</p>
-        <footer class="mono muted" data-reveal><span class="ph">[Name, Title, Company]</span></footer>
-      </blockquote>
-      <p class="mono muted quote__note">Placeholder: replace with an approved client testimonial.</p>
+      <figure class="quote" data-reveal>
+        <span class="quote__icon"><Icon name="quote" /></span>
+        <blockquote><p>“<span class="ph">[Client quote focused on a measurable result, in the client’s own words]</span>”</p></blockquote>
+        <figcaption><span class="ph">[Name, Title, Company]</span></figcaption>
+      </figure>
     </div>
   </section>
 
-  <!-- ============ SHOP STRIP ============ -->
-  <section class="shopstrip dark">
-    <a href="/shop" class="shopstrip__link" data-cursor-text="Shop">
-      <div class="marquee" data-marquee data-speed="70">
-        <div class="marquee__track">
-          {['Laptops', 'Desktops', 'Printers and Ink', 'Networking', 'Storage', 'Accessories'].map((x, i) => (
-            <span class="shopstrip__item">{x}<i style={`--c: var(--${['tech', 'brand', 'print'][i % 3]})`}></i></span>
-          ))}
+  <!-- 10. SHOP -->
+  <section class="section--tight shop">
+    <div class="wrap">
+      <div class="shop__box">
+        <div class="shop__copy">
+          <p class="eyebrow" data-reveal>Shop</p>
+          <h2 class="h2" data-split>Genuine laptops, printers and accessories.</h2>
+          <p data-reveal>Delivered and set up by our team.</p>
+          <div data-reveal><a href="/shop" class="btn">Visit the Shop <Arrow /></a></div>
         </div>
+        <ul class="shop__cats" data-stagger>
+          {shopCats.map((c) => <li><a href="/shop"><Icon name={c.icon} />{c.t}</a></li>)}
+        </ul>
       </div>
-    </a>
-    <div class="wrap shopstrip__row">
-      <p class="lede">Genuine laptops, printers and accessories, <span class="serif">delivered and set up by our team.</span></p>
-      <a href="/shop" class="btn" data-magnetic>Visit the Shop <Arrow /></a>
     </div>
   </section>
 
-  <!-- ============ INSIGHTS ============ -->
-  <section class="section">
+  <!-- 11. INSIGHTS -->
+  <section class="section insights">
     <div class="wrap">
-      <div class="sec-head">
-        <p class="eyebrow" data-reveal>Latest insights</p>
-        <div class="ins-head">
+      <div class="ins__head">
+        <div class="sec-head">
+          <p class="eyebrow" data-reveal>Latest insights</p>
           <h2 class="h2" data-split>Plain-language advice for <span class="serif">growing businesses.</span></h2>
-          <a href="/insights" class="link" data-reveal>All articles <Arrow /></a>
         </div>
+        <a href="/insights" class="link" data-reveal>All articles <Arrow /></a>
       </div>
-      <div class="arts" data-stagger>
-        {insights.slice(0, 3).map((a, i) => (
+      <div class="grid-3" data-stagger>
+        {insights.slice(0, 3).map((a) => (
           <a href={`/insights#${a.slug}`} class="art">
-            <span class="mono muted">{String(i + 1).padStart(2, '0')} · {a.cat}</span>
+            <span class="art__cat">{a.cat}</span>
             <h3 class="art__t">{a.title}</h3>
             <p class="muted">{a.excerpt}</p>
-            <span class="art__go" aria-hidden="true"><Arrow /></span>
+            <span class="link">Read article <Arrow /></span>
           </a>
         ))}
       </div>
     </div>
   </section>
 
+  <!-- 12. CLOSING CTA -->
   <CTA />
 </Layout>
 
 <style>
-  /* hero */
-  .hero { padding-top: clamp(140px, 17vw, 200px); }
-  .hero__meta { display: flex; justify-content: space-between; gap: 16px; margin-bottom: clamp(24px, 3vw, 40px); }
-  .hero__title { max-width: 13ch; }
-  .hero__title .serif { color: var(--brand); padding-right: 0.04em; }
-  .hero__title .t-print-dark { color: var(--tech); }
-  .hero__row { display: flex; justify-content: space-between; align-items: flex-end; gap: 32px 48px; margin-top: clamp(32px, 4vw, 56px); flex-wrap: wrap; }
-  .hero__row .lede { max-width: 44ch; }
-  .hero__btns { display: flex; gap: 10px; flex-wrap: wrap; }
-  .hero__loom { position: relative; height: clamp(260px, 42vh, 460px); margin-top: clamp(48px, 6vw, 80px); }
-  .hero__loom canvas { width: 100%; height: 100%; }
-  @media (max-width: 640px) { .hero__coords { display: none; } }
+  /* 1. hero */
+  .hero { padding-top: clamp(130px, 14vw, 170px); padding-bottom: clamp(40px, 5vw, 64px); }
+  .hero__grid { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr); gap: clamp(32px, 5vw, 72px); align-items: center; }
+  .hero__copy { display: grid; gap: 24px; justify-items: start; }
+  .hero__title { max-width: 17ch; font-size: clamp(2.5rem, 1.5rem + 3.6vw, 4.6rem); }
+  .hero__btns { display: flex; gap: 12px; flex-wrap: wrap; }
+  .hero__art { position: relative; height: clamp(340px, 42vw, 520px); border-radius: 16px; overflow: hidden; background: var(--navy-deep); }
+  .hero__art canvas { width: 100%; height: 100%; }
+  .hero__tag {
+    position: absolute; left: 16px; right: 16px; bottom: 16px;
+    display: flex; align-items: center; gap: 14px;
+    padding: 14px 16px; border-radius: 10px; background: var(--surface); font-size: 0.9rem; line-height: 1.35; color: var(--ink-2);
+  }
+  .hero__tag b { color: var(--navy); font-family: var(--f-display); }
+  .hero__tag-icon { flex: none; width: 42px; height: 42px; border-radius: 8px; background: var(--blue); color: #fff; display: grid; place-items: center; }
+  .hero__tag-icon :global(svg) { width: 22px; }
+  @media (max-width: 900px) { .hero__grid { grid-template-columns: 1fr; } .hero__art { height: 340px; } }
 
-  .proof { display: grid; grid-template-columns: repeat(4, 1fr); border-bottom: 1px solid var(--line); }
-  .proof li { display: grid; gap: 6px; padding: 28px 20px 28px 0; border-right: 1px solid var(--line); }
-  .proof li + li { padding-left: 20px; }
+  /* 2. proof bar */
+  .proof { display: grid; grid-template-columns: repeat(4, 1fr); background: var(--surface); border: 1px solid var(--line); border-radius: 12px; }
+  .proof li { display: grid; gap: 4px; align-content: start; padding: 24px; border-right: 1px solid var(--line); }
   .proof li:last-child { border-right: 0; }
-  .proof__n { font-size: var(--step-3); font-weight: 560; letter-spacing: -0.05em; line-height: 1; font-variation-settings: 'opsz' 96, 'wdth' 85; }
-  .proof__n .ph { font-size: 0.8em; }
-  .proof__n--sm { font-size: var(--step-1); letter-spacing: -0.01em; }
+  .proof__n { font-family: var(--f-display); font-size: var(--step-3); font-weight: 700; color: var(--navy); line-height: 1.1; }
+  .proof__n--sm { font-size: var(--step-1); }
+  .proof__l { font-size: 0.9rem; color: var(--muted); }
   @media (max-width: 760px) {
     .proof { grid-template-columns: 1fr 1fr; }
     .proof li:nth-child(2) { border-right: 0; }
-    .proof li:nth-child(3) { padding-left: 0; }
     .proof li:nth-child(-n+2) { border-bottom: 1px solid var(--line); }
   }
 
-  /* clients */
-  .clients { padding-block: 48px 24px; }
-  .clients__head { display: flex; justify-content: space-between; margin-bottom: 22px; }
-  .logo-slot {
-    display: inline-flex; align-items: center; gap: 12px;
-    margin-right: clamp(40px, 6vw, 96px);
-    font-size: clamp(1.4rem, 2.6vw, 2.4rem); font-weight: 600; letter-spacing: -0.04em; color: var(--muted);
-    font-variation-settings: 'opsz' 96, 'wdth' 80;
-  }
-  .logo-slot__mark { width: 0.9em; height: 0.9em; background: var(--c); border-radius: 50% 0 50% 50%; opacity: 0.85; }
-  .logo-slot:nth-child(even) .logo-slot__mark { border-radius: 0; transform: rotate(45deg) scale(0.75); }
+  /* 3. clients */
+  .clients__h { text-align: center; color: var(--muted); font-size: 0.95rem; margin-bottom: 22px; }
+  .clients__grid { display: grid; grid-template-columns: repeat(8, 1fr); gap: 12px; }
+  .clients__grid li { height: 64px; display: grid; place-items: center; border-radius: 8px; border: 1px dashed var(--line-strong); font-size: 0.78rem; text-align: center; padding: 6px; }
+  @media (max-width: 900px) { .clients__grid { grid-template-columns: repeat(4, 1fr); } }
+  @media (max-width: 480px) { .clients__grid { grid-template-columns: repeat(2, 1fr); } }
 
-  .sol-foot { display: flex; justify-content: space-between; align-items: center; margin-top: 28px; gap: 16px; flex-wrap: wrap; }
+  /* 4. solutions */
+  .sol__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .sol__card {
+    display: flex; flex-direction: column; gap: 12px; padding: 28px;
+    background: var(--surface); border: 1px solid var(--line); border-radius: 12px;
+    transition: border-color 0.25s, box-shadow 0.3s, transform 0.3s var(--ease);
+  }
+  .sol__card:hover { border-color: var(--blue); box-shadow: 0 20px 40px -28px rgba(7, 47, 67, 0.45); transform: translateY(-4px); }
+  .sol__icon { width: 52px; height: 52px; border-radius: 10px; background: var(--surface-2); color: var(--blue); display: grid; place-items: center; margin-bottom: 8px; transition: background 0.25s, color 0.25s; }
+  .sol__card:hover .sol__icon { background: var(--blue); color: #fff; }
+  .sol__icon :global(svg) { width: 26px; height: 26px; }
+  .sol__name { font-size: var(--step-1); color: var(--navy); }
+  .sol__short { color: var(--muted); flex: 1; }
+  .sol__more { margin-top: 8px; align-self: flex-start; }
+  @media (max-width: 900px) { .sol__grid { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 600px) { .sol__grid { grid-template-columns: 1fr; } }
 
-  /* converge */
-  .conv { position: relative; height: 100vh; min-height: 560px; overflow: hidden; }
-  .conv__stage { position: absolute; inset: 0; }
-  .conv__chip {
-    position: absolute; translate: -50% -50%;
-    padding: 14px 22px; border-radius: 999px; white-space: nowrap;
-    box-shadow: inset 0 0 0 1px rgba(239,235,227,0.4);
-    font-size: clamp(0.95rem, 1.4vw, 1.25rem); letter-spacing: -0.01em; background: var(--ink);
-  }
-  .conv__chip:nth-child(1) { box-shadow: inset 0 0 0 1.5px var(--tech); }
-  .conv__chip:nth-child(2) { box-shadow: inset 0 0 0 1.5px var(--brand); }
-  .conv__chip:nth-child(3) { box-shadow: inset 0 0 0 1.5px var(--print); }
-  .conv__one {
-    position: absolute; left: 50%; top: 50%; translate: -50% -50%;
-    display: inline-flex; align-items: center; gap: 0.25em;
-    padding: 0.35em 0.6em; border-radius: 999px; background: var(--paper); color: var(--ink);
-    font-size: clamp(2.2rem, 7vw, 6rem); font-weight: 700; letter-spacing: -0.05em; font-variation-settings: 'opsz' 96, 'wdth' 80;
-    opacity: 0;
-  }
-  .conv__one .logo__mark { display: grid; grid-template-columns: repeat(3, 0.18em); gap: 0.05em; height: 0.66em; align-items: end; }
-  .conv__one .logo__mark i { display: block; height: 100%; background: var(--tech); }
-  .conv__one .logo__mark i:nth-child(2) { background: var(--brand); height: 72%; }
-  .conv__one .logo__mark i:nth-child(3) { background: var(--print); height: 45%; }
-  .conv__text { position: absolute; left: 0; right: 0; top: clamp(90px, 13vh, 140px); text-align: center; display: grid; justify-items: center; gap: 18px; }
-  .conv__h { font-size: var(--step-3); max-width: 18ch; }
-  .conv__h .serif { color: var(--print); }
-  .conv__swap { display: grid; overflow: hidden; }
-  .conv__swap > span { grid-area: 1 / 1; }
-  [data-conv-b] { opacity: 0; }
-  @media (max-width: 640px) {
-    .conv__chip { padding: 10px 14px; }
-  }
+  /* 5. why */
+  .why__grid { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(32px, 6vw, 88px); align-items: start; }
+  .why__intro { display: grid; gap: 22px; justify-items: start; }
+  .why__intro .lede { color: #c4d7e2; }
+  .why__list { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .why__item { padding: 28px; border-radius: 12px; background: rgba(255, 255, 255, 0.05); border: 1px solid var(--line); display: grid; gap: 10px; align-content: start; }
+  .why__icon { width: 48px; height: 48px; border-radius: 10px; background: var(--blue); color: #fff; display: grid; place-items: center; margin-bottom: 6px; }
+  .why__icon :global(svg) { width: 24px; height: 24px; }
+  .why__t { font-size: var(--step-1); }
+  .why__item p { color: #c4d7e2; }
+  @media (max-width: 900px) { .why__grid { grid-template-columns: 1fr; } }
+  @media (max-width: 560px) { .why__list { grid-template-columns: 1fr; } }
 
-  /* why */
-  .why__h { margin: 22px 0 24px; }
-  .why__h .serif { color: var(--brand); }
-  .why__stack { display: grid; gap: 22px; }
-  .why__card {
-    position: sticky; min-height: 340px; padding: clamp(28px, 3vw, 44px);
-    background: var(--paper-2); border-radius: 6px; overflow: hidden;
-    display: flex; flex-direction: column; justify-content: flex-end; gap: 14px;
-    box-shadow: 0 0 0 1px var(--line);
-    transform-origin: top center;
-  }
-  .why__card { padding-right: calc(46% + 32px); }
-  .why__card .mono { position: absolute; top: 28px; left: clamp(28px, 3vw, 44px); color: var(--muted); }
-  .why__card h3 { font-size: var(--step-2); max-width: 12ch; }
-  .why__card p { max-width: 40ch; font-size: var(--step-1); line-height: 1.35; color: var(--ink-2); }
-  .why__art { position: absolute; right: 0; top: 0; width: 46%; height: 100%; display: grid; grid-template-columns: repeat(4, 1fr); grid-template-rows: repeat(3, 1fr); }
-  .why__art i { background: var(--c); }
-  .why__art i:nth-child(3n) { background: repeating-linear-gradient(90deg, var(--c) 0 6px, transparent 6px 12px); }
-  .why__art i:nth-child(4n+1) { background: transparent; }
-  .why__art i:nth-child(5n+2) { background: var(--ink); }
-  @media (max-width: 900px) { .why__art { width: 100%; height: 150px; } .why__card { min-height: 400px; padding-right: clamp(28px, 3vw, 44px); padding-top: 190px; } .why__card .mono { background: var(--paper); padding: 4px 8px; z-index: 1; } }
-
-  /* gems */
-  .gems__grid { display: grid; grid-template-columns: 1fr 1.15fr; gap: clamp(40px, 6vw, 96px); align-items: center; }
-  .gems__copy { display: grid; gap: 28px; justify-items: start; }
-  .gems__copy .serif { color: var(--print); }
-  .gems__feats { display: flex; flex-wrap: wrap; gap: 8px; }
-  .gems__feats li { padding: 8px 12px; border-radius: 999px; box-shadow: inset 0 0 0 1px var(--line-strong); font-size: 0.7rem; }
-  .gems__ui { position: relative; min-height: 460px; }
-  .ui { background: #f4f1ea; color: var(--ink); border-radius: 8px; box-shadow: 0 40px 80px -30px rgba(0,0,0,0.7); }
-  .ui--main { overflow: hidden; }
-  .ui__bar { display: flex; align-items: center; gap: 6px; padding: 12px 14px; border-bottom: 1px solid rgba(0,0,0,0.08); }
-  .ui__bar i { width: 9px; height: 9px; border-radius: 50%; background: #d4cdbf; }
-  .ui__bar .mono { margin-left: 10px; font-size: 0.62rem; color: #8a8377; }
-  .ui__body { display: grid; grid-template-columns: 120px 1fr; min-height: 380px; }
-  .ui__side { display: grid; align-content: start; gap: 4px; padding: 14px 10px; border-right: 1px solid rgba(0,0,0,0.08); }
-  .ui__side span { font-size: 0.62rem; padding: 7px 8px; border-radius: 4px; color: #6f685d; }
-  .ui__side span.on { background: var(--ink); color: var(--paper); }
+  /* 6. gems */
+  .gems__grid { display: grid; grid-template-columns: 1fr 1.1fr; gap: clamp(40px, 6vw, 80px); align-items: center; }
+  .gems__copy { display: grid; gap: 24px; justify-items: start; }
+  .gems__feats { display: grid; grid-template-columns: repeat(3, auto); gap: 10px 24px; }
+  .gems__feats li { display: flex; align-items: center; gap: 8px; font-weight: 600; color: var(--navy); }
+  .gems__feats :global(svg) { width: 18px; height: 18px; color: var(--blue); }
+  .gems__ui { position: relative; }
+  .ui { background: var(--surface); color: var(--ink); border-radius: 12px; border: 1px solid var(--line); box-shadow: 0 40px 80px -40px rgba(7, 47, 67, 0.5); overflow: hidden; }
+  .ui__bar { display: flex; align-items: center; gap: 6px; padding: 12px 14px; background: var(--navy); color: #c4d7e2; font-size: 0.75rem; }
+  .ui__bar i { width: 9px; height: 9px; border-radius: 50%; background: rgba(255,255,255,0.3); }
+  .ui__bar span { margin-left: 10px; }
+  .ui__body { display: grid; grid-template-columns: 118px 1fr; min-height: 360px; }
+  .ui__side { display: grid; align-content: start; gap: 4px; padding: 14px 10px; border-right: 1px solid var(--line); background: var(--bg); }
+  .ui__side span { font-size: 0.75rem; padding: 7px 9px; border-radius: 6px; color: var(--muted); }
+  .ui__side span.on { background: var(--blue); color: #fff; }
   .ui__main { padding: 16px; display: grid; gap: 16px; align-content: start; }
   .ui__kpis { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
-  .ui__kpis div { background: #e9e4da; border-radius: 6px; padding: 12px; display: grid; gap: 6px; }
-  .ui__kpis .mono { font-size: 0.56rem; color: #6f685d; }
-  .ui__kpis b { font-size: 1.3rem; letter-spacing: -0.03em; }
+  .ui__kpis div { background: var(--surface-2); border-radius: 8px; padding: 12px; display: grid; gap: 4px; }
+  .ui__kpis span { font-size: 0.7rem; color: var(--muted); }
+  .ui__kpis b { font-family: var(--f-display); font-size: 1.15rem; color: var(--navy); }
   .ui__cal { display: grid; gap: 8px; }
-  .ui__room { display: grid; grid-template-columns: 34px 1fr; gap: 8px; align-items: center; }
-  .ui__room .mono { font-size: 0.6rem; color: #6f685d; }
-  .ui__track { position: relative; height: 26px; background: repeating-linear-gradient(90deg, #e9e4da 0 1px, transparent 1px 14.28%); border-radius: 4px; }
-  .ui__track i { position: absolute; top: 3px; bottom: 3px; border-radius: 3px; background: var(--c); }
-  .ui--float { position: absolute; right: -10px; bottom: 30px; padding: 16px 18px; display: grid; gap: 4px; width: 220px; }
-  .ui--float .mono { font-size: 0.6rem; color: #6f685d; }
-  .ui__ok { font-size: 0.8rem; color: var(--leaf); }
-  .ui--chip { position: absolute; left: -24px; top: -20px; padding: 12px 16px; display: grid; gap: 2px; background: var(--print); }
-  .ui--chip .mono { font-size: 0.6rem; }
+  .ui__room { display: grid; grid-template-columns: 34px 1fr; gap: 8px; align-items: center; font-size: 0.72rem; color: var(--muted); }
+  .ui__track { position: relative; height: 26px; background: repeating-linear-gradient(90deg, var(--surface-2) 0 1px, transparent 1px 14.28%); border-radius: 6px; border: 1px solid var(--line); }
+  .ui__track i { position: absolute; top: 3px; bottom: 3px; border-radius: 4px; }
+  .ui__track i.c0 { background: var(--blue); } .ui__track i.c1 { background: var(--navy); } .ui__track i.c2 { background: var(--sky); }
+  .ui--float { position: absolute; right: -12px; bottom: -24px; padding: 16px 18px; display: grid; gap: 4px; width: 230px; }
+  .ui__small { font-size: 0.72rem; color: var(--muted); }
+  .ui--float b { font-family: var(--f-display); color: var(--navy); }
+  .ui__ok { display: flex; align-items: center; gap: 6px; font-size: 0.82rem; color: #178a45; }
+  .ui__ok :global(svg) { width: 16px; }
   @media (max-width: 900px) {
     .gems__grid { grid-template-columns: 1fr; }
-    .ui--chip { left: 8px; }
-    .ui--float { right: 8px; bottom: -20px; }
     .ui__body { grid-template-columns: 1fr; }
     .ui__side { display: none; }
+    .ui--float { right: 10px; }
   }
+  @media (max-width: 480px) { .gems__feats { grid-template-columns: repeat(2, auto); } }
 
-  /* plans teaser */
-  .plans-t__h { max-width: 16ch !important; margin-bottom: 22px; }
-  .plans-t__h .serif { color: var(--tech); }
-  .tabs { border: 1px solid var(--line); border-radius: 8px; padding: clamp(16px, 3vw, 36px); }
-  .tabs__list { position: relative; display: inline-flex; padding: 5px; background: var(--paper-2); border-radius: 999px; margin-bottom: 36px; }
-  .tabs__list button { position: relative; z-index: 1; padding: 11px 22px; border-radius: 999px; font-weight: 520; transition: color 0.4s; }
-  .tabs__list button[aria-selected='true'] { color: var(--paper); }
-  .tabs__ind { position: absolute; left: 0; top: 5px; bottom: 5px; border-radius: 999px; background: var(--ink); }
-  .tp__price { display: flex; flex-wrap: wrap; align-items: baseline; gap: 6px 14px; margin-bottom: 28px; }
-  .tp__price .mono { width: 100%; }
-  .tp__price b { font-size: var(--step-4); font-weight: 560; letter-spacing: -0.05em; line-height: 1; font-variation-settings: 'opsz' 96, 'wdth' 85; }
-  .tp__rows { display: grid; grid-template-columns: repeat(5, 1fr); margin: 0; border-top: 1px solid var(--line); }
-  .tp__rows div { padding: 18px 16px 4px 0; display: grid; gap: 8px; align-content: start; }
-  .tp__rows dt { color: var(--muted); font-size: 0.68rem; }
-  .tp__rows dd { margin: 0; font-weight: 500; }
-  .tabs__foot { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; margin-top: 36px; padding-top: 24px; border-top: 1px solid var(--line); }
-  @media (max-width: 900px) { .tp__rows { grid-template-columns: 1fr 1fr; } }
+  /* 7. plans */
+  .plans__grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; align-items: start; }
+  .plan { position: relative; display: grid; gap: 10px; padding: 28px; border-radius: 12px; background: var(--surface); border: 1px solid var(--line); }
+  .plan--feat { background: var(--navy); color: #fff; border-color: var(--navy); --muted: #a9c3d2; }
+  .plan__tag { position: absolute; top: 20px; right: 20px; padding: 5px 10px; border-radius: 6px; background: var(--sky); color: var(--navy-deep); font-size: 0.75rem; font-weight: 700; }
+  .plan__name { font-size: var(--step-1); }
+  .plan--feat .plan__name { color: #fff; }
+  .plan__best { color: var(--muted); font-size: 0.92rem; }
+  .plan__price { margin: 8px 0 6px; }
+  .plan__price b { font-family: var(--f-display); font-size: clamp(1.6rem, 1.2rem + 1.4vw, 2.3rem); font-weight: 700; white-space: nowrap; }
+  .plan__price span { color: var(--muted); }
+  .plan__rows { display: grid; gap: 10px; padding-top: 16px; border-top: 1px solid var(--line); }
+  .plan--feat .plan__rows { border-color: rgba(255,255,255,0.15); }
+  .plan__rows li { display: grid; grid-template-columns: 18px 1fr; gap: 10px; font-size: 0.92rem; }
+  .plan__rows :global(svg) { width: 18px; height: 18px; color: var(--blue); margin-top: 2px; }
+  .plan--feat .plan__rows :global(svg) { color: var(--sky); }
+  .plan--feat :global(.ph) { color: #a9c3d2; }
+  .plans__foot { display: flex; justify-content: space-between; align-items: center; gap: 16px; flex-wrap: wrap; margin-top: 28px; font-size: 0.92rem; }
+  @media (max-width: 900px) { .plans__grid { grid-template-columns: 1fr; } }
 
-  /* results */
-  .case {
-    position: relative; display: flex; flex-direction: column; gap: 18px;
-    min-height: 520px; padding: 260px 28px 28px; background: var(--paper); border-radius: 6px; overflow: hidden;
-    transition: transform 0.7s var(--ease);
-  }
-  .case:hover { transform: translateY(-8px); }
-  .case__img { position: absolute; left: 10px; right: 10px; top: 10px; height: 230px; overflow: hidden; border-radius: 4px; background: var(--ink); }
-  .case__art { position: absolute; left: -20%; top: -40%; width: 140%; height: 180%; display: grid; grid-template-rows: repeat(5, 1fr); rotate: -18deg; transition: rotate 1s var(--ease), scale 1s var(--ease); }
-  .case:hover .case__art { rotate: -6deg; scale: 1.1; }
-  .case__art i { background: var(--c); margin: 4px 0; }
-  .case__art i:nth-child(even) { background: repeating-linear-gradient(90deg, var(--c) 0 8px, transparent 8px 14px); }
-  .case__n { position: absolute; left: 22px; top: 22px; z-index: 1; color: var(--ink); background: var(--paper); padding: 4px 8px; }
-  .case__res { position: relative; margin-top: 8px; font-size: var(--step-2); line-height: 1.05; letter-spacing: -0.03em; }
-  .case__res :global(.ph) { white-space: normal; }
-  .case__meta :global(.ph) { font-size: 0.95em; }
-  .case__meta { position: relative; display: grid; gap: 4px; font-size: 0.92rem; padding-top: 16px; border-top: 1px solid var(--line); }
-  .case__meta .mono { color: var(--muted); font-size: 0.66rem; }
-  .case__more { position: relative; align-self: flex-start; }
+  /* 8. results */
+  .case { display: flex; flex-direction: column; gap: 16px; padding: 28px; border-radius: 12px; background: var(--surface); border: 1px solid var(--line); border-top: 4px solid var(--blue); transition: box-shadow 0.3s, transform 0.3s var(--ease); }
+  .case:hover { transform: translateY(-4px); box-shadow: 0 20px 40px -28px rgba(7, 47, 67, 0.45); }
+  .case__n { font-size: 0.8rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase; color: var(--blue); }
+  .case__res { font-family: var(--f-display); font-size: var(--step-2); font-weight: 700; line-height: 1.15; color: var(--navy); flex: 1; }
+  .case__meta { display: grid; gap: 2px; font-size: 0.92rem; padding-top: 14px; border-top: 1px solid var(--line); }
+  .case__sol { color: var(--muted); font-size: 0.85rem; }
+  .case .link { align-self: flex-start; }
 
-  /* quote */
-  .quote .wrap { position: relative; }
-  .quote__mark { position: absolute; left: var(--gutter); top: -0.35em; font-family: var(--f-serif); font-size: clamp(10rem, 24vw, 22rem); line-height: 1; color: var(--brand); opacity: 0.9; pointer-events: none; }
-  .quote blockquote { margin: 0 0 0 auto; max-width: 1100px; padding-left: clamp(0px, 10vw, 160px); position: relative; }
-  .quote__text { font-family: var(--f-serif); font-size: var(--step-4); line-height: 1; letter-spacing: -0.02em; color: var(--muted); }
-  .quote footer { margin-top: 36px; }
-  .quote__note { margin-top: 16px; padding-left: clamp(0px, 10vw, 160px); max-width: 1100px; margin-left: auto; font-size: 0.66rem; }
+  /* 9. testimonial */
+  .quote { margin: 0 auto; max-width: 900px; padding: clamp(32px, 5vw, 56px); border-radius: 16px; background: var(--surface-2); text-align: center; display: grid; gap: 20px; justify-items: center; }
+  .quote__icon { width: 52px; height: 52px; border-radius: 50%; background: var(--blue); color: #fff; display: grid; place-items: center; }
+  .quote__icon :global(svg) { width: 24px; }
+  .quote blockquote { margin: 0; font-family: var(--f-display); font-size: var(--step-2); font-weight: 600; line-height: 1.3; color: var(--navy); }
 
-  /* shop strip */
-  .shopstrip { padding-block: clamp(56px, 8vw, 110px); overflow: hidden; }
-  .shopstrip__item { display: inline-flex; align-items: center; gap: clamp(20px, 3vw, 48px); margin-right: clamp(20px, 3vw, 48px); font-size: clamp(3rem, 10vw, 9rem); font-weight: 600; letter-spacing: -0.055em; line-height: 1.05; font-variation-settings: 'opsz' 96, 'wdth' 78; transition: color 0.4s; }
-  .shopstrip__item i { width: 0.5em; height: 0.18em; background: var(--c); }
-  .shopstrip__link:hover .shopstrip__item { color: transparent; -webkit-text-stroke: 1.5px var(--paper); }
-  .shopstrip__row { display: flex; justify-content: space-between; align-items: flex-end; gap: 24px; margin-top: clamp(32px, 4vw, 56px); flex-wrap: wrap; }
-  .shopstrip__row .serif { color: var(--print); }
+  /* 10. shop */
+  .shop__box { display: grid; grid-template-columns: 1fr 1.1fr; gap: clamp(28px, 5vw, 64px); align-items: center; padding: clamp(28px, 5vw, 56px); border-radius: 16px; background: var(--blue); color: #fff; }
+  .shop__copy { display: grid; gap: 16px; justify-items: start; }
+  .shop__copy .eyebrow { color: #fff; }
+  .shop__copy p:not(.eyebrow) { color: #dcecf4; font-size: var(--step-1); }
+  .shop__copy .btn { background: #fff; color: var(--navy); }
+  .shop__copy .btn:hover { background: var(--navy); color: #fff; }
+  .shop__cats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .shop__cats a { display: grid; gap: 10px; justify-items: start; padding: 18px; border-radius: 10px; background: rgba(255, 255, 255, 0.12); font-weight: 600; font-size: 0.92rem; transition: background 0.2s; }
+  .shop__cats a:hover { background: rgba(255, 255, 255, 0.22); }
+  .shop__cats :global(svg) { width: 28px; height: 28px; }
+  @media (max-width: 900px) { .shop__box { grid-template-columns: 1fr; } }
+  @media (max-width: 480px) { .shop__cats { grid-template-columns: 1fr 1fr; } }
 
-  /* insights */
-  .ins-head { display: grid; gap: 20px; justify-items: start; }
-  .arts { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--line); }
-  .art { position: relative; display: grid; gap: 14px; align-content: start; padding: 28px 28px 80px 0; border-right: 1px solid var(--line); }
-  .art + .art { padding-left: 28px; }
-  .art:last-child { border-right: 0; }
-  .art__t { font-size: var(--step-2); line-height: 1.05; letter-spacing: -0.03em; transition: color 0.4s; }
-  .art:hover .art__t { color: var(--brand); }
-  .art__go { position: absolute; left: 0; bottom: 24px; width: 44px; height: 44px; border-radius: 50%; display: grid; place-items: center; box-shadow: inset 0 0 0 1px var(--line-strong); transition: transform 0.6s var(--ease), background 0.4s, color 0.4s; }
-  .art + .art .art__go { left: 28px; }
-  .art:hover .art__go { background: var(--ink); color: var(--paper); transform: rotate(-45deg); }
-  .art__go .arrow { width: 18px; }
-  @media (max-width: 900px) {
-    .arts { grid-template-columns: 1fr; }
-    .art, .art + .art { padding: 28px 0 84px; border-right: 0; border-bottom: 1px solid var(--line); }
-    .art + .art .art__go { left: 0; }
-  }
+  /* 11. insights */
+  .ins__head { display: flex; justify-content: space-between; align-items: end; gap: 20px; flex-wrap: wrap; }
+  .ins__head .sec-head { margin-bottom: clamp(28px, 4vw, 48px); }
+  .ins__head > .link { margin-bottom: clamp(28px, 4vw, 48px); }
+  .art { display: flex; flex-direction: column; gap: 12px; padding: 28px; border-radius: 12px; background: var(--surface); border: 1px solid var(--line); transition: border-color 0.25s; }
+  .art:hover { border-color: var(--blue); }
+  .art__cat { align-self: flex-start; padding: 4px 10px; border-radius: 6px; background: var(--surface-2); color: var(--blue); font-size: 0.78rem; font-weight: 700; }
+  .art__t { font-size: var(--step-1); color: var(--navy); line-height: 1.25; }
+  .art .muted { flex: 1; }
+  .art .link { align-self: flex-start; }
 </style>
