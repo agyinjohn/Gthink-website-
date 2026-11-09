@@ -3,72 +3,95 @@ import { site } from '../data/site';
 import { solutions } from '../data/solutions';
 import Arrow from './Arrow.astro';
 const year = 2026;
+
+const company = [
+  { label: 'Our Story', href: '/about' },
+  { label: 'Leadership', href: '/about#leadership' },
+  { label: 'Awards', href: '/about#awards' },
+  { label: 'Careers', href: '/about#careers' },
+  { label: 'Industries', href: '/industries' },
+  { label: 'Case Studies', href: '/case-studies' },
+  { label: 'Insights', href: '/insights' },
+];
+const support = [
+  { label: 'Client Support', href: '/support' },
+  { label: 'Log a Ticket', href: '/support#ticket' },
+  { label: 'Shop', href: '/shop' },
+  { label: 'Contact', href: '/contact' },
+  { label: 'Free IT Assessment', href: '/contact#enquiry' },
+];
+const contact = [
+  { k: 'Visit', v: site.address ? `${site.address}, Accra` : null, ph: '[Address], Accra' },
+  { k: 'GPS', v: site.gps, ph: '[GA-XXX-XXXX]' },
+  { k: 'Call', v: site.phone, ph: '[+233]', href: site.phone ? `tel:${site.phone.replace(/\s/g, '')}` : null },
+  { k: 'Email', v: site.email, ph: '[email]', href: site.email ? `mailto:${site.email}` : null },
+];
 ---
-<footer class="ftr dark watermark">
+<footer class="ftr dark">
   <div class="wrap">
-    <div class="ftr__top">
+    <!-- brand + links -->
+    <div class="ftr__main">
       <div class="ftr__brand">
-      <img class="ftr__logo" src="/logo-white.png" alt="GTHINK Company Limited" width="200" height="45" loading="lazy" />
-      <p class="ftr__line" data-split>One partner for your technology, <span class="serif">brand and print.</span></p>
+        <img class="ftr__logo" src="/logo-white.png" alt="GTHINK Company Limited" width="200" height="45" loading="lazy" />
+        <p class="ftr__about">IT, software, security, brand and print for growing businesses in Ghana. One team, one invoice.</p>
+        <dl class="ftr__contact">
+          {contact.map((c) => (
+            <div>
+              <dt class="mono">{c.k}</dt>
+              <dd>{c.v ? (c.href ? <a href={c.href}>{c.v}</a> : c.v) : <span class="ph">{c.ph}</span>}</dd>
+            </div>
+          ))}
+        </dl>
       </div>
-      <form class="ftr__news" data-form="newsletter" action={site.formEndpoint ?? '#'} method="post">
-        <label for="nl-email" class="mono">Plain-language IT advice, monthly</label>
-        <div class="ftr__nl">
-          <input id="nl-email" type="email" name="email" placeholder="you@company.com" required autocomplete="email" />
-          <input class="hp" type="text" name="company_website" tabindex="-1" autocomplete="off" aria-hidden="true" />
-          <button type="submit" aria-label="Subscribe"><Arrow /></button>
+
+      <nav class="ftr__nav" aria-label="Footer">
+        <div class="ftr__col">
+          <p class="mono ftr__h">Solutions</p>
+          <ul>
+            {solutions.map((s) => <li><a href={`/solutions/${s.slug}`}>{s.name}<Arrow /></a></li>)}
+            <li><a href="/solutions/managed-it/plans">Managed IT Plans<Arrow /></a></li>
+          </ul>
         </div>
-        <p class="form-note" data-note></p>
-      </form>
+        <div class="ftr__col">
+          <p class="mono ftr__h">Company</p>
+          <ul>{company.map((l) => <li><a href={l.href}>{l.label}<Arrow /></a></li>)}</ul>
+        </div>
+        <div class="ftr__col">
+          <p class="mono ftr__h">Support</p>
+          <ul>{support.map((l) => <li><a href={l.href}>{l.label}<Arrow /></a></li>)}</ul>
+        </div>
+      </nav>
     </div>
 
-    <div class="ftr__cols">
-      <div>
-        <p class="mono ftr__h">Solutions</p>
-        <ul>
-          {solutions.map((s) => <li><a class="link" href={`/solutions/${s.slug}`}>{s.name}</a></li>)}
-          <li><a class="link" href="/solutions/managed-it/plans">Managed IT Plans</a></li>
-        </ul>
+    <!-- newsletter -->
+    <form class="ftr__news" data-form="newsletter" action={site.formEndpoint ?? '#'} method="post">
+      <div class="ftr__news-copy">
+        <label for="nl-email" class="ftr__news-t">Plain-language IT advice, once a month.</label>
+        <p class="ftr__news-s">Short, practical and free. No spam, unsubscribe any time.</p>
       </div>
-      <div>
-        <p class="mono ftr__h">Company</p>
-        <ul>
-          <li><a class="link" href="/about">Our Story</a></li>
-          <li><a class="link" href="/about#leadership">Leadership</a></li>
-          <li><a class="link" href="/about#awards">Awards</a></li>
-          <li><a class="link" href="/about#careers">Careers</a></li>
-          <li><a class="link" href="/industries">Industries</a></li>
-          <li><a class="link" href="/case-studies">Case Studies</a></li>
-          <li><a class="link" href="/insights">Insights</a></li>
-        </ul>
+      <div class="ftr__nl">
+        <input id="nl-email" type="email" name="email" placeholder="you@company.com" required autocomplete="email" />
+        <input class="hp" type="text" name="company_website" tabindex="-1" autocomplete="off" aria-hidden="true" />
+        <button type="submit" class="ftr__sub">Subscribe <Arrow /></button>
       </div>
-      <div>
-        <p class="mono ftr__h">Support</p>
-        <ul>
-          <li><a class="link" href="/support">Client Support</a></li>
-          <li><a class="link" href="/support#ticket">Log a Ticket</a></li>
-          <li><a class="link" href="/shop">Shop</a></li>
-          <li><a class="link" href="/contact">Contact</a></li>
-        </ul>
-      </div>
-      <div class="ftr__contact">
-        <p class="mono ftr__h">Visit / call</p>
-        <p>{site.address ?? <span class="ph">[Address]</span>}, Accra</p>
-        <p>GPS: {site.gps ?? <span class="ph">[GA-XXX-XXXX]</span>}</p>
-        <p>{site.phone ?? <span class="ph">[+233]</span>}</p>
-        <p>{site.email ?? <span class="ph">[email]</span>}</p>
-        <ul class="ftr__social">
-          {site.social.map((s) => <li>{s.href ? <a class="link" href={s.href} rel="noopener" target="_blank">{s.label}</a> : <span class="muted">{s.label}</span>}</li>)}
-        </ul>
-      </div>
-    </div>
+      <p class="form-note ftr__note" data-note aria-live="polite"></p>
+    </form>
 
-    <div class="ftr__badges">
-      <span class="mono">Awards &amp; certifications</span>
-      <span class="ph">[Award or certification badges, only those held]</span>
+    <!-- awards + social -->
+    <div class="ftr__strip">
+      <div class="ftr__badges">
+        <span class="mono">Awards &amp; certifications</span>
+        <span class="ph">[Award or certification badges, only those held]</span>
+      </div>
+      <ul class="ftr__social" aria-label="Social media">
+        {site.social.map((s) => (
+          <li>{s.href ? <a href={s.href} rel="noopener" target="_blank">{s.label}</a> : <span title="Link to be added">{s.label}</span>}</li>
+        ))}
+      </ul>
     </div>
   </div>
 
+  <!-- sign-off -->
   <div class="ftr__word" aria-hidden="true" data-footword>
     <span>G</span><span>T</span><span>H</span><span>I</span><span>N</span><span>K</span>
   </div>
@@ -85,49 +108,95 @@ const year = 2026;
 </footer>
 
 <style>
-  .ftr { padding-top: clamp(80px, 10vw, 140px); overflow: hidden; }
-  .ftr.watermark::before { top: -12%; bottom: auto; right: -8%; }
-  .ftr__top { display: grid; grid-template-columns: 1.4fr 1fr; gap: 48px; align-items: end; padding-bottom: clamp(56px, 7vw, 96px); border-bottom: 1px solid var(--line); }
-  .ftr__brand { display: grid; gap: 28px; }
-  .ftr__logo { width: 200px; height: auto; }
-  .ftr__line { font-size: var(--step-3); line-height: 1; letter-spacing: -0.04em; font-weight: 540; max-width: 14ch; font-variation-settings: 'opsz' 96, 'wdth' 85; }
-  .ftr__line .serif { color: var(--print); }
-  .ftr__news label { display: block; color: var(--muted); margin-bottom: 10px; }
-  .ftr__nl { display: flex; border-bottom: 1px solid var(--line-strong); }
-  .ftr__nl input[type='email'] { flex: 1; background: none; border: 0; color: inherit; font: inherit; font-size: var(--step-1); padding: 12px 0; }
-  .ftr__nl input:focus { outline: none; }
-  .ftr__nl button { width: 52px; display: grid; place-items: center; transition: color 0.3s, transform 0.4s var(--ease); }
-  .ftr__nl button:hover { color: var(--print); transform: translateX(4px); }
-  .ftr__nl .arrow { width: 22px; height: 22px; }
-  .ftr__cols { display: grid; grid-template-columns: repeat(4, 1fr); gap: 32px; padding-block: 56px; }
-  .ftr__h { color: var(--muted); margin-bottom: 18px; }
-  .ftr__cols li + li { margin-top: 8px; }
-  .ftr__cols .link { font-weight: 400; }
-  .ftr__contact p + p { margin-top: 6px; }
-  .ftr__social { display: flex; flex-wrap: wrap; gap: 6px 18px; margin-top: 18px; }
-  .ftr__social li + li { margin-top: 0 !important; }
-  .ftr__badges { display: flex; gap: 24px; align-items: center; padding: 22px 0; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); flex-wrap: wrap; }
-  .ftr__badges .mono { color: var(--muted); }
+  .ftr { padding-top: clamp(72px, 9vw, 120px); overflow: hidden; }
 
+  /* brand + links */
+  .ftr__main { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 7fr); gap: clamp(40px, 6vw, 96px); padding-bottom: clamp(48px, 6vw, 72px); }
+  .ftr__brand { display: grid; gap: 22px; align-content: start; }
+  .ftr__logo { width: 190px; height: auto; }
+  .ftr__about { max-width: 36ch; color: #c7dae5; font-size: 1.02rem; line-height: 1.55; }
+  .ftr__contact { display: grid; grid-template-columns: 1fr 1fr; gap: 16px 24px; margin: 8px 0 0; padding-top: 22px; border-top: 1px solid var(--line); }
+  .ftr__contact div { display: grid; gap: 4px; min-width: 0; }
+  .ftr__contact dt { font-size: 0.64rem; color: var(--muted); }
+  .ftr__contact dd { margin: 0; font-size: 0.95rem; overflow-wrap: anywhere; }
+  .ftr__contact a:hover { color: var(--print); }
+
+  .ftr__nav { display: grid; grid-template-columns: 1.3fr 1fr 1fr; gap: 28px; }
+  .ftr__h { color: var(--muted); margin-bottom: 16px; font-size: 0.66rem; }
+  .ftr__col ul { display: grid; gap: 2px; }
+  .ftr__col a {
+    display: inline-flex; align-items: center; gap: 6px; padding: 5px 0;
+    color: #dbe8ef; font-size: 0.97rem; transition: color 0.2s;
+  }
+  .ftr__col a :global(.arrow) { width: 13px; height: 13px; opacity: 0; transform: translateX(-4px); transition: opacity 0.25s, transform 0.35s var(--ease); }
+  .ftr__col a:hover, .ftr__col a:focus-visible { color: var(--paper); }
+  .ftr__col a:hover :global(.arrow), .ftr__col a:focus-visible :global(.arrow) { opacity: 1; transform: none; color: var(--print); }
+
+  /* newsletter */
+  .ftr__news {
+    display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1.1fr); gap: 16px 40px; align-items: center;
+    padding: clamp(22px, 3vw, 32px); border-radius: 8px; background: #0b3a52;
+  }
+  .ftr__news-copy { display: grid; gap: 4px; }
+  .ftr__news-t { font-size: var(--step-1); font-weight: 540; letter-spacing: -0.015em; line-height: 1.25; }
+  .ftr__news-s { color: var(--muted); font-size: 0.92rem; }
+  .ftr__nl { display: flex; gap: 8px; }
+  .ftr__nl input[type='email'] {
+    flex: 1; min-width: 0; padding: 14px 18px; border-radius: 999px;
+    background: rgba(243, 246, 248, 0.06); border: 1px solid var(--line-strong); color: inherit; font: inherit;
+    transition: border-color 0.2s, background 0.2s;
+  }
+  .ftr__nl input::placeholder { color: #8fb0c2; }
+  .ftr__nl input:focus { outline: none; border-color: var(--print); background: rgba(243, 246, 248, 0.1); }
+  .ftr__sub {
+    flex: none; display: inline-flex; align-items: center; gap: 8px; padding: 14px 20px; border-radius: 999px;
+    background: var(--brand); color: var(--paper); font-weight: 540; transition: background 0.25s, color 0.25s;
+  }
+  .ftr__sub:hover { background: var(--paper); color: var(--ink); }
+  .ftr__sub :global(.arrow) { width: 15px; height: 15px; }
+  .ftr__note { grid-column: 2; margin-top: -6px; }
+  .ftr__note:empty { display: none; }
+
+  /* awards + social */
+  .ftr__strip { display: flex; justify-content: space-between; align-items: center; gap: 16px 32px; flex-wrap: wrap; padding-block: 26px; }
+  .ftr__badges { display: flex; gap: 10px 20px; align-items: center; flex-wrap: wrap; }
+  .ftr__badges .mono { color: var(--muted); font-size: 0.66rem; }
+  .ftr__social { display: flex; flex-wrap: wrap; gap: 8px; }
+  .ftr__social a, .ftr__social span {
+    display: inline-block; padding: 8px 14px; border-radius: 999px; font-size: 0.86rem;
+    box-shadow: inset 0 0 0 1px var(--line-strong); transition: background 0.25s, color 0.25s;
+  }
+  .ftr__social span { color: var(--muted); }
+  .ftr__social a:hover { background: var(--paper); color: var(--ink); }
+
+  /* sign-off wordmark: quiet, so it closes the page without shouting */
   .ftr__word {
-    display: flex; justify-content: space-between;
-    padding-inline: var(--gutter); margin-top: 3vw;
-    font-size: clamp(5rem, 24vw, 26rem); font-weight: 700; line-height: 0.78;
+    display: flex; justify-content: space-between; overflow: hidden;
+    padding: 0.04em var(--gutter) 0.08em; margin-top: clamp(8px, 2vw, 24px);
+    font-size: clamp(4.5rem, 23vw, 25rem); font-weight: 700; line-height: 0.82;
     letter-spacing: -0.06em; font-variation-settings: 'opsz' 96, 'wdth' 75;
-    user-select: none;
+    color: rgba(124, 198, 230, 0.13); user-select: none;
   }
   .ftr__word span { display: inline-block; transform-origin: bottom; }
-  .ftr__word span { color: var(--brand); }
-  .ftr__word span:first-child { color: var(--paper); }
+  .ftr__word span:first-child { color: rgba(243, 246, 248, 0.2); }
 
-  .ftr__legal { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding-block: 28px; flex-wrap: wrap; }
+  .ftr__legal { display: flex; justify-content: space-between; align-items: center; gap: 12px 24px; padding-block: 22px calc(22px + env(safe-area-inset-bottom, 0px)); border-top: 1px solid var(--line); flex-wrap: wrap; }
   .ftr__legal nav { display: flex; gap: 20px; flex-wrap: wrap; }
-  .ftr__legal .mono { font-size: 0.68rem; color: var(--muted); transition: color 0.3s; }
+  .ftr__legal .mono { font-size: 0.66rem; color: var(--muted); transition: color 0.3s; }
   .ftr__legal a:hover, .ftr__top-btn:hover { color: var(--paper); }
 
-  @media (max-width: 900px) {
-    .ftr__top { grid-template-columns: 1fr; }
-    .ftr__cols { grid-template-columns: 1fr 1fr; }
+  @media (max-width: 960px) {
+    .ftr__main { grid-template-columns: 1fr; }
+    .ftr__news { grid-template-columns: 1fr; }
+    .ftr__note { grid-column: 1; }
   }
-  @media (max-width: 520px) { .ftr__cols { grid-template-columns: 1fr; } }
+  @media (max-width: 640px) {
+    .ftr__nav { grid-template-columns: 1fr 1fr; gap: 28px 20px; }
+    .ftr__nav .ftr__col:first-child { grid-column: 1 / -1; }
+    .ftr__nav .ftr__col:first-child ul { grid-template-columns: 1fr 1fr; column-gap: 20px; }
+    .ftr__col a { font-size: 0.93rem; }
+    .ftr__nl { flex-direction: column; }
+    .ftr__sub { justify-content: center; }
+    .ftr__legal { flex-direction: column; align-items: flex-start; }
+  }
 </style>
