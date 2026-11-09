@@ -7,11 +7,46 @@ export const insights = [
   { slug: 'choosing-hotel-management-system', cat: 'Hospitality', title: 'Choosing a hotel management system: what to look for', excerpt: 'Bookings, billing and the features that matter for Ghanaian hotels and guest houses.' },
 ];
 
+// Case studies. Everything in [brackets] is a placeholder until the client approves the story in writing.
 export const cases = [
-  { result: '[e.g. Check-in time cut from 10 minutes to 2]', client: '[Client name]', sector: 'Hospitality', solution: 'Software · GEMS ERP', thread: 'tech' },
-  { result: '[e.g. IT downtime reduced by X%]', client: '[Client name]', sector: '[Industry]', solution: 'Managed IT', thread: 'brand' },
-  { result: '[e.g. One brand across X locations in X weeks]', client: '[Client name]', sector: '[Industry]', solution: 'Brand and Print', thread: 'print' },
+  {
+    slug: 'gems-erp-hotel',
+    result: '[e.g. Check-in time cut from 10 minutes to 2]',
+    client: '[Client name]', sector: 'Hospitality', solution: 'Software · GEMS ERP', filter: 'Software', thread: 'brand',
+    img: 'https://images.unsplash.com/photo-1566073771259-6a8506099945?w=1600&q=80&fit=crop',
+    summary: 'A GEMS ERP deployment that put bookings, billing and the ledger in one system.',
+    timeline: '[X weeks]',
+    challenge: '[The challenge in the client’s own words: what was slow, costly or risky before.]',
+    steps: ['[Reviewed how the front desk, restaurant and accounts worked]', '[Configured GEMS ERP for rooms, rates and billing]', '[Moved existing records and trained staff]', '[Supported the team through the first month]'],
+    results: [{ n: '[X min]', l: 'Average check-in time' }, { n: '[X%]', l: 'Fewer billing errors' }, { n: '[X hrs]', l: 'Saved each week on reconciliation' }],
+    quote: '[Client quote focused on a result]', who: '[Name, Title, Company]',
+  },
+  {
+    slug: 'managed-it-client',
+    result: '[e.g. IT downtime reduced by X%]',
+    client: '[Client name]', sector: '[Industry]', solution: 'Managed IT', filter: 'Managed IT', thread: 'tech',
+    img: 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=1600&q=80&fit=crop',
+    summary: 'A growing office moved from call-out IT support to one fixed monthly plan.',
+    timeline: '[X weeks to onboard]',
+    challenge: '[The challenge in the client’s own words.]',
+    steps: ['[Audited devices, accounts and backups]', '[Fixed urgent issues and set up monitoring]', '[Moved the team to business email]', '[Started monthly reports and reviews]'],
+    results: [{ n: '[X%]', l: 'Less downtime' }, { n: '[X hrs]', l: 'Average response time' }, { n: '[GHS X]', l: 'Saved per year' }],
+    quote: '[Client quote focused on a result]', who: '[Name, Title, Company]',
+  },
+  {
+    slug: 'brand-and-print',
+    result: '[e.g. One brand across X locations in X weeks]',
+    client: '[Client name]', sector: '[Industry]', solution: 'Brand and Print', filter: 'Brand and Print', thread: 'print',
+    img: 'https://images.unsplash.com/photo-1561070791-2526d30994b5?w=1600&q=80&fit=crop',
+    summary: 'A refreshed identity rolled out across signage, stationery and social media.',
+    timeline: '[X weeks]',
+    challenge: '[The challenge in the client’s own words.]',
+    steps: ['[Workshop on the brand and its customers]', '[Logo refresh and brand guidelines]', '[Stationery, signage and print production]', '[Social media templates and launch]'],
+    results: [{ n: '[X]', l: 'Locations rebranded' }, { n: '[X weeks]', l: 'From brief to launch' }, { n: '[X%]', l: 'Growth in social engagement' }],
+    quote: '[Client quote focused on a result]', who: '[Name, Title, Company]',
+  },
 ];
+export type CaseStudy = (typeof cases)[number];
 
 export const industries = [
   {

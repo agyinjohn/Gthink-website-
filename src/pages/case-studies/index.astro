@@ -1,0 +1,165 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import PageHead from '../../components/PageHead.astro';
+import CTA from '../../components/CTA.astro';
+import Arrow from '../../components/Arrow.astro';
+import T from '../../components/T.astro';
+import Pattern from '../../components/Pattern.astro';
+import { cases } from '../../data/content';
+
+const filters = ['Software', 'Managed IT', 'Cybersecurity', 'Networks', 'Cloud', 'Brand and Print'];
+const count = (f: string) => cases.filter((c) => c.filter === f).length;
+const [featured, ...rest] = cases;
+const rules = [
+  { t: 'Result first', b: 'Every story opens with a number the client can check.' },
+  { t: 'In their words', b: 'The challenge is described the way the client described it to us.' },
+  { t: 'Approved in writing', b: 'Nothing is published without the client’s written approval.' },
+];
+---
+<Layout title="Case Studies: Results We Have Delivered | GTHINK" description="Results-first case studies from GTHINK clients across Ghana.">
+  <PageHead index="05 / Case Studies" label="Case Studies" title='Results we have <span class="serif">delivered.</span>' lede="Every story leads with a number the client can check.">
+    <a href="/contact#enquiry" class="btn" data-magnetic data-reveal="hero">Get similar results <Arrow /></a>
+  </PageHead>
+
+  <!-- filters -->
+  <section class="fbar-sec">
+    <div class="wrap">
+      <div class="fbar" role="group" aria-label="Filter case studies by solution" data-reveal>
+        <button class="filter on" data-filter="All" aria-pressed="true">All <span>{cases.length}</span></button>
+        {filters.map((f) => (
+          <button class="filter" data-filter={f} aria-pressed="false" disabled={count(f) === 0}>{f} <span>{count(f)}</span></button>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <section class="section--tight">
+    <div class="wrap">
+      <!-- featured -->
+      <a href={`/case-studies/${featured.slug}`} class="feat" data-case={featured.filter} style={`--c: var(--${featured.thread})`} data-cursor-text="Read">
+        <div class="feat__media" data-reveal>
+          <div class="feat__img" data-parallax="0.06"><Pattern seed={2} img={featured.img} label="Case photo" /></div>
+          <span class="mono feat__tag">Featured · {featured.solution}</span>
+        </div>
+        <div class="feat__body">
+          <span class="mono muted" data-reveal>Case 01 · <T text={featured.client} /> · {featured.sector}</span>
+          <h2 class="feat__res" data-reveal><T text={featured.result} /></h2>
+          <p class="lede muted" data-reveal>{featured.summary}</p>
+          <ul class="nums" data-stagger>
+            {featured.results.map((r) => <li><b><T text={r.n} /></b><span>{r.l}</span></li>)}
+          </ul>
+          <span class="link" data-reveal>Read the full story <Arrow /></span>
+        </div>
+      </a>
+
+      <!-- the rest -->
+      <div class="grid" data-stagger>
+        {rest.map((c, i) => (
+          <a href={`/case-studies/${c.slug}`} class="card" data-case={c.filter} style={`--c: var(--${c.thread})`} data-cursor-text="Read">
+            <div class="card__img"><Pattern seed={i + 5} img={c.img} label="Case photo" /></div>
+            <span class="mono card__n">Case 0{i + 2} · {c.solution}</span>
+            <h2 class="card__res"><T text={c.result} /></h2>
+            <p class="muted">{c.summary}</p>
+            <div class="card__meta">
+              <span><T text={c.client} /> · <T text={c.sector} /></span>
+              <span class="link">Read the story <Arrow /></span>
+            </div>
+          </a>
+        ))}
+      </div>
+
+      <p class="empty" data-empty hidden>No case studies for this solution yet. <a class="link" href="/contact#enquiry">Ask us about it <Arrow /></a></p>
+    </div>
+  </section>
+
+  <!-- how we write them -->
+  <section class="section sand">
+    <div class="wrap">
+      <div class="sec-head">
+        <p class="eyebrow" data-reveal>How we write case studies</p>
+        <h2 class="h2" data-split>Proof, <span class="serif">not promises.</span></h2>
+      </div>
+      <ol class="rules" data-stagger>
+        {rules.map((r, i) => (
+          <li><span class="mono">0{i + 1}</span><h3 class="h3">{r.t}</h3><p class="muted">{r.b}</p></li>
+        ))}
+      </ol>
+      <p class="mono muted note">Launch set: a GEMS ERP deployment, a managed IT client and a branding or print project.</p>
+    </div>
+  </section>
+
+  <CTA title='Want results like these? <span class="serif">Let’s talk.</span>' />
+</Layout>
+
+<script>
+  const btns = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-filter]'));
+  const items = Array.from(document.querySelectorAll<HTMLElement>('[data-case]'));
+  const empty = document.querySelector<HTMLElement>('[data-empty]');
+  btns.forEach((b) => b.addEventListener('click', () => {
+    const f = b.dataset.filter!;
+    btns.forEach((x) => { x.classList.toggle('on', x === b); x.setAttribute('aria-pressed', String(x === b)); });
+    let shown = 0;
+    items.forEach((it) => { const ok = f === 'All' || it.dataset.case === f; it.hidden = !ok; if (ok) shown++; });
+    if (empty) empty.hidden = shown > 0;
+  }));
+</script>
+
+<style>
+  .fbar-sec { position: sticky; top: 0; z-index: 5; padding-block: 18px; background: color-mix(in oklab, var(--paper) 88%, transparent); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); border-bottom: 1px solid var(--line); }
+  .fbar { display: flex; gap: 8px; overflow-x: auto; scrollbar-width: none; }
+  .fbar::-webkit-scrollbar { display: none; }
+  .filter { flex: none; display: inline-flex; align-items: center; gap: 8px; padding: 9px 14px; border-radius: 999px; box-shadow: inset 0 0 0 1px var(--line-strong); font-size: 0.9rem; white-space: nowrap; transition: background 0.3s, color 0.3s; }
+  .filter span { font-family: var(--f-mono); font-size: 0.66rem; opacity: 0.6; }
+  .filter.on, .filter:not(:disabled):hover { background: var(--ink); color: var(--paper); box-shadow: none; }
+  .filter:disabled { opacity: 0.4; cursor: default; }
+
+  /* featured */
+  .feat { display: grid; grid-template-columns: 1.1fr 1fr; gap: clamp(28px, 5vw, 72px); align-items: center; margin-bottom: clamp(40px, 6vw, 72px); }
+  .feat__media { position: relative; aspect-ratio: 5 / 4; border-radius: 6px; overflow: hidden; background: var(--ink); }
+  .feat__img { position: absolute; inset: -8% 0; }
+  .feat__img :global(.pattern) { height: 100%; border-radius: 0; }
+  .feat__img :global(img) { transition: transform 1.2s var(--ease); }
+  .feat:hover .feat__img :global(img) { transform: scale(1.04); }
+  .feat__media::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 6px; background: var(--c); }
+  .feat__tag { position: absolute; left: 16px; top: 16px; background: var(--paper); padding: 6px 10px; font-size: 0.66rem; }
+  .feat__body { display: grid; gap: 22px; align-content: center; }
+  .feat__res { font-size: var(--step-3); max-width: 18ch; }
+  .feat__res :global(.ph) { white-space: normal; }
+  .nums { display: grid; grid-template-columns: repeat(3, 1fr); border-top: 1px solid var(--line); }
+  .nums li { display: grid; gap: 4px; padding: 16px 12px 0 0; }
+  .nums li + li { padding-left: 14px; border-left: 1px solid var(--line); }
+  .nums b { font-size: var(--step-2); font-weight: 560; letter-spacing: -0.03em; line-height: 1; }
+  .nums span { font-size: 0.85rem; color: var(--muted); line-height: 1.3; }
+  .feat .link { justify-self: start; }
+
+  /* grid */
+  .grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+  .card { display: flex; flex-direction: column; gap: 14px; padding: 14px 14px 26px; border-radius: 8px; background: var(--paper-2); transition: transform 0.7s var(--ease); }
+  .card:hover { transform: translateY(-6px); }
+  .card > :not(.card__img) { padding-inline: 12px; }
+  .card__img { aspect-ratio: 16 / 9; border-radius: 4px; overflow: hidden; position: relative; }
+  .card__img::after { content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 5px; background: var(--c); }
+  .card__img :global(.pattern) { height: 100%; border-radius: 0; }
+  .card__img :global(img) { transition: transform 1s var(--ease); }
+  .card:hover .card__img :global(img) { transform: scale(1.05); }
+  .card__n { color: var(--muted); margin-top: 8px; }
+  .card__res { font-size: var(--step-2); line-height: 1.08; }
+  .card__res :global(.ph) { white-space: normal; }
+  .card .muted { flex: 1; }
+  .card__meta { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; padding-top: 16px; border-top: 1px solid var(--line); font-size: 0.92rem; }
+
+  .empty[hidden], [data-case][hidden] { display: none; }
+  .empty { padding: 40px 0; font-size: var(--step-1); display: flex; gap: 16px; flex-wrap: wrap; align-items: center; }
+
+  /* rules */
+  .rules { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .rules li { display: grid; gap: 12px; align-content: start; padding: 28px; border-radius: 6px; background: var(--paper); }
+  .rules .mono { color: var(--brand); }
+  .note { margin-top: 24px; font-size: 0.68rem; }
+
+  @media (max-width: 900px) {
+    .feat { grid-template-columns: 1fr; }
+    .grid, .rules { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 480px) { .nums { grid-template-columns: 1fr; } .nums li + li { padding-left: 0; border-left: 0; border-top: 1px solid var(--line); padding-top: 12px; } }
+</style>

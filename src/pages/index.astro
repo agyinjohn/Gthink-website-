@@ -241,7 +241,7 @@ const suppliers = [
           { img: 'https://images.unsplash.com/photo-1518770660439-4636190af475?w=700&q=80&fit=crop', alt: 'IT infrastructure' },
           { img: 'https://images.unsplash.com/photo-1561070791-2526d30994b5?w=700&q=80&fit=crop', alt: 'Brand design' },
         ].map(({ img, alt }, i) => (
-          <a href="/case-studies" class="case" style={`--c: var(--${cases[i].thread})`} data-cursor-text="Read">
+          <a href={`/case-studies/${cases[i].slug}`} class="case" style={`--c: var(--${cases[i].thread})`} data-cursor-text="Read">
             <div class="case__img" aria-hidden="true"><img src={img} alt={alt} loading="lazy" /></div>
             <span class="mono case__n">Case 0{i + 1}</span>
             <p class="case__res"><T text={cases[i].result} /></p>
