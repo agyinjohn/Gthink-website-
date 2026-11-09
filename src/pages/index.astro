@@ -40,16 +40,13 @@ const heroImg = imgAttrs(site.heroImage, { widths: heroWidths, sizes: '100vw', q
     </div>
 
     <div class="wrap hero__top" data-hero-content>
-      <div class="hero__meta">
-        <span class="eyebrow" data-reveal="hero">IT · Software · Security · Brand · Print</span>
-        <span class="mono hero__coords" data-reveal="hero">Accra, Ghana · 5.6037° N, 0.1870° W</span>
-      </div>
+      <p class="eyebrow hero__eyebrow" data-reveal="hero">IT · Software · Security · Brand · Print</p>
       <h1 class="hero__title display" data-split="hero">
         One partner for your technology, <span class="serif">brand</span> and <span class="serif t-print-dark">print.</span>
       </h1>
       <div class="hero__row">
         <p class="lede" data-reveal="hero">
-          We build your software, secure your systems and keep your team running, with local support that responds within <Ph value={site.responseHours && `${site.responseHours} hours`} label="X hours" />. GTHINK handles the technology so you can run the business.
+          One local team for your software, security and support, responding within <Ph value={site.responseHours && `${site.responseHours} hours`} label="X hours" />.
         </p>
         <div class="hero__btns" data-reveal="hero" data-delay="0.1">
           <a href="/contact#enquiry" class="btn" data-magnetic>Book a Free IT Assessment <Arrow /></a>
@@ -332,14 +329,13 @@ const heroImg = imgAttrs(site.heroImage, { widths: heroWidths, sizes: '100vw', q
       linear-gradient(90deg, rgba(7, 47, 67, 0.88) 0%, rgba(10, 69, 97, 0.55) 55%, rgba(10, 127, 174, 0.2) 100%);
   }
   .hero__top { position: relative; }
-  .hero__meta { display: flex; justify-content: space-between; gap: 16px; margin-bottom: clamp(24px, 3vw, 40px); }
-  .hero__coords { color: var(--muted); }
+  .hero__eyebrow { margin-bottom: clamp(18px, 2.4vw, 28px); }
   .hero .eyebrow::before { background: linear-gradient(90deg, var(--brand) 0 50%, var(--print) 0); }
-  .hero__title { max-width: 13ch; color: var(--paper); }
+  .hero__title { max-width: 12.6ch; color: var(--paper); font-size: clamp(2.5rem, 1.3rem + 5vw, 7rem); }
   .hero__title .serif { color: var(--print); padding-right: 0.04em; }
   .hero__title .t-print-dark { color: var(--paper); }
-  .hero__row { display: flex; justify-content: space-between; align-items: flex-end; gap: 32px 48px; margin-top: clamp(32px, 4vw, 56px); flex-wrap: wrap; }
-  .hero__row .lede { max-width: 44ch; color: #e1ecf2; }
+  .hero__row { display: flex; justify-content: space-between; align-items: center; gap: 24px 48px; margin-top: clamp(22px, 3vw, 40px); flex-wrap: wrap; }
+  .hero__row .lede { max-width: 34ch; color: #e1ecf2; }
   .hero__row :global(.ph) { color: #b9cfdb; }
   .hero__btns { display: flex; gap: 10px; flex-wrap: wrap; }
   .hero .btn { --bg: var(--paper); --fg: var(--ink); }
@@ -347,7 +343,7 @@ const heroImg = imgAttrs(site.heroImage, { widths: heroWidths, sizes: '100vw', q
   .hero .btn--ghost { --bg: transparent; --fg: var(--paper); }
   .hero .btn--ghost::before { background: var(--paper); }
   .hero .btn--ghost:hover { color: var(--ink); }
-  @media (max-width: 640px) { .hero__coords { display: none; } }
+
   .proof-sec { position: relative; }
 
   .proof { display: grid; grid-template-columns: repeat(4, 1fr); border-bottom: 1px solid var(--line); }
