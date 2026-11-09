@@ -27,37 +27,29 @@ const suppliers = [
   { t: 'Print shop', x: 50, y: 88, r: 3 },
 ];
 import { imgAttrs, heroWidths } from '../lib/img';
-const heroImg = imgAttrs(site.heroImage, { widths: heroWidths, sizes: '(max-width: 900px) 100vw, 50vw', quality: 72 });
+const heroImg = imgAttrs(site.heroImage, { widths: heroWidths, sizes: '100vw', quality: 72 });
 ---
 <Layout title="GTHINK | IT Support, Software and Branding for Businesses in Accra" preloadImage={site.heroVideo ? undefined : heroImg}>
   <!-- ============ HERO ============ -->
   <section class="hero" data-hero>
-    <div class="wrap hero__grid">
-      <div class="hero__copy" data-hero-content>
-        <h1 class="hero__title display" data-split="hero">
-          One partner for your technology, <span class="serif">brand</span> and <span class="serif t-print-dark">print.</span>
-        </h1>
-        <p class="lede hero__lede" data-reveal="hero">
-          One local team for your software, security and support, responding within <Ph value={site.responseHours && `${site.responseHours} hours`} label="X hours" />.
-        </p>
-        <div class="hero__btns" data-reveal="hero" data-delay="0.1">
-          <a href="/contact#enquiry" class="btn" data-magnetic>Book a Free IT Assessment <Arrow /></a>
-          <a href="/solutions" class="btn btn--ghost" data-magnetic>Explore Solutions</a>
-        </div>
-      </div>
+    <div class="hero__media" data-hero-media>
+      {site.heroVideo
+        ? <video class="hero__bg" data-hero-bg src={site.heroVideo} poster={site.heroImage} autoplay muted loop playsinline preload="metadata" aria-label={site.heroImageAlt}></video>
+        : <img class="hero__bg" data-hero-bg {...heroImg} alt={site.heroImageAlt} fetchpriority="high" decoding="async" />}
+      <div class="hero__shade" aria-hidden="true"></div>
+      <div class="hero__reveal" aria-hidden="true" data-hero-reveal><i></i><i></i><i></i></div>
+    </div>
 
-      <div class:list={['hero__visual', { 'hero__visual--video': !!site.heroVideo }]} data-hero-visual>
-        {site.heroVideo ? (
-          <div class="hero__slice" data-slice>
-            <video class="hero__bg" src={site.heroVideo} poster={site.heroImage} autoplay muted loop playsinline preload="metadata" aria-label={site.heroImageAlt} data-hero-video></video>
-          </div>
-        ) : (
-          [0, 1, 2].map((i) => (
-            <div class="hero__slice" style={`--i: ${i}`} data-slice>
-              <img class="hero__bg" {...heroImg} alt={i === 0 ? site.heroImageAlt : ''} aria-hidden={i === 0 ? undefined : 'true'} fetchpriority={i === 0 ? 'high' : undefined} decoding="async" />
-            </div>
-          ))
-        )}
+    <div class="wrap hero__copy" data-hero-content>
+      <h1 class="hero__title display" data-split="hero">
+        One partner for your technology, <span class="serif">brand</span> and <span class="serif t-print-dark">print.</span>
+      </h1>
+      <p class="lede hero__lede" data-reveal="hero">
+        One local team for your software, security and support, responding within <Ph value={site.responseHours && `${site.responseHours} hours`} label="X hours" />.
+      </p>
+      <div class="hero__btns" data-reveal="hero" data-delay="0.1">
+        <a href="/contact#enquiry" class="btn" data-magnetic>Book a Free IT Assessment <Arrow /></a>
+        <a href="/solutions" class="btn btn--ghost" data-magnetic>Explore Solutions</a>
       </div>
     </div>
   </section>
@@ -318,23 +310,35 @@ const heroImg = imgAttrs(site.heroImage, { widths: heroWidths, sizes: '(max-widt
 
 <style>
   /* hero */
-  /* Hero: copy on deep navy, the photo cut into three stepped strips */
+  /* Hero: full-screen background image (or video), copy on the left */
   .hero {
-    position: relative; overflow: hidden;
+    position: relative; isolation: isolate; overflow: hidden;
     min-height: 100vh; min-height: 100svh;
-    display: flex; align-items: stretch;
+    display: flex; flex-direction: column; justify-content: flex-end;
+    padding-top: clamp(140px, 16vw, 190px); padding-bottom: clamp(52px, 7vw, 100px);
     background: var(--ink); color: var(--paper);
     --muted: #b9cfdb; --line: rgba(243, 246, 248, 0.2); --line-strong: rgba(243, 246, 248, 0.45);
   }
-  .hero__grid {
-    display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr); gap: clamp(32px, 5vw, 80px);
-    padding-top: clamp(130px, 15vw, 180px); padding-bottom: clamp(48px, 6vw, 84px);
+  .hero__media { position: absolute; inset: 0; z-index: -1; overflow: hidden; }
+  .hero__bg { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transform-origin: 60% 50%; }
+  /* dark where the text sits, opening up towards the right so the picture reads */
+  .hero__shade {
+    position: absolute; inset: 0;
+    background:
+      linear-gradient(90deg, rgba(7, 47, 67, 0.94) 0%, rgba(7, 47, 67, 0.82) 30%, rgba(7, 47, 67, 0.38) 62%, rgba(7, 47, 67, 0.12) 100%),
+      linear-gradient(180deg, rgba(7, 47, 67, 0.55) 0%, rgba(7, 47, 67, 0) 22%, rgba(7, 47, 67, 0) 70%, rgba(7, 47, 67, 0.6) 100%);
   }
-  .hero__copy { position: relative; z-index: 1; display: flex; flex-direction: column; justify-content: flex-end; gap: clamp(20px, 2.6vw, 32px); }
-  .hero__title { max-width: 12.6ch; color: var(--paper); font-size: clamp(2.5rem, 1.2rem + 4.6vw, 6.6rem); }
+  /* three navy strips that lift away on load to reveal the background */
+  .hero__reveal { position: absolute; inset: 0; display: none; grid-template-columns: repeat(3, 1fr); pointer-events: none; }
+  :global(.js) .hero__reveal { display: grid; }
+  .hero__reveal i { display: block; background: var(--ink); transform-origin: top; }
+  .hero__reveal i:nth-child(2) { background: #0b3a52; }
+
+  .hero__copy { position: relative; display: grid; gap: clamp(20px, 2.6vw, 32px); justify-items: start; }
+  .hero__title { max-width: 12.6ch; color: var(--paper); font-size: clamp(2.5rem, 1.3rem + 5vw, 7rem); }
   .hero__title .serif { color: var(--print); padding-right: 0.04em; }
   .hero__title .t-print-dark { color: var(--paper); }
-  .hero__lede { max-width: 34ch; color: #d7e6ee; }
+  .hero__lede { max-width: 34ch; color: #dbe8ef; }
   .hero__lede :global(.ph) { color: #b9cfdb; }
   .hero__btns { display: flex; gap: 10px; flex-wrap: wrap; }
   .hero .btn { --bg: var(--paper); --fg: var(--ink); }
@@ -343,35 +347,13 @@ const heroImg = imgAttrs(site.heroImage, { widths: heroWidths, sizes: '(max-widt
   .hero .btn--ghost::before { background: var(--paper); }
   .hero .btn--ghost:hover { color: var(--ink); }
 
-  /* three strips of one photo, each stepped lower than the last */
-  .hero__visual {
-    position: relative; display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(8px, 1vw, 14px);
-    margin-top: clamp(-30px, -2vw, 0px); margin-bottom: calc(-1 * clamp(48px, 6vw, 84px));
+  @media (max-width: 760px) {
+    .hero__bg { transform-origin: 50% 50%; }
+    .hero__shade {
+      background: linear-gradient(180deg, rgba(7, 47, 67, 0.6) 0%, rgba(7, 47, 67, 0.25) 30%, rgba(7, 47, 67, 0.82) 62%, rgba(7, 47, 67, 0.95) 100%);
+    }
   }
-  .hero__slice { position: relative; overflow: hidden; border-radius: 4px; background: #0b3a52; }
-  .hero__slice:nth-child(1) { margin-top: 0; margin-bottom: 11vh; }
-  .hero__slice:nth-child(2) { margin-top: 5.5vh; margin-bottom: 5.5vh; }
-  .hero__slice:nth-child(3) { margin-top: 11vh; margin-bottom: 0; }
-  .hero__slice .hero__bg {
-    position: absolute; top: 0; height: 100%; max-width: none;
-    width: calc(300% + 2 * clamp(8px, 1vw, 14px));
-    left: calc(var(--i, 0) * -1 * (100% + clamp(8px, 1vw, 14px)));
-    object-fit: cover;
-  }
-  .hero__slice::after { content: ''; position: absolute; inset: 0; background: linear-gradient(180deg, rgba(7, 47, 67, 0) 55%, rgba(7, 47, 67, 0.35)); pointer-events: none; }
-  .hero__visual--video { grid-template-columns: 1fr; }
-  .hero__visual--video .hero__slice { margin: 0; }
-  .hero__visual--video .hero__bg { width: 100%; left: 0; }
-
-  @media (max-width: 900px) {
-    .hero { min-height: 0; display: block; }
-    .hero__grid { grid-template-columns: 1fr; gap: 36px; padding-top: 128px; padding-bottom: 0; }
-    .hero__visual { height: clamp(240px, 62vw, 420px); margin: 0 0 -1px; }
-    .hero__slice:nth-child(1) { margin-bottom: 44px; }
-    .hero__slice:nth-child(2) { margin-top: 22px; margin-bottom: 22px; }
-    .hero__slice:nth-child(3) { margin-top: 44px; }
-    .hero__slice { border-radius: 4px 4px 0 0; }
-  }
+  @media (prefers-reduced-motion: reduce) { .hero__reveal { display: none; } }
 
   .proof-sec { position: relative; }
 

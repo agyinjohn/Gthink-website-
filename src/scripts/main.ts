@@ -486,19 +486,22 @@ const cookies = () => {
 /* ------------------------------------------------------------------ */
 const heroMedia = (delay = 0) => {
   const hero = $('[data-hero]');
-  const slices = $$('[data-slice]');
+  const bg = $<HTMLImageElement | HTMLVideoElement>('[data-hero-bg]');
+  const strips = $$('[data-hero-reveal] i');
   const content = $('[data-hero-content]');
-  const video = $<HTMLVideoElement>('[data-hero-video]');
-  if (!hero || !slices.length) return;
-  if (reduce) { if (video) { video.removeAttribute('autoplay'); video.pause(); } return; }
-  const imgs = slices.map((s) => s.querySelector('img, video'));
-  // strips rise into place one after another; the photo settles inside them
-  gsap.fromTo(slices, { clipPath: 'inset(100% 0 0 0)' }, { clipPath: 'inset(0% 0 0 0)', duration: 1.3, ease: 'expo.inOut', stagger: 0.12, delay });
-  gsap.fromTo(imgs, { scale: 1.2 }, { scale: 1, duration: 2.2, ease: 'expo.out', stagger: 0.12, delay: delay + 0.2 });
-  // on scroll each strip drifts at its own speed; the copy eases away
-  const tl = gsap.timeline({ scrollTrigger: { trigger: hero, start: 'top top', end: 'bottom top', scrub: true } });
-  slices.forEach((s, i) => tl.to(s, { yPercent: -6 - i * 7, ease: 'none' }, 0));
-  if (content) tl.to(content, { yPercent: -10, opacity: 0.25, ease: 'none' }, 0);
+  if (!hero || !bg) return;
+  if (reduce) {
+    if (bg instanceof HTMLVideoElement) { bg.removeAttribute('autoplay'); bg.pause(); }
+    gsap.set(strips, { scaleY: 0 });
+    return;
+  }
+  // three navy strips lift away, one after another, and the background settles
+  gsap.to(strips, { scaleY: 0, duration: 1.2, ease: 'expo.inOut', stagger: 0.12, delay });
+  gsap.fromTo(bg, { scale: 1.16 }, { scale: 1.04, duration: 2.4, ease: 'expo.out', delay: delay + 0.15 });
+  // as the hero scrolls away the background drifts and the copy eases off
+  gsap.timeline({ scrollTrigger: { trigger: hero, start: 'top top', end: 'bottom top', scrub: true } })
+    .to(bg, { yPercent: 12, scale: 1.1, ease: 'none' }, 0)
+    .to(content, { yPercent: -12, opacity: 0.2, ease: 'none' }, 0);
 };
 
 /* ------------------------------------------------------------------ */
