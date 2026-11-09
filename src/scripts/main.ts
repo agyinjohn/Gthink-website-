@@ -63,21 +63,37 @@ setInterval(tick, 20000);
 const burger = $('[data-burger]');
 const mm = $('[data-mm]');
 if (burger && mm) {
-  const bars = $$('.mm__bg i', mm);
-  const links = $$('.mm__list a, .mm__foot > *', mm);
-  const tl = gsap.timeline({ paused: true, defaults: { ease: 'expo.inOut' } })
+  const bg = $('.mm__bg', mm);
+  const items = $$('.mm__row, .mm__foot > *', mm);
+  const tl = gsap.timeline({ paused: true })
     .set(mm, { visibility: 'visible' })
-    .to(bars, { scaleY: 1, duration: 0.8, stagger: 0.07 })
-    .from(links, { yPercent: 110, opacity: 0, duration: 0.8, stagger: 0.04, ease: 'expo.out' }, '-=0.35');
+    .to(bg, { clipPath: 'inset(0 0 0% 0)', duration: 0.65, ease: 'expo.inOut' })
+    .from(items, { y: 24, opacity: 0, duration: 0.6, stagger: 0.045, ease: 'expo.out' }, '-=0.25');
   const toggle = (open: boolean) => {
     html.classList.toggle('menu-open', open);
     burger.setAttribute('aria-expanded', String(open));
+    burger.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
     mm.setAttribute('aria-hidden', String(!open));
     if (open) { header?.classList.remove('is-hidden'); lenis?.stop(); tl.timeScale(1).play(); }
-    else { lenis?.start(); tl.timeScale(1.6).reverse(); }
+    else { lenis?.start(); tl.timeScale(1.7).reverse(); }
   };
   burger.addEventListener('click', () => toggle(!html.classList.contains('menu-open')));
   document.addEventListener('keydown', (e) => e.key === 'Escape' && html.classList.contains('menu-open') && toggle(false));
+
+  // Solutions accordion inside the menu
+  const subBtn = $<HTMLButtonElement>('[data-mm-sub]', mm);
+  const subWrap = $('#mm-solutions', mm);
+  subBtn?.addEventListener('click', () => {
+    const open = subBtn.getAttribute('aria-expanded') !== 'true';
+    subBtn.setAttribute('aria-expanded', String(open));
+    subBtn.setAttribute('aria-label', open ? 'Hide solutions' : 'Show all solutions');
+    subWrap?.classList.toggle('is-open', open);
+  });
+
+  // close the menu when a link points somewhere on this same page
+  $$<HTMLAnchorElement>('a', mm).forEach((a) => a.addEventListener('click', () => {
+    if (new URL(a.href, location.href).pathname === location.pathname) toggle(false);
+  }));
 }
 
 /* ------------------------------------------------------------------ */
